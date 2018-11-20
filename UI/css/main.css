@@ -1,0 +1,133 @@
+@font-face{
+    font-family: Roboto-Condensed;
+    src: url(../fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf);
+}
+
+body{
+    font-family: Roboto-Condensed , sans-serif;
+}
+
+.red-cl{
+    color: #D81E5B !important;
+}
+
+.blue-bg{
+    background-color: #F4FAFF;
+}
+
+.rect-red-button{
+    background-color: #D81E5B;
+    color: #fff;
+    font-size: 24px;
+    border-radius: 5px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    margin: 25px auto;
+    border: none;
+    font-family:inherit;
+}
+
+.bottom-line-input{
+    border: none;
+    border-bottom: 2px solid #484349;
+    font-size: 20px;
+    margin: 48px auto 24px;
+    width: 100%;
+    font-family: inherit;
+}
+
+.bottom-line-input:focus{
+    border-bottom: 2px solid #D81E5B;
+    outline: none;
+}
+
+.index-navbar{
+    height: 90px;
+    background: #fff;
+    display: flex;
+    padding: 0 3vw;
+    position: fixed;
+    top:0;
+    left:0;
+    justify-content: space-between;
+    width: calc(100% - 6vw);
+}
+
+.index-navbar a{
+    text-decoration: none;
+}
+
+.index-navbar-logo{
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.index-navbar-links{
+    display:flex;
+    width: 256px;
+}
+
+.index-navbar-links a{
+    font-size: 20px;
+    width: 50%;
+    text-align: center;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.index-navbar-links a.active{
+    background: #D81E5B;
+    color: #fff !important;
+}
+
+.index-main{
+    display: flex;
+    justify-content: center;
+    padding: 100px 0;
+    margin-top: 50px;
+}
+
+.index-form-section{
+    min-width: 280px;
+    width: 40%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px 5%;
+}
+
+.index-form-section-header{
+    text-align: center;
+    font-size: 24px;
+    margin: 0;
+}
+
+@media screen and (max-width: 500px){
+    .index-navbar-logo{
+        font-size: 23px;
+    }
+
+    .index-navbar-links{
+        width: 150px;
+    }
+    .index-navbar-links a{
+        font-size: 15px;
+    }
+
+    .bottom-line-input{
+        font-size: 18px;
+    }
+}
+
+
+
+
+
+
+
+
