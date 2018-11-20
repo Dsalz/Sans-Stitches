@@ -12,6 +12,10 @@ a{
     cursor: pointer;
 }
 
+button{
+    font-family: inherit;
+}
+
 .red-cl{
     color: #D81E5B !important;
 }
@@ -33,6 +37,24 @@ a{
     margin: 25px auto;
     border: none;
     font-family:inherit;
+}
+
+.rect-red-button:hover{
+    box-shadow: 0 5px 5px 5px rbga(0,0,0,.1);
+}
+.rect-red-button:hover{
+    box-shadow: 0 5px 5px 5px rbga(0,0,0,.1);
+}
+
+.circle-red-button{
+    background-color: #D81E5B;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
 }
 
 .bottom-line-input{
@@ -243,6 +265,7 @@ a{
     display: block;
     padding: 30 0;
     font-size: 20px;
+    color: #484349 !important;
 }
 
 .dashboard-sidebar-item:hover, .dashboard-sidebar .active{
@@ -409,6 +432,66 @@ a{
     }
 }
 
+.dashboard-main-records-section{
+    padding: 10px 1%;
+    font-size: 24px;
+    overflow-x: scroll;
+}
+
+.dashboard-select{
+    width: fit-content;
+    border: 1px solid #484349;
+    margin: 0px 0 5px;
+    background: transparent;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.dashboard-table{
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.dashboard-table thead {
+    background: #D81E5B;
+    color: #fff;
+}
+
+.dashboard-table th,td{
+    padding: 15px 0;
+    text-align: center;
+    width: 16%
+}
+
+.dashboard-table td:first-of-type{
+    width: 40%;
+}
+
+.dashboard-table > tbody tr {
+    background: #ffffff;
+    border-bottom: 1px solid rgba(72, 67, 73, .2);
+    cursor: pointer;
+    position: relative;
+}
+
+.dashboard-table > tbody tr:hover{
+    background: rgba(216, 30, 91, .1);
+}
+
+.dashboard-table > tbody tr td svg {
+    transform: scale(1.5);
+    display: none;
+}
+
+.dashboard-table > tbody tr.Pending td svg{
+    display: inline-block;
+}
+
+.dashboard-table-link{
+    cursor: pointer;
+    padding: 20px;
+}
 
 
 
