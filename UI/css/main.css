@@ -544,7 +544,8 @@ input:focus, textarea:focus{
     width: 100%;
     min-height: 150px;
     font-size: 15px;
-    border: none;
+    border: 2px solid rgba(72, 67, 73, .2);
+    padding: 10px;
 }
 
 .new-record-section{
@@ -580,10 +581,6 @@ input:focus, textarea:focus{
     width: 100%;
 }
 
-.horizontal-flex label{
-    margin-bottom: 15px;
-}
-
 .dashboard-form-item-preview{
     display: flex;
     flex-wrap: wrap;
@@ -600,11 +597,12 @@ input:focus, textarea:focus{
 }
 
 @media screen and (max-width: 600px){
-    .new-record-section label{
+
+    .dashboard-form-item-label{
+        text-align: center;
         font-size: 16px;
         margin-bottom: 10px;
         width: 100%;
-        text-align: center;
     }
 
     .dashboard-form-item{
@@ -622,10 +620,6 @@ input:focus, textarea:focus{
     .circle-red-button{
         transform: scale(.6);
         margin: 0 auto;
-    }
-
-    .form-text-area{
-        min-height: 10px;
     }
 }
 
@@ -750,4 +744,13 @@ input:focus, textarea:focus{
 
 .edit-record-update-button{
     margin: 0 auto;
+}
+
+.sev-rows{
+    flex-wrap: wrap;
+}
+
+.one-row{
+    width: 100%;
+    margin: 5px 0;
 }
