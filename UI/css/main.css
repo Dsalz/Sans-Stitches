@@ -12,8 +12,12 @@ a{
     cursor: pointer;
 }
 
-button{
+button, input, textarea{
     font-family: inherit;
+}
+
+input:focus, textarea:focus{
+    outline: none;
 }
 
 .red-cl{
@@ -37,6 +41,7 @@ button{
     margin: 25px auto;
     border: none;
     font-family:inherit;
+    cursor: pointer;
 }
 
 .rect-red-button:hover{
@@ -54,7 +59,10 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 20px;
+    padding: 5px 25px;
+    margin-top: 15px;
+    font-size: 60px;
+    cursor: pointer;
 }
 
 .bottom-line-input{
@@ -170,6 +178,7 @@ button{
     justify-content: space-between;
     height: 90px;
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, .1);
+    z-index: 500;
 }
 
 .dashboard-nav-logo{
@@ -494,5 +503,74 @@ button{
 }
 
 
+.dashboard-form-item{
+    display: flex;
+    width: 100%;
+    margin: 50px 0;
+}
+
+.dashboard-form-item .bottom-line-input{
+    margin: 0;
+    font-size: 15px;
+}
+
+.dashboard-form-item-label{
+    width: 25%;
+    font-size: 20px;
+    text-align: left;
+}
+
+.dashboard-form-item-whole, .dashboard-form-item-split{
+    width: 75%;
+}
+
+.dashboard-form-item-split{
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard-form-item-split-item{
+    width: 40%;
+}
+
+.form-text-area{
+    width: 100%;
+    min-height: 150px;
+    font-size: 15px;
+    border: none;
+}
+
+.new-record-section{
+    padding: 10px 5%;
+}
+
+.form-radio-btn{
+    margin-right: 10px;
+}
+
+.form-radio-btn:checked{
+    position: relative;
+}
+
+.form-radio-btn:checked:after{
+    position: absolute;
+    content: "";
+    background: #D81E5B;
+    top: 15%;
+    left: 0;
+    right:0;
+    margin: 0 auto;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+}
+
+.horizontal-flex{
+    flex-direction: column;
+}
+
+.form-file-input{
+    display: none;
+}
 
 
