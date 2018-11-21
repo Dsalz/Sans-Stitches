@@ -59,9 +59,10 @@ input:focus, textarea:focus{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 15px;
     padding: 5px 25px;
-    margin-top: 15px;
     font-size: 60px;
+    max-height: 80px;
     cursor: pointer;
 }
 
@@ -524,6 +525,10 @@ input:focus, textarea:focus{
     width: 75%;
 }
 
+.dashboard-form-item-whole{
+    display: flex;
+}
+
 .dashboard-form-item-split{
     display: flex;
     justify-content: space-between;
@@ -567,6 +572,25 @@ input:focus, textarea:focus{
 
 .horizontal-flex{
     flex-direction: column;
+}
+
+.horizontal-flex .dashboard-form-item-whole{
+    width: 100%;
+}
+
+.horizontal-flex label{
+    margin-bottom: 15px;
+}
+
+.dashboard-form-item-preview{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard-form-item-preview img{
+    width: 120px;
+    height: 100px;
+    margin: 0 10px 10px 0;
 }
 
 .form-file-input{
@@ -699,4 +723,25 @@ input:focus, textarea:focus{
     .record-details-section-item-header{
         font-size: 18px;
     }
+}
+
+.edit-record-button-div{
+    display: flex;
+    justify-content: space-around;
+}
+
+.edit-record-button-div button{
+    width: 30%;
+    min-width: fit-content;
+}
+
+.edit-record-delete-button{
+    border: 2px solid #D81E5B;
+    color: #D81E5B;
+    background: transparent;
+    margin: 0 auto;
+}
+
+.edit-record-update-button{
+    margin: 0 auto;
 }
