@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Edit Record | Sans-Stitches</title>
+    <link href="css/main.css" rel="stylesheet"/>
+</head>
+
+<body class="blue-bg dashboard-body">
+    <nav class="dashboard-nav">
+
+        <a class="dashboard-nav-logo" href="/" >
+            Sans-Stitches
+        </a>
+
+        <div class="dashboard-nav-dropdown">
+                <p class="dashboard-nav-dropdown-user triangle-down" id="user">USER</p>
+                <div class="dashboard-nav-dropdown-options" id="dropdown-menu">
+                    <a class="dashboard-nav-dropdown-options-item" href="/settings">
+                        Settings
+                    </a>
+                    <a class="dashboard-nav-dropdown-options-item" href="/logout">
+                        Logout
+                    </a>
+                </div>
+            </div>
+    </nav>
+
+    <aside class="dashboard-sidebar" id="sidebar">
+            <div class="dashboard-sidebar-toggle" id="toggle-sidebar">
+                    <hr />
+                    <hr />
+                    <hr />
+            </div>
+        <a class="dashboard-sidebar-item " href="/profile">
+            Profile
+        </a>
+        <a class="dashboard-sidebar-item active" href="/myrecords">
+            My Records
+        </a>
+        <a class="dashboard-sidebar-item" href="/newrecord">
+            Create New Record
+        </a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <section class="dashboard-card">
+
+            <section class="new-record-section">
+
+                <h2 class="dashboard-main-header red-cl">Edit Record</h2>
+
+                <form>
+                    <div class="dashboard-form-item">
+
+                        <label for="title" class="dashboard-form-item-label">Title:</label>
+
+                        <div class="dashboard-form-item-whole">
+
+                            <input name="title" id="title" class="bottom-line-input" type="text" />
+                        
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-form-item">
+
+                        <label class="dashboard-form-item-label">Type:</label>
+
+                        <div class="dashboard-form-item-split">
+
+                            <div class="dashboard-form-item-split-item">
+                                <input name="type" id="red-flag" type="radio" class="form-radio-btn" value = "Red Flag" checked/>
+                                <label for="red-flag">Red Flag</label>
+                            </div>
+
+                            <div class="dashboard-form-item-split-item">
+                                <input name="type" id="intervention" type="radio" class="form-radio-btn" value = "Intervention"/>
+                                <label for="intervention">Intervention</label>
+                            </div>
+
+                        </div>
+    
+                    </div>
+
+                    <div class="dashboard-form-item">
+
+                            <label for="description" class="dashboard-form-item-label">Description:</label>
+                        
+                            <div class="dashboard-form-item-whole">
+                                <textarea placeholder="Enter extra information here" id="description" class="form-text-area"></textarea>
+                            </div>
+        
+                    </div>
+
+                    <div class="dashboard-form-item">
+
+                        <label for="longitude" class="dashboard-form-item-label">Geolocation:</label>
+                        
+                        <div class="dashboard-form-item-split">
+
+                            <div class="dashboard-form-item-split-item">
+                                <input name="longitude" id="longitude" class="bottom-line-input" type="text" placeholder="Longitude"/>
+                            </div>
+
+                            <div class="dashboard-form-item-split-item">
+                                <input name="latitude" id="latitude" class="bottom-line-input" type="text" placeholder="Latitude"/>
+                            </div>
+
+                        </div>
+    
+                    </div>
+
+                    <div class="dashboard-form-item horizontal-flex">
+
+                            <label for="images" class="dashboard-form-item-label">Images:</label>
+
+                            <div class="dashboard-form-item-whole">
+
+                                <div class="dashboard-form-item-preview" id="image-preview-div">
+                                        <img src="http://place-hold.it/100" alt="record image" />
+                                        <img src="http://place-hold.it/100" alt="record image" />
+                                        <img src="http://place-hold.it/100" alt="record image" />
+                                </div>
+
+                                <button class="circle-red-button" id="add-image-btn">
+                                    &plus;
+                                </button>
+
+                                <input type="file" class="form-file-input" id="add-image-input"/>
+                            </div>
+                    </div>
+
+                    <div class="dashboard-form-item horizontal-flex">
+
+                            <label for="videos" class="dashboard-form-item-label">Videos:</label>
+
+                            <div class="dashboard-form-item-whole">
+
+                                <div class="dashboard-form-item-preview" id="video-preview-div">
+                                    <img src="http://place-hold.it/100" alt="record video-thumbnail" />
+                                </div>
+
+                                <button class="circle-red-button" id="add-video-btn">
+                                    &plus;
+                                </button>
+
+                                <input type="file" class="form-file-input" id="add-video-input"/>
+                            </div>
+                    </div>
+
+                    <div class="edit-record-button-div">
+                        <button class="rect-red-button edit-record-update-button">Update</button>
+                        <button class="rect-red-button edit-record-delete-button">Delete</button>
+                     </div>
+                </form>
+
+            </section>
+
+        </section>
+    </main>
+
+    <script src="js/dashboardDropdown.js"></script>
+    <script src="js/receiveMedia.js"></script>
+</body>
+</html>
