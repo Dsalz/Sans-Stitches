@@ -573,4 +573,130 @@ input:focus, textarea:focus{
     display: none;
 }
 
+@media screen and (max-width: 600px){
+    .new-record-section label{
+        font-size: 16px;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
 
+    .dashboard-form-item{
+        flex-wrap: wrap;
+    }
+
+    .dashboard-form-item-whole, .dashboard-form-item-split{
+        width: 100%;
+    }
+
+    .dashboard-form-item-split-item{
+        width: 48%;
+    }
+
+    .circle-red-button{
+        transform: scale(.6);
+        margin: 0 auto;
+    }
+}
+
+.record-details-section{
+    padding: 30px 5%;
+    text-align: left;
+    font-size: 14px;
+}
+
+.record-details-section-header{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.record-details-section-type, .record-details-section-status{
+    padding: 5px;
+    background: transparent;
+    border: 2px solid #D81E5B;
+    color: #D81E5B;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.record-details-section-status-label{
+    border: 2px solid #D81E5B;
+    background: #d81e5b;
+    color: #fff;
+    padding: 5px;
+}
+
+.record-details-section-item{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+    min-height: 120px
+}
+
+.record-details-section-item-header{
+    font-size: 24px;
+    margin: 5px 0;
+}
+
+.record-details-section-line{
+    border: 1px solid rgba(72, 67, 73, .2);
+    width: 75%;
+    margin: 0;
+}
+
+.record-details-section-item-data p{
+    margin: 0;
+}
+
+.record-details-section-item-data{
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.record-details-section-item-data img{
+    width: 120px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.record-details-section-item-data-map{
+    width: 80%;
+    height: 200px;;
+}
+
+.record-details-section-item-data-map canvas {
+    position: relative !important;
+    width: 100% !important;
+}
+
+@media screen and (max-width: 700px){
+
+    .record-details-section{
+        text-align: center;
+    }
+
+    .record-details-section-line{
+        margin: 0 auto
+    }
+
+    .record-details-section-item-data{
+        justify-content: center;
+    }
+
+    .record-details-section-item-data img{
+        margin: 10px;
+    }
+
+    .record-details-section-item-data-map{
+        width: 90%;
+    }
+
+    .record-details-section-header{
+        font-size: 22px;
+    }
+
+    .record-details-section-item-header{
+        font-size: 18px;
+    }
+}
