@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Record Details | Sans-Stitches</title>
+    <link href="css/main.css" rel="stylesheet"/>
+</head>
+
+<body class="blue-bg dashboard-body">
+    <nav class="dashboard-nav">
+
+        <a class="dashboard-nav-logo" href="/" >
+            Sans-Stitches
+        </a>
+
+        <div class="dashboard-nav-dropdown">
+                <p class="dashboard-nav-dropdown-user triangle-down" id="user">ADMIN</p>
+                <div class="dashboard-nav-dropdown-options" id="dropdown-menu">
+                    <a class="dashboard-nav-dropdown-options-item" href="/settings">
+                        Settings
+                    </a>
+                    <a class="dashboard-nav-dropdown-options-item" href="/logout">
+                        Logout
+                    </a>
+                </div>
+            </div>
+    </nav>
+
+    <aside class="dashboard-sidebar" id="sidebar">
+            <div class="dashboard-sidebar-toggle" id="toggle-sidebar">
+                    <hr />
+                    <hr />
+                    <hr />
+            </div>
+        <a class="dashboard-sidebar-item" href="/profile">
+            Overview
+        </a>
+        <a class="dashboard-sidebar-item active" href="/myrecords">
+            Pending Records
+        </a>
+        <a class="dashboard-sidebar-item" href="/newrecord">
+            All Records
+        </a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <section class="dashboard-card">
+
+                <section class="record-details-section">
+
+                        <h2 class="record-details-section-header">John stole charity money yesterday</h2>
+        
+                        <div>
+                            <span class="record-details-section-type" id="type">Red Flag</span> <br />
+                        </div>
+        
+                        <div>
+                            <span class="record-details-section-status-label">Status</span><span class="record-details-section-status" id="status"> Pending Review </span>
+                        </div>
+        
+                        <div class = "record-details-section-item">
+                            
+                            <h3 class = "record-details-section-item-header">Description</h3>
+                            <hr class = "record-details-section-line"/>
+                            <div class="record-details-section-item-data">
+                                <p>
+                                    John Stole Money meant for the lomein charity Yesterday and i witnessed it. Please investigate the matter
+                                </p>
+                            </div>
+        
+                        </div>
+        
+                        <div class = "record-details-section-item">
+                            
+                                <h3 class = "record-details-section-item-header">Images</h3>
+                                <hr class = "record-details-section-line"/>
+                                <div class="record-details-section-item-data">
+                                    <img src="http://place-hold.it/100" alt="record image" />
+                                    <img src="http://place-hold.it/100" alt="record image" />
+                                    <img src="http://place-hold.it/100" alt="record image" />
+                                </div>
+            
+                        </div>
+        
+                        <div class = "record-details-section-item">
+                            
+                                <h3 class = "record-details-section-item-header">Videos</h3>
+                                <hr class = "record-details-section-line"/>
+                                <div class="record-details-section-item-data">
+                                    <img src="http://place-hold.it/100" alt="record video thumbnail" />
+                                </div>
+            
+                        </div>
+        
+        
+                        <div class = "record-details-section-item">
+                            
+                                <h3 class = "record-details-section-item-header">Geolocation</h3>
+                                <hr class = "record-details-section-line"/>
+                                <div class="record-details-section-item-data">
+                                    <div id='map' class="record-details-section-item-data-map"></div>                            
+                                </div>
+            
+                        </div>
+
+                        <div class="dashboard-form-item">
+
+                                <label class="dashboard-form-item-label">Status:</label>
+        
+                                <div class="dashboard-form-item-whole sev-rows">
+
+                                    <div class="one-row">
+                                    <input name="status" id="pending" type="radio" class="form-radio-btn" value = "Pending Review" checked/>
+                                    <label for="pending">Pending Review</label>
+                                    </div>
+
+                                    <div class="one-row">
+                                    <input name="status" id="under-investigation" type="radio" class="form-radio-btn" value = "Under Investigation"/>
+                                    <label for="under-investigation">Under Investigation</label>
+                                    </div>
+
+                                    <div class="one-row">
+                                    <input name="status" id="resolved" type="radio" class="form-radio-btn" value = "Resolved"/>
+                                    <label for="resolved">Resolved</label>
+                                    </div>
+
+                                    <div class="one-row">
+                                    <input name="status" id="rejected" type="radio" class="form-radio-btn" value = "Rejected"/>
+                                    <label for="rejected">Rejected</label>
+                                    </div>
+                                </div>
+            
+                        </div>
+
+                        <div class="dashboard-form-item">
+
+                                <label for="feedback" class="dashboard-form-item-label">Feedback:</label>
+                            
+                                <div class="dashboard-form-item-whole">
+                                    <textarea id="feedback" class="form-text-area"></textarea>
+                                </div>
+            
+                        </div>
+
+                    <button class="rect-red-button">Update</button>
+        
+        
+                </section>
+        </section>
+    </main>
+
+    <script src="js/dashboardDropdown.js"></script>
+</body>
+</html>
