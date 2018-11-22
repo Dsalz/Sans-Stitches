@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Profile | Sans-Stitches</title>
+    <link href="css/main.css" rel="stylesheet"/>
+</head>
+
+<body class="blue-bg dashboard-body">
+    <nav class="dashboard-nav">
+
+        <a class="dashboard-nav-logo" href="#" >
+            Sans-Stitches
+        </a>
+
+        <div class="dashboard-nav-dropdown">
+                <p class="dashboard-nav-dropdown-user triangle-down" id="user">USER</p>
+                <div class="dashboard-nav-dropdown-options" id="dropdown-menu">
+                    <a class="dashboard-nav-dropdown-options-item" href="#">
+                        Settings
+                    </a>
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                        Logout
+                    </a>
+                </div>
+            </div>
+    </nav>
+
+    <aside class="dashboard-sidebar" id="sidebar">
+            <div class="dashboard-sidebar-toggle" id="toggle-sidebar">
+                    <hr />
+                    <hr />
+                    <hr />
+            </div>
+        <a class="dashboard-sidebar-item active" href="./profile.html">
+            Profile
+        </a>
+        <a class="dashboard-sidebar-item" href="./myrecords.html">
+            My Records
+        </a>
+        <a class="dashboard-sidebar-item" href="./new-record.html">
+            Create New Record
+        </a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <section class="dashboard-card">
+
+            <section class="dashboard-main-statistics-section">
+    
+                <h2 class="dashboard-main-header red-cl">Statistics</h2>
+    
+                <div class="dashboard-main-statistics-section-row">
+                        
+                    <div class="dashboard-main-statistics-section-row-item">
+    
+                        <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="total-no">20</h3>
+    
+                        <p class="dashboard-main-statistics-section-row-item-label">Total Records Filed By You</p>
+    
+                    </div>
+                    
+                </div>
+    
+                <div class="dashboard-main-statistics-section-row">
+                        
+                    <div class="dashboard-main-statistics-section-row-item">
+    
+                        <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="red-flag-no">18</h3>
+    
+                        <p class="dashboard-main-statistics-section-row-item-label">Red Flag Records</p>
+    
+                    </div>
+    
+                    <div class="dashboard-main-statistics-section-row-item">
+    
+                        <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="intervention-no">2</h3>
+    
+                        <p class="dashboard-main-statistics-section-row-item-label">Intervention Records</p>
+    
+                    </div>
+                        
+                </div>
+    
+                <div class="dashboard-main-statistics-section-row">
+                        
+                        <div class="dashboard-main-statistics-section-row-item">
+        
+                            <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="resolved-no">10</h3>
+        
+                            <p class="dashboard-main-statistics-section-row-item-label">Resolved</p>
+        
+                        </div>
+        
+                        <div class="dashboard-main-statistics-section-row-item">
+        
+                            <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="rejected-no">0</h3>
+        
+                            <p class="dashboard-main-statistics-section-row-item-label">Rejected</p>
+        
+                        </div>
+    
+                        <div class="dashboard-main-statistics-section-row-item">
+        
+                                <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="under-investigation-no">8</h3>
+            
+                                <p class="dashboard-main-statistics-section-row-item-label">Under-Investigation</p>
+            
+                        </div>
+    
+                        <div class="dashboard-main-statistics-section-row-item">
+        
+                                <h3 class="dashboard-main-statistics-section-row-item-number red-cl" id="pending-no">2</h3>
+            
+                                <p class="dashboard-main-statistics-section-row-item-label">Pending Review</p>
+            
+                        </div>
+                            
+                </div>
+    
+            </section>
+    
+            <section class="dashboard-main-generalinfo-section">
+    
+                <h2 class="dashboard-main-header red-cl">General Information</h2>
+    
+                <p class="dashboard-main-generalinfo-section-item">Name : <span id="name">Jane Doe</span></p>
+                <p class="dashboard-main-generalinfo-section-item">Email : <span id="name">janedoe@yahoo.com</span></p>
+                <p class="dashboard-main-generalinfo-section-item">Phone No : <span id="name">08123456789</span></p>
+    
+            </section>
+
+        </section>
+    </main>
+
+    <script src="js/dashboardDropdown.js"></script>
+</body>
+</html>
