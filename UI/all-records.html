@@ -10,17 +10,17 @@
 <body class="blue-bg dashboard-body">
     <nav class="dashboard-nav">
 
-        <a class="dashboard-nav-logo" href="/" >
+        <a class="dashboard-nav-logo" href="#" >
             Sans-Stitches
         </a>
 
         <div class="dashboard-nav-dropdown">
                 <p class="dashboard-nav-dropdown-user triangle-down" id="user">ADMIN</p>
                 <div class="dashboard-nav-dropdown-options" id="dropdown-menu">
-                    <a class="dashboard-nav-dropdown-options-item" href="/settings">
+                    <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="/logout">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
                         Logout
                     </a>
                 </div>
@@ -33,13 +33,13 @@
                     <hr />
                     <hr />
             </div>
-        <a class="dashboard-sidebar-item" href="/profile">
+        <a class="dashboard-sidebar-item" href="./admin-overview.html">
             Overview
         </a>
-        <a class="dashboard-sidebar-item" href="/myrecords">
+        <a class="dashboard-sidebar-item" href="./pending-records.html">
             Pending Records
         </a>
-        <a class="dashboard-sidebar-item active" href="/newrecord">
+        <a class="dashboard-sidebar-item active" href="./all-records.html">
             All Records
         </a>
     </aside>
@@ -72,7 +72,7 @@
                     </thead>
 
                     <tbody >
-                        <tr class="dashboard-table-row Pending"  data-id="1">
+                        <tr class="dashboard-table-row Pending" id="1">
                             <td> <a>John stole charity money yesterday</a> </td>
                             <td> Red flag </td>
                             <td> 10-Nov-2018 </td>
@@ -228,5 +228,9 @@
 
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/tableFilter.js"></script>
+    <script src="js/records.js"></script>
+    <script>
+        adminRecordDetails();
+    </script>
 </body>
 </html>
