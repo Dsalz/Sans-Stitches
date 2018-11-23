@@ -1,0 +1,31 @@
+{
+  "name": "sans-stitches",
+  "version": "1.0.0",
+  "description": "A platform for reporting corruption and general inadequaces to the government",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "coverall": "mocha && cat ./tests/coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dsalz/Sans-Stitches.git"
+  },
+  "author": "Damola Salisu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dsalz/Sans-Stitches/issues"
+  },
+  "homepage": "https://github.com/Dsalz/Sans-Stitches#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}
