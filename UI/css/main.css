@@ -274,7 +274,7 @@ input:focus, textarea:focus{
 
 .dashboard-sidebar-item{
     display: block;
-    padding: 30 0;
+    padding: 30px 0;
     font-size: 20px;
     color: #484349 !important;
 }
