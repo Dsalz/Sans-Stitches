@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const majorKey = process.env.SECRET_KEY || 'peterpiperpickedapeckofpickledpepper';
 
 const tokenizer = {
-  createToken: (user, res) => {
+  createToken: (user, res, successMessage) => {
     jwt.sign({ user }, majorKey, (err, token) => {
       if (err) {
         return res.json({
@@ -16,6 +16,7 @@ const tokenizer = {
         data: [{
           user,
           token,
+          message: successMessage,
         }],
       });
     });
@@ -24,10 +25,10 @@ const tokenizer = {
     const { authorization } = req.headers;
     if (!authorization) {
       return res.json({
-        status: 403,
+        status: 401,
         data: [
           {
-            message: 'Forbidden Request',
+            message: 'Request has no Token',
           },
         ],
       });
@@ -36,7 +37,7 @@ const tokenizer = {
     return jwt.verify(authorization.split(' ')[1], majorKey, (err, data) => {
       if (err) {
         return res.json({
-          status: 403,
+          status: 401,
           data: [{
             message: 'Invalid Token',
           }],

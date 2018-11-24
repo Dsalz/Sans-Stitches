@@ -80,7 +80,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .set('authorization', `Bearer ${rightUserToken}`)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(500);
+        expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Description');
         done();
       });
@@ -100,7 +100,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .set('authorization', `Bearer ${rightUserToken}`)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(500);
+        expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Title');
         done();
       });
@@ -119,7 +119,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .set('authorization', `Bearer ${rightUserToken}`)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(500);
+        expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
         done();
       });
@@ -138,7 +138,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .set('authorization', `Bearer ${rightUserToken}`)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(500);
+        expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Title is Required');
         done();
       });
@@ -175,7 +175,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .set('authorization', `Bearer ${fakeToken}`)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(403);
+        expect(res.body.status).to.equal(401);
         expect(res.body.data[0].message).to.equal('Invalid Token');
         done();
       });
@@ -194,8 +194,8 @@ describe('Attempt to Create Red Flag Record', () => {
       .send(record)
       .end((err, res) => {
         should.not.exist(err);
-        expect(res.body.status).to.equal(403);
-        expect(res.body.data[0].message).to.equal('Forbidden Request');
+        expect(res.body.status).to.equal(401);
+        expect(res.body.data[0].message).to.equal('Request has no Token');
         done();
       });
   });
@@ -264,8 +264,8 @@ describe('Attempt to delete red flag record', () => {
           .delete(`${currApiPrefix}/red-flag/${savedRecordId}`)
           .end((error, response) => {
             should.not.exist(error);
-            expect(response.body.status).to.equal(403);
-            expect(response.body.data[0].message).to.equal('Forbidden Request');
+            expect(response.body.status).to.equal(401);
+            expect(response.body.data[0].message).to.equal('Request has no Token');
             done();
           });
       });
