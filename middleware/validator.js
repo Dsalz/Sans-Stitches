@@ -1,5 +1,5 @@
 const invalidField = message => ({
-  status: 500,
+  status: 400,
   data: [{
     message,
   },

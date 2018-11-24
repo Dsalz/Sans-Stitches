@@ -11,7 +11,16 @@ const controller = {
       phoneNumber,
       password,
     } = req.body;
+
     const names = name.split(' ');
+    if (userStore.find(user => user.email === email)) {
+      return res.json({
+        status: 409,
+        data: [{
+          message: 'Email already Exists',
+        }],
+      });
+    }
     const user = {
       id: Math.ceil(Math.random() * 1000000),
       firstname: names[0],
@@ -21,15 +30,32 @@ const controller = {
       phoneNumber,
       password,
       username: email,
-      registered: Date.now(),
+      registered: new Date(),
       isAdmin: false,
     };
-    return tokenizer.createToken(user, res);
+
+    userStore.push(user);
+
+    return tokenizer.createToken(user, res, 'Succesful Sign Up');
   },
+
   loginUser: (req, res) => {
     const { email, password } = req.body;
-    const user = userStore.find({ email, password });
-    return tokenizer.createToken(user, res);
+
+    const userLoggingIn = userStore.find(user => (
+      user.email === email && user.password === password
+    ));
+
+    if (!userLoggingIn) {
+      return res.json({
+        status: 404,
+        data: [{
+          message: 'User Not Found',
+        }],
+      });
+    }
+
+    return tokenizer.createToken(userLoggingIn, res, 'Succesful Login');
   },
 };
 
