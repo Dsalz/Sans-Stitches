@@ -1,7 +1,6 @@
-
 const store = {
-    recordStore : [],
-    userStore : []   
+  recordStore: [],
+  userStore: [],
 };
 
 export default store;

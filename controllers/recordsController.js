@@ -1,31 +1,37 @@
-import { recordStore } from '../store';
+import store from '../store';
 
+const { recordStore } = store;
 
 const controller = {
-    createRedFlagRecord: (req, res) => {
-        const { latitude, longitude, description, title } = req.body;
+  createRedFlagRecord: (req, res) => {
+    const {
+      latitude,
+      longitude,
+      description,
+      title,
+    } = req.body;
 
-        let newRecord = {
-            id : recordStore.length + 1,
-            title,
-            description,
-            createdOn : new Date(),
-            createdBy : 1,
-            type: "red-flag",
-            location: `${latitude} , ${longitude}`,
-            isActive: true
-        }
+    const newRecord = {
+      id: recordStore.length + 1,
+      title,
+      description,
+      createdOn: new Date(),
+      createdBy: 1,
+      type: 'red-flag',
+      location: `${latitude} , ${longitude}`,
+      isActive: true,
+    };
 
-        recordStore.push(newRecord);
+    recordStore.push(newRecord);
 
-        res.json({
-            status : 200,
-            data: [{
-                id: newRecord.id,
-                message: "Created red-flag record"
-            }]
-        })
-    }
-}
+    res.json({
+      status: 200,
+      data: [{
+        id: newRecord.id,
+        message: 'Created red-flag record',
+      }],
+    });
+  },
+};
 
 export default controller;
