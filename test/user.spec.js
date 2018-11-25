@@ -145,9 +145,6 @@ describe('An Attempt to SignUp', () => {
       .post(`${currApiPrefix}/user/signup`)
       .send(newUser)
       .end((err, res) => {
-        console.log('-------------------');
-        console.log(res.body);
-        console.log('-------------------');
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Email');
       });
@@ -165,9 +162,6 @@ describe('An Attempt to SignUp', () => {
       .post(`${currApiPrefix}/user/signup`)
       .send(newUser)
       .end((err, res) => {
-        console.log('-------------------');
-        console.log(res.body);
-        console.log('-------------------');
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Phone Number');
       });

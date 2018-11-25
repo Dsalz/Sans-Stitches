@@ -55,9 +55,26 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data[0].message).to.equal('Created red-flag record');
+        done();
+      });
+  });
+
+  it('should save with just a comment', (done) => {
+    const record = {
+      comment: 'They Looted everywhere',
+    };
+
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flags`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
@@ -75,9 +92,9 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -95,9 +112,9 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -114,9 +131,9 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -133,30 +150,13 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Comment is Required');
-        done();
-      });
-  });
-
-  it('should save with just a comment', (done) => {
-    const record = {
-      comment: 'They Looted everywhere',
-    };
-
-    chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
-      .set('authorization', `Bearer ${rightUserToken}`)
-      .end((err, res) => {
-        should.not.exist(err);
-        expect(res.body.status).to.equal(200);
-        expect(res.body.data[0].message).to.equal('Created red-flag record');
         done();
       });
   });
@@ -170,9 +170,9 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(record)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${fakeToken}`)
+      .send(record)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
@@ -190,7 +190,7 @@ describe('Attempt to Create Red Flag Record', () => {
     };
 
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
+      .post(`${currApiPrefix}/red-flags`)
       .send(record)
       .end((err, res) => {
         should.not.exist(err);
@@ -207,14 +207,14 @@ describe('Attempt to delete red flag record', () => {
       comment: 'Badamosi is stealing again',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         const savedRecordId = res.body.data[0].id;
         should.not.exist(err);
         chai.request(app)
-          .delete(`${currApiPrefix}/red-flag/${savedRecordId}`)
+          .delete(`${currApiPrefix}/red-flags/${savedRecordId}`)
           .set('authorization', `Bearer ${rightUserToken}`)
           .end((error, response) => {
             should.not.exist(error);
@@ -231,14 +231,14 @@ describe('Attempt to delete red flag record', () => {
       comment: 'Badamosi is stealing again',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         const savedRecordId = res.body.data[0].id;
         should.not.exist(err);
         chai.request(app)
-          .delete(`${currApiPrefix}/red-flag/${savedRecordId}`)
+          .delete(`${currApiPrefix}/red-flags/${savedRecordId}`)
           .set('authorization', `Bearer ${wrongUserToken}`)
           .end((error, response) => {
             should.not.exist(error);
@@ -254,14 +254,14 @@ describe('Attempt to delete red flag record', () => {
       comment: 'Badamosi is stealing again',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         const savedRecordId = res.body.data[0].id;
         should.not.exist(err);
         chai.request(app)
-          .delete(`${currApiPrefix}/red-flag/${savedRecordId}`)
+          .delete(`${currApiPrefix}/red-flags/${savedRecordId}`)
           .end((error, response) => {
             should.not.exist(error);
             expect(response.body.status).to.equal(401);
@@ -276,20 +276,20 @@ describe('Attempt to delete red flag record', () => {
       comment: 'Badamosi is stealing again',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         const savedRecordId = res.body.data[0].id;
         should.not.exist(err);
         chai.request(app)
-          .delete(`${currApiPrefix}/red-flag/${savedRecordId}`)
+          .delete(`${currApiPrefix}/red-flags/${savedRecordId}`)
           .set('authorization', `Bearer ${rightUserToken}`)
           .end((error, response) => {
             const justDeletedRecordId = response.body.data[0].id;
             should.not.exist(error);
             chai.request(app)
-              .delete(`${currApiPrefix}/red-flag/${justDeletedRecordId}`)
+              .delete(`${currApiPrefix}/red-flags/${justDeletedRecordId}`)
               .set('authorization', `Bearer ${rightUserToken}`)
               .end((childerror, childresponse) => {
                 should.not.exist(childerror);
@@ -309,9 +309,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Bob Dylan is Stealing Money',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
@@ -325,9 +325,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Bob Dylan is stealing money from the senate',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
@@ -342,9 +342,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Bob Dylan is stealing money from the senate',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .set('authorization', `Bearer ${wrongUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
@@ -358,7 +358,7 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Bob Dylan is stealing money from the senate',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
@@ -373,9 +373,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: 3334,
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -389,9 +389,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: ' ',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -405,9 +405,9 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Governor tikimasallah is embezlling funds',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId + 778976456776}/comment`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778976456776}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
@@ -426,9 +426,9 @@ describe('Attempt to update red flag record location', () => {
       latitude: '4320W',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/red-flag`)
-      .send(newRecord)
+      .post(`${currApiPrefix}/red-flags`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
@@ -444,9 +444,9 @@ describe('Attempt to update red flag record location', () => {
       latitude: '420W',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
@@ -463,9 +463,9 @@ describe('Attempt to update red flag record location', () => {
       latitude: '4320W',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${wrongUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
@@ -481,7 +481,7 @@ describe('Attempt to update red flag record location', () => {
       latitude: '320W',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
@@ -498,9 +498,9 @@ describe('Attempt to update red flag record location', () => {
       latitude: 909,
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -515,9 +515,9 @@ describe('Attempt to update red flag record location', () => {
       longitude: '888E',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -533,9 +533,9 @@ describe('Attempt to update red flag record location', () => {
       latitude: ' ',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
@@ -551,13 +551,84 @@ describe('Attempt to update red flag record location', () => {
       latitude: '320W',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId + 778976456776}/location`)
-      .send(updatedRecord)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778976456776}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
         expect(res.body.data[0].message).to.equal('Record does not exist');
+        done();
+      });
+  });
+});
+
+describe('Attempt to get a specific red flag record', () => {
+  let newRecordId = '';
+  let newRecord = {};
+  before((done) => {
+    newRecord = {
+      comment: 'Members of parliament are looting government funds',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flags`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        newRecordId = res.body.data[0].id;
+        done();
+      });
+  });
+  it('should get the record if it exists', (done) => {
+    chai.request(app)
+      .get(`${currApiPrefix}/red-flags/${newRecordId}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data[0].id).to.equal(newRecordId);
+        expect(res.body.data[0].comment).to.equal(newRecord.comment);
+        done();
+      });
+  });
+  it('should fail if the record does not exist', (done) => {
+    chai.request(app)
+      .get(`${currApiPrefix}/red-flags/${newRecordId + 980038948858}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(404);
+        expect(res.body.data[0].message).to.equal('Record does not exist');
+        done();
+      });
+  });
+});
+
+describe('Attempt to get all red flag records', () => {
+  let newRecordId = '';
+  let newRecord = {};
+  before((done) => {
+    newRecord = {
+      comment: 'Members of parliament are looting government funds',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flags`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        newRecordId = res.body.data[0].id;
+        done();
+      });
+  });
+  it('should get all records', (done) => {
+    chai.request(app)
+      .get(`${currApiPrefix}/red-flags`)
+      .end((err, res) => {
+        const recordJustAdded = res.body.data.find(record => record.id === newRecordId);
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data.length).to.be.greaterThan(0);
+        should.exist(recordJustAdded);
         done();
       });
   });

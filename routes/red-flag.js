@@ -5,6 +5,8 @@ import tokenizer from '../middleware/tokenizer';
 
 const redFlagRouter = Router();
 
+redFlagRouter.get('/:id', recordsController.getRedFlagRecord);
+redFlagRouter.get('/', recordsController.getAllRedFlagRecords);
 redFlagRouter.post('/', tokenizer.verifyToken, validator.validateRecord, recordsController.createRedFlagRecord);
 redFlagRouter.delete('/:id', tokenizer.verifyToken, recordsController.deleteRedFlagRecord);
 redFlagRouter.patch('/:id/location', tokenizer.verifyToken, validator.validateGeolocation, recordsController.updateRedFlagRecordLocation);
