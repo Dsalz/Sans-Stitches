@@ -48,7 +48,7 @@ before((done) => {
 describe('Attempt to Create Red Flag Record', () => {
   it('should save if fields are valid', (done) => {
     const record = {
-      title: 'Stolen Bicycle',
+      comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
       latitude: '9000N',
       longitude: '643E',
@@ -68,7 +68,7 @@ describe('Attempt to Create Red Flag Record', () => {
 
   it('should not save with invalid description', (done) => {
     const record = {
-      title: 'Sentors Looting',
+      comment: 'Sentors Looting',
       description: 2,
       latitude: '200W',
       longitude: '3898E',
@@ -86,9 +86,9 @@ describe('Attempt to Create Red Flag Record', () => {
       });
   });
 
-  it('should not save with invalid title', (done) => {
+  it('should not save with invalid comment', (done) => {
     const record = {
-      title: true,
+      comment: true,
       description: 'Truly they stole',
       latitude: '200W',
       longitude: '3898E',
@@ -101,14 +101,14 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Title');
+        expect(res.body.data[0].message).to.equal('Invalid Comment');
         done();
       });
   });
 
   it('should not save with only one geolocation parameter', (done) => {
     const record = {
-      title: 'Sentors Looting',
+      comment: 'Sentors Looting',
       description: 'Looted everywhere',
       latitude: '200W',
     };
@@ -125,7 +125,7 @@ describe('Attempt to Create Red Flag Record', () => {
       });
   });
 
-  it('should not save without a title', (done) => {
+  it('should not save without a comment', (done) => {
     const record = {
       description: 'Looted everywhere',
       latitude: '200W',
@@ -139,14 +139,14 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Title is Required');
+        expect(res.body.data[0].message).to.equal('Comment is Required');
         done();
       });
   });
 
-  it('should save with just a title', (done) => {
+  it('should save with just a comment', (done) => {
     const record = {
-      title: 'They Looted everywhere',
+      comment: 'They Looted everywhere',
     };
 
     chai.request(app)
@@ -163,7 +163,7 @@ describe('Attempt to Create Red Flag Record', () => {
 
   it('should not save if user token is invalid', (done) => {
     const record = {
-      title: 'Stolen Bicycle',
+      comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
       latitude: '9000N',
       longitude: '643E',
@@ -176,14 +176,14 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Invalid Token');
+        expect(res.body.data[0].message).to.equal('Invalid Token, Please Login or SignUp');
         done();
       });
   });
 
   it('should not save if user is not logged in', (done) => {
     const record = {
-      title: 'Stolen Bicycle',
+      comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
       latitude: '9000N',
       longitude: '643E',
@@ -195,7 +195,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Request has no Token');
+        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
         done();
       });
   });
@@ -204,7 +204,7 @@ describe('Attempt to Create Red Flag Record', () => {
 describe('Attempt to delete red flag record', () => {
   it('should delete record if request is made by user who created it', (done) => {
     const newRecord = {
-      title: 'Badamosi is stealing again',
+      comment: 'Badamosi is stealing again',
     };
     chai.request(app)
       .post(`${currApiPrefix}/red-flag`)
@@ -228,7 +228,7 @@ describe('Attempt to delete red flag record', () => {
 
   it('should not delete record if request is made user who did not create it', (done) => {
     const newRecord = {
-      title: 'Badamosi is stealing again',
+      comment: 'Badamosi is stealing again',
     };
     chai.request(app)
       .post(`${currApiPrefix}/red-flag`)
@@ -251,7 +251,7 @@ describe('Attempt to delete red flag record', () => {
 
   it('should not delete record if user is not logged in', (done) => {
     const newRecord = {
-      title: 'Badamosi is stealing again',
+      comment: 'Badamosi is stealing again',
     };
     chai.request(app)
       .post(`${currApiPrefix}/red-flag`)
@@ -265,7 +265,7 @@ describe('Attempt to delete red flag record', () => {
           .end((error, response) => {
             should.not.exist(error);
             expect(response.body.status).to.equal(401);
-            expect(response.body.data[0].message).to.equal('Request has no Token');
+            expect(response.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
             done();
           });
       });
@@ -273,7 +273,7 @@ describe('Attempt to delete red flag record', () => {
 
   it('should not delete record if request is not available or has been deleted before', (done) => {
     const newRecord = {
-      title: 'Badamosi is stealing again',
+      comment: 'Badamosi is stealing again',
     };
     chai.request(app)
       .post(`${currApiPrefix}/red-flag`)
@@ -298,6 +298,267 @@ describe('Attempt to delete red flag record', () => {
                 done();
               });
           });
+      });
+  });
+});
+
+describe('Attempt to update red flag record comment', () => {
+  let recentlyAddedRecordId;
+  before((done) => {
+    const newRecord = {
+      comment: 'Bob Dylan is Stealing Money',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flag`)
+      .send(newRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        recentlyAddedRecordId = res.body.data[0].id;
+        done();
+      });
+  });
+
+  it('should succeed if request is made by owner of the record and the new comment is valid', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data[0].id).to.equal(recentlyAddedRecordId);
+        expect(res.body.data[0].message).to.equal('Updated red-flag record’s comment');
+        done();
+      });
+  });
+
+  it('should fail if request is not made by owner of the record', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${wrongUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(403);
+        expect(res.body.data[0].message).to.equal('You do not have permissions to update this record');
+        done();
+      });
+  });
+
+  it('should fail if user is not logged in', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(401);
+        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+        done();
+      });
+  });
+
+  it('should fail if new comment is not valid', (done) => {
+    const updatedRecord = {
+      comment: 3334,
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Invalid Comment');
+        done();
+      });
+  });
+
+  it('should fail if new comment is empty', (done) => {
+    const updatedRecord = {
+      comment: ' ',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/comment`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Comment is Required');
+        done();
+      });
+  });
+
+  it('should fail if record does not exist', (done) => {
+    const updatedRecord = {
+      comment: 'Governor tikimasallah is embezlling funds',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId + 778976456776}/comment`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(404);
+        expect(res.body.data[0].message).to.equal('Record does not exist');
+        done();
+      });
+  });
+});
+
+describe('Attempt to update red flag record location', () => {
+  let recentlyAddedRecordId;
+  before((done) => {
+    const newRecord = {
+      comment: 'Bob Dylan is Stealing Money',
+      longitude: '3000E',
+      latitude: '4320W',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flag`)
+      .send(newRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        recentlyAddedRecordId = res.body.data[0].id;
+        done();
+      });
+  });
+
+  it('should succeed if request is made by owner of the record and the new location is valid', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: '300E',
+      latitude: '420W',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data[0].id).to.equal(recentlyAddedRecordId);
+        expect(res.body.data[0].message).to.equal('Updated red-flag record’s location');
+        done();
+      });
+  });
+
+  it('should fail if request is not made by owner of the record', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: '3000E',
+      latitude: '4320W',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${wrongUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(403);
+        expect(res.body.data[0].message).to.equal('You do not have permissions to update this record');
+        done();
+      });
+  });
+
+  it('should fail if user is not logged in', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: '000E',
+      latitude: '320W',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(401);
+        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+        done();
+      });
+  });
+
+  it('should fail if new location is not valid', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: 888,
+      latitude: 909,
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
+        done();
+      });
+  });
+
+  it('should fail if only one geolocation coordinate is provided', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: '888E',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
+        done();
+      });
+  });
+
+  it('should fail if new location is an empty string', (done) => {
+    const updatedRecord = {
+      comment: 'Bob Dylan is stealing money from the senate',
+      longitude: ' ',
+      latitude: ' ',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Geolocation Data is Required');
+        done();
+      });
+  });
+
+  it('should fail if record does not exist', (done) => {
+    const updatedRecord = {
+      comment: 'Governor tikimasallah is embezlling funds',
+      longitude: '000E',
+      latitude: '320W',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flag/${recentlyAddedRecordId + 778976456776}/location`)
+      .send(updatedRecord)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(404);
+        expect(res.body.data[0].message).to.equal('Record does not exist');
+        done();
       });
   });
 });

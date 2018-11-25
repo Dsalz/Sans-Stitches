@@ -31,7 +31,7 @@ describe('An Attempt to SignUp', () => {
   it('should succeed if fields are valid', () => {
     const newUser = {
       name: 'Damola Makinaki',
-      email: 'makinaki@yahoo.com',
+      email: 'mainaki@yahoo.com',
       phoneNumber: '08123456789',
       password: '12345',
       confirmPassword: '12345',
@@ -51,7 +51,7 @@ describe('An Attempt to SignUp', () => {
   it('should fail if name field is invalid', () => {
     const newUser = {
       name: 5,
-      email: 'makina@yahoo.com',
+      email: 'makna@yahoo.com',
       phoneNumber: '08123456789',
       password: '12345',
       confirmPassword: '12345',
@@ -62,6 +62,74 @@ describe('An Attempt to SignUp', () => {
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Name');
+      });
+  });
+
+  it('should fail if name is an empty string', () => {
+    const newUser = {
+      name: ' ',
+      email: 'makina@yahoo.com',
+      phoneNumber: '08123456789',
+      password: '12345',
+      confirmPassword: '12345',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/user/signup`)
+      .send(newUser)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Name is Required');
+      });
+  });
+
+  it('should fail if email is an empty string', () => {
+    const newUser = {
+      name: 'Steph',
+      email: ' ',
+      phoneNumber: '08123456789',
+      password: '12345',
+      confirmPassword: '12345',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/user/signup`)
+      .send(newUser)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Invalid Email');
+      });
+  });
+
+  it('should fail if password is an empty string', () => {
+    const newUser = {
+      name: 'Steph',
+      email: 'makin@yahoo.com',
+      phoneNumber: '08123456789',
+      password: ' ',
+      confirmPassword: ' ',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/user/signup`)
+      .send(newUser)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Password is Required');
+      });
+  });
+
+  it('should fail if phone number is an empty string', () => {
+    const newUser = {
+      name: 'Steph',
+      email: 'jojo@yahoo.com',
+      phoneNumber: ' ',
+      password: '12345',
+      confirmPassword: '12345',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/user/signup`)
+      .send(newUser)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body.data[0].message).to.equal('Invalid Phone Number');
       });
   });
 
@@ -77,6 +145,9 @@ describe('An Attempt to SignUp', () => {
       .post(`${currApiPrefix}/user/signup`)
       .send(newUser)
       .end((err, res) => {
+        console.log('-------------------');
+        console.log(res.body);
+        console.log('-------------------');
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Email');
       });
@@ -94,6 +165,9 @@ describe('An Attempt to SignUp', () => {
       .post(`${currApiPrefix}/user/signup`)
       .send(newUser)
       .end((err, res) => {
+        console.log('-------------------');
+        console.log(res.body);
+        console.log('-------------------');
         expect(res.body.status).to.equal(400);
         expect(res.body.data[0].message).to.equal('Invalid Phone Number');
       });

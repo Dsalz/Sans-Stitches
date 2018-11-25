@@ -10,14 +10,21 @@ const validateEmailAndPassword = (email, password, res) => {
   if (!email) {
     return res.json(invalidField('Email is Required'));
   }
+
   if (typeof email !== 'string' || !(/['@']/g.test(email))) {
     return res.json(invalidField('Invalid Email'));
   }
+
   if (!password) {
     return res.json(invalidField('Password is Required'));
   }
+
   if (typeof password !== 'string') {
     return res.json(invalidField('Invalid Password'));
+  }
+
+  if (!password.trim()) {
+    return res.json(invalidField('Password is Required'));
   }
 
   return true;
@@ -26,30 +33,30 @@ const validateEmailAndPassword = (email, password, res) => {
 const validator = {
   validateRecord: (req, res, next) => {
     const {
-      title,
+      comment,
       description,
       latitude,
       longitude,
     } = req.body;
 
-    if (!title) {
-      return res.json(invalidField('Title is Required'));
+    if (!comment) {
+      return res.json(invalidField('Comment is Required'));
     }
-    if (typeof title !== 'string') {
-      return res.json(invalidField('Invalid Title'));
+    if (typeof comment !== 'string') {
+      return res.json(invalidField('Invalid Comment'));
     }
-    if (description) {
-      if (typeof description !== 'string') {
-        return res.json(invalidField('Invalid Description'));
-      }
+    if (!comment.trim()) {
+      return res.json(invalidField('Comment is Required'));
     }
-    if (latitude || longitude) {
-      if (typeof latitude !== 'string' || typeof longitude !== 'string') {
-        return res.json(invalidField('Invalid Geolocation Data'));
-      }
+    if (description && typeof description !== 'string') {
+      return res.json(invalidField('Invalid Description'));
+    }
+    if ((latitude || longitude) && (typeof latitude !== 'string' || typeof longitude !== 'string')) {
+      return res.json(invalidField('Invalid Geolocation Data'));
     }
     return next();
   },
+
   validateUserSignUp: (req, res, next) => {
     const {
       name,
@@ -69,6 +76,9 @@ const validator = {
     if (typeof name !== 'string') {
       return res.json(invalidField('Invalid Name'));
     }
+    if (!name.trim()) {
+      return res.json(invalidField('Name is Required'));
+    }
     if (!phoneNumber) {
       return res.json(invalidField('Phone Number is Required'));
     }
@@ -77,6 +87,7 @@ const validator = {
     }
     return next();
   },
+
   validateUserLogin: (req, res, next) => {
     const {
       email,
@@ -84,6 +95,26 @@ const validator = {
     } = req.body;
 
     validateEmailAndPassword(email, password, res);
+
+    return next();
+  },
+  validateGeolocation: (req, res, next) => {
+    const {
+      latitude,
+      longitude,
+    } = req.body;
+
+    if (!latitude || !longitude) {
+      return res.json(invalidField('Invalid Geolocation Data'));
+    }
+
+    if (typeof latitude !== 'string' || typeof longitude !== 'string') {
+      return res.json(invalidField('Invalid Geolocation Data'));
+    }
+
+    if (!latitude.trim() || !longitude.trim()) {
+      return res.json(invalidField('Geolocation Data is Required'));
+    }
 
     return next();
   },

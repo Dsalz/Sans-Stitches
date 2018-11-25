@@ -8,17 +8,17 @@ const controller = {
       latitude,
       longitude,
       description,
-      title,
+      comment,
     } = req.body;
 
     const newRecord = {
       id: recordStore.length + 1,
-      title,
+      comment,
       description,
       createdOn: new Date(),
       createdBy: req.user.id,
       type: 'red-flag',
-      location: `${latitude} , ${longitude}`,
+      location: (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
       isActive: true,
       status: 'pending review',
     };
@@ -66,6 +66,63 @@ const controller = {
         message: 'You do not have permissions to delete this record',
       },
       ],
+    });
+  },
+  updateRedFlagRecordLocation: (req, res) => {
+    const specificRecordId = Number(req.params.id);
+    const specificRecord = recordStore.find(record => record.id === specificRecordId);
+
+    if (!specificRecord) {
+      return res.json({
+        status: 404,
+        data: [{
+          message: 'Record does not exist',
+        }],
+      });
+    }
+    if (req.user.id !== specificRecord.createdBy) {
+      return res.json({
+        status: 403,
+        data: [{
+          message: 'You do not have permissions to update this record',
+        }],
+      });
+    }
+    specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecordId,
+        message: 'Updated red-flag record’s location',
+      }],
+    });
+  },
+  updateRedFlagRecordComment: (req, res) => {
+    const specificRecordId = Number(req.params.id);
+    const specificRecord = recordStore.find(record => record.id === specificRecordId);
+    if (!specificRecord) {
+      return res.json({
+        status: 404,
+        data: [{
+          message: 'Record does not exist',
+        }],
+      });
+    }
+    if (req.user.id !== specificRecord.createdBy) {
+      return res.json({
+        status: 403,
+        data: [{
+          message: 'You do not have permissions to update this record',
+        }],
+      });
+    }
+    specificRecord.comment = req.body.comment;
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecordId,
+        message: 'Updated red-flag record’s comment',
+      }],
     });
   },
 };
