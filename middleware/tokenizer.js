@@ -28,7 +28,7 @@ const tokenizer = {
         status: 401,
         data: [
           {
-            message: 'Request has no Token',
+            message: 'Request has no Token, Please Login or SignUp',
           },
         ],
       });
@@ -39,7 +39,7 @@ const tokenizer = {
         return res.json({
           status: 401,
           data: [{
-            message: 'Invalid Token',
+            message: 'Invalid Token, Please Login or SignUp',
           }],
         });
       }
