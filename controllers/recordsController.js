@@ -3,6 +3,29 @@ import store from '../store';
 const { recordStore } = store;
 
 const controller = {
+  getRedFlagRecord: (req, res) => {
+    const specificRecordId = Number(req.params.id);
+    const specificRecord = recordStore.find(record => record.id === specificRecordId);
+    if (!specificRecord || !specificRecord.isActive) {
+      return res.json({
+        status: 404,
+        data: [{
+          message: 'Record does not exist',
+        }],
+      });
+    }
+    return res.json({
+      status: 200,
+      data: [specificRecord],
+    });
+  },
+  getAllRedFlagRecords: (req, res) => {
+    const allRecords = recordStore.filter(record => record.type === 'red-flag' && record.isActive);
+    return res.json({
+      status: 200,
+      data: allRecords,
+    });
+  },
   createRedFlagRecord: (req, res) => {
     const {
       latitude,

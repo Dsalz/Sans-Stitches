@@ -10,9 +10,9 @@ const currApiPrefix = '/api/v1';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(`${currApiPrefix}/red-flag`, redFlagRouter);
+app.use(`${currApiPrefix}/red-flags`, redFlagRouter);
 app.use(`${currApiPrefix}/user`, userRouter);
 
-app.listen(port, () => console.log('Now Serving'));
+app.listen(port);
 
 export default app;
