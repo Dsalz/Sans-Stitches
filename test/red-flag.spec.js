@@ -294,7 +294,7 @@ describe('Attempt to delete red flag record', () => {
               .end((childerror, childresponse) => {
                 should.not.exist(childerror);
                 expect(childresponse.body.status).to.equal(404);
-                expect(childresponse.body.data[0].message).to.equal('This record does not exist');
+                expect(childresponse.body.data[0].message).to.equal('Record does not exist');
                 done();
               });
           });

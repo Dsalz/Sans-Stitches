@@ -6,12 +6,8 @@ const { userStore } = store;
 const controller = {
   signUpUser: (req, res) => {
     const {
-      name,
-      email,
-      phoneNumber,
-      password,
+      name, email, phoneNumber, password,
     } = req.body;
-
     const names = name.split(' ');
     if (userStore.find(user => user.email === email)) {
       return res.json({
@@ -33,9 +29,7 @@ const controller = {
       registered: new Date(),
       isAdmin: false,
     };
-
     userStore.push(user);
-
     return tokenizer.createToken(user, res, 'Succesful Sign Up');
   },
 

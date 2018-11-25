@@ -59,13 +59,8 @@ const validator = {
 
   validateUserSignUp: (req, res, next) => {
     const {
-      name,
-      email,
-      phoneNumber,
-      password,
-      confirmPassword,
+      name, email, phoneNumber, password, confirmPassword,
     } = req.body;
-
     validateEmailAndPassword(email, password, res);
     if (password !== confirmPassword) {
       return res.json(invalidField('Password and Confirm Password do not match'));

@@ -2,17 +2,22 @@ import store from '../store';
 
 const { recordStore } = store;
 
+const recordDoesNotExist = () => ({
+  status: 404,
+  data: [{ message: 'Record does not exist' }],
+});
+
+const notAuthorized = action => ({
+  status: 403,
+  data: [{ message: `You do not have permissions to ${action} this record` }],
+});
+
 const controller = {
   getRedFlagRecord: (req, res) => {
     const specificRecordId = Number(req.params.id);
     const specificRecord = recordStore.find(record => record.id === specificRecordId);
     if (!specificRecord || !specificRecord.isActive) {
-      return res.json({
-        status: 404,
-        data: [{
-          message: 'Record does not exist',
-        }],
-      });
+      return res.json(recordDoesNotExist());
     }
     return res.json({
       status: 200,
@@ -58,19 +63,10 @@ const controller = {
   },
   deleteRedFlagRecord: (req, res) => {
     const redFlagId = Number(req.params.id);
-
     const specificRecord = recordStore.find(record => record.id === redFlagId);
-
     if (!specificRecord || !specificRecord.isActive) {
-      return res.json({
-        status: 404,
-        data: [{
-          message: 'This record does not exist',
-        },
-        ],
-      });
+      return res.json(recordDoesNotExist());
     }
-
     if (req.user.id === specificRecord.createdBy && specificRecord.status === 'pending review') {
       specificRecord.isActive = false;
       return res.json({
@@ -82,34 +78,16 @@ const controller = {
         ],
       });
     }
-
-    return res.json({
-      status: 403,
-      data: [{
-        message: 'You do not have permissions to delete this record',
-      },
-      ],
-    });
+    return res.json(notAuthorized('delete'));
   },
   updateRedFlagRecordLocation: (req, res) => {
     const specificRecordId = Number(req.params.id);
     const specificRecord = recordStore.find(record => record.id === specificRecordId);
-
-    if (!specificRecord) {
-      return res.json({
-        status: 404,
-        data: [{
-          message: 'Record does not exist',
-        }],
-      });
+    if (!specificRecord || !specificRecord.isActive) {
+      return res.json(recordDoesNotExist());
     }
     if (req.user.id !== specificRecord.createdBy) {
-      return res.json({
-        status: 403,
-        data: [{
-          message: 'You do not have permissions to update this record',
-        }],
-      });
+      return res.json(notAuthorized('update'));
     }
     specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
     return res.json({
@@ -123,21 +101,11 @@ const controller = {
   updateRedFlagRecordComment: (req, res) => {
     const specificRecordId = Number(req.params.id);
     const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord) {
-      return res.json({
-        status: 404,
-        data: [{
-          message: 'Record does not exist',
-        }],
-      });
+    if (!specificRecord || !specificRecord.isActive) {
+      return res.json(recordDoesNotExist());
     }
     if (req.user.id !== specificRecord.createdBy) {
-      return res.json({
-        status: 403,
-        data: [{
-          message: 'You do not have permissions to update this record',
-        }],
-      });
+      return res.json(notAuthorized('update'));
     }
     specificRecord.comment = req.body.comment;
     return res.json({
