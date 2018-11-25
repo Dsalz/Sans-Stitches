@@ -1,33 +1,31 @@
 const invalidField = message => ({
   status: 400,
-  data: [{
-    message,
-  },
-  ],
+  error: message,
 });
 
-const validateEmailAndPassword = (email, password, res) => {
+const validateEmailAndPassword = (email, password) => {
+  let message = 'Valid Fields';
   if (!email) {
-    return res.json(invalidField('Email is Required'));
+    message = 'Email is Required';
+    return message;
   }
-
   if (typeof email !== 'string' || !(/['@']/g.test(email))) {
-    return res.json(invalidField('Invalid Email'));
+    message = 'Invalid Email';
+    return message;
   }
-
   if (!password) {
-    return res.json(invalidField('Password is Required'));
+    message = 'Password is Required';
+    return message;
   }
-
   if (typeof password !== 'string') {
-    return res.json(invalidField('Invalid Password'));
+    message = 'Invalid Password';
+    return message;
   }
-
   if (!password.trim()) {
-    return res.json(invalidField('Password is Required'));
+    message = 'Password is Required';
+    return message;
   }
-
-  return true;
+  return message;
 };
 
 const validator = {
@@ -61,7 +59,10 @@ const validator = {
     const {
       name, email, phoneNumber, password, confirmPassword,
     } = req.body;
-    validateEmailAndPassword(email, password, res);
+    const validationMessage = validateEmailAndPassword(email, password);
+    if (validationMessage !== 'Valid Fields') {
+      return res.json(invalidField(validationMessage));
+    }
     if (password !== confirmPassword) {
       return res.json(invalidField('Password and Confirm Password do not match'));
     }
@@ -89,7 +90,10 @@ const validator = {
       password,
     } = req.body;
 
-    validateEmailAndPassword(email, password, res);
+    const validationMessage = validateEmailAndPassword(email, password);
+    if (validationMessage !== 'Valid Fields') {
+      return res.json(invalidField(validationMessage));
+    }
 
     return next();
   },

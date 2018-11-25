@@ -12,9 +12,7 @@ const controller = {
     if (userStore.find(user => user.email === email)) {
       return res.json({
         status: 409,
-        data: [{
-          message: 'Email already Exists',
-        }],
+        error: 'Email already Exists',
       });
     }
     const user = {
@@ -43,9 +41,7 @@ const controller = {
     if (!userLoggingIn) {
       return res.json({
         status: 404,
-        data: [{
-          message: 'User Not Found',
-        }],
+        error: 'User Not Found',
       });
     }
 

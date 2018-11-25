@@ -8,7 +8,7 @@ const tokenizer = {
       if (err) {
         return res.json({
           status: 500,
-          data: [{ message: 'Error Creating Token' }],
+          error: 'Error Creating Token',
         });
       }
       return res.json({
@@ -26,11 +26,7 @@ const tokenizer = {
     if (!authorization) {
       return res.json({
         status: 401,
-        data: [
-          {
-            message: 'Request has no Token, Please Login or SignUp',
-          },
-        ],
+        error: 'Request has no Token, Please Login or SignUp',
       });
     }
 
@@ -38,9 +34,7 @@ const tokenizer = {
       if (err) {
         return res.json({
           status: 401,
-          data: [{
-            message: 'Invalid Token, Please Login or SignUp',
-          }],
+          error: 'Invalid Token, Please Login or SignUp',
         });
       }
       req.user = data.user;

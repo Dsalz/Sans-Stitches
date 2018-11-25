@@ -4,12 +4,12 @@ const { recordStore } = store;
 
 const recordDoesNotExist = () => ({
   status: 404,
-  data: [{ message: 'Record does not exist' }],
+  error: 'Record does not exist',
 });
 
 const notAuthorized = action => ({
   status: 403,
-  data: [{ message: `You do not have permissions to ${action} this record` }],
+  error: `You do not have permissions to ${action} this record`,
 });
 
 const controller = {

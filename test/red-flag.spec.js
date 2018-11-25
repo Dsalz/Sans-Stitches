@@ -98,7 +98,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Description');
+        expect(res.body.error).to.equal('Invalid Description');
         done();
       });
   });
@@ -118,7 +118,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Comment');
+        expect(res.body.error).to.equal('Invalid Comment');
         done();
       });
   });
@@ -137,7 +137,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
+        expect(res.body.error).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -156,7 +156,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Comment is Required');
+        expect(res.body.error).to.equal('Comment is Required');
         done();
       });
   });
@@ -176,7 +176,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Invalid Token, Please Login or SignUp');
+        expect(res.body.error).to.equal('Invalid Token, Please Login or SignUp');
         done();
       });
   });
@@ -195,7 +195,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+        expect(res.body.error).to.equal('Request has no Token, Please Login or SignUp');
         done();
       });
   });
@@ -243,7 +243,7 @@ describe('Attempt to delete red flag record', () => {
           .end((error, response) => {
             should.not.exist(error);
             expect(response.body.status).to.equal(403);
-            expect(response.body.data[0].message).to.equal('You do not have permissions to delete this record');
+            expect(response.body.error).to.equal('You do not have permissions to delete this record');
             done();
           });
       });
@@ -265,7 +265,7 @@ describe('Attempt to delete red flag record', () => {
           .end((error, response) => {
             should.not.exist(error);
             expect(response.body.status).to.equal(401);
-            expect(response.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+            expect(response.body.error).to.equal('Request has no Token, Please Login or SignUp');
             done();
           });
       });
@@ -294,7 +294,7 @@ describe('Attempt to delete red flag record', () => {
               .end((childerror, childresponse) => {
                 should.not.exist(childerror);
                 expect(childresponse.body.status).to.equal(404);
-                expect(childresponse.body.data[0].message).to.equal('Record does not exist');
+                expect(childresponse.body.error).to.equal('Record does not exist');
                 done();
               });
           });
@@ -348,7 +348,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
-        expect(res.body.data[0].message).to.equal('You do not have permissions to update this record');
+        expect(res.body.error).to.equal('You do not have permissions to update this record');
         done();
       });
   });
@@ -363,7 +363,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+        expect(res.body.error).to.equal('Request has no Token, Please Login or SignUp');
         done();
       });
   });
@@ -379,7 +379,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Comment');
+        expect(res.body.error).to.equal('Invalid Comment');
         done();
       });
   });
@@ -395,7 +395,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Comment is Required');
+        expect(res.body.error).to.equal('Comment is Required');
         done();
       });
   });
@@ -411,7 +411,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
-        expect(res.body.data[0].message).to.equal('Record does not exist');
+        expect(res.body.error).to.equal('Record does not exist');
         done();
       });
   });
@@ -469,7 +469,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
-        expect(res.body.data[0].message).to.equal('You do not have permissions to update this record');
+        expect(res.body.error).to.equal('You do not have permissions to update this record');
         done();
       });
   });
@@ -486,7 +486,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(401);
-        expect(res.body.data[0].message).to.equal('Request has no Token, Please Login or SignUp');
+        expect(res.body.error).to.equal('Request has no Token, Please Login or SignUp');
         done();
       });
   });
@@ -504,7 +504,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
+        expect(res.body.error).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -521,7 +521,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Invalid Geolocation Data');
+        expect(res.body.error).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -539,7 +539,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.data[0].message).to.equal('Geolocation Data is Required');
+        expect(res.body.error).to.equal('Geolocation Data is Required');
         done();
       });
   });
@@ -557,7 +557,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
-        expect(res.body.data[0].message).to.equal('Record does not exist');
+        expect(res.body.error).to.equal('Record does not exist');
         done();
       });
   });
@@ -597,7 +597,7 @@ describe('Attempt to get a specific red flag record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
-        expect(res.body.data[0].message).to.equal('Record does not exist');
+        expect(res.body.error).to.equal('Record does not exist');
         done();
       });
   });
