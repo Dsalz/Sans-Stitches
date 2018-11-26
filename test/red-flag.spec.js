@@ -350,7 +350,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
-        expect(res.body.error).to.equal('You do not have permissions to update this record');
+        expect(res.body.error).to.equal('You do not have permissions to update the comment of this record');
         done();
       });
   });
@@ -471,7 +471,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(403);
-        expect(res.body.error).to.equal('You do not have permissions to update this record');
+        expect(res.body.error).to.equal('You do not have permissions to update the location of this record');
         done();
       });
   });

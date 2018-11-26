@@ -84,7 +84,7 @@ const controller = {
       return res.json(recordDoesNotExist());
     }
     if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
-      return res.json(notAuthorized('update'));
+      return res.json(notAuthorized('update the location of'));
     }
     specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
     return res.json({
@@ -102,7 +102,7 @@ const controller = {
       return res.json(recordDoesNotExist());
     }
     if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
-      return res.json(notAuthorized('update'));
+      return res.json(notAuthorized('update the comment of'));
     }
     specificRecord.comment = req.body.comment;
     return res.json({
