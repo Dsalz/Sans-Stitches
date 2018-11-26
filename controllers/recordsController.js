@@ -33,12 +33,8 @@ const controller = {
   },
   createRedFlagRecord: (req, res) => {
     const {
-      latitude,
-      longitude,
-      description,
-      comment,
+      latitude, longitude, description, comment, images, videos,
     } = req.body;
-
     const newRecord = {
       id: recordStore.length + 1,
       comment,
@@ -49,10 +45,11 @@ const controller = {
       location: (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
       isActive: true,
       status: 'pending review',
+      feedback: 'No Feedback',
+      Images: images ? [...images] : [],
+      Videos: videos ? [...videos] : [],
     };
-
     recordStore.push(newRecord);
-
     res.json({
       status: 200,
       data: [{
@@ -86,7 +83,7 @@ const controller = {
     if (!specificRecord || !specificRecord.isActive) {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy) {
+    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update'));
     }
     specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
@@ -104,7 +101,7 @@ const controller = {
     if (!specificRecord || !specificRecord.isActive) {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy) {
+    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update'));
     }
     specificRecord.comment = req.body.comment;

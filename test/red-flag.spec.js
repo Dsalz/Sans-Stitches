@@ -52,6 +52,8 @@ describe('Attempt to Create Red Flag Record', () => {
       description: 'bicycle was stolen',
       latitude: '9000N',
       longitude: '643E',
+      images: ['http://place-hold.it/100', 'http://place-hold.it/100'],
+      videos: ['http://place-hold.it/100'],
     };
 
     chai.request(app)
