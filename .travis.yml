@@ -11,3 +11,8 @@ script:
   - npm test
   - npm run coveralls
 
+deploy:
+  provider: heroku
+  api_key: 
+    secure: 97dd63ed-4cdd-4dc0-9014-1fcb5ccaa182
+
