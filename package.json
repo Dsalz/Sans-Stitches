@@ -6,10 +6,10 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build": "npm run clean && npm run babel-build",
-    "start": "node server.js",
+    "start": "node ./build/server.js",
     "dev": "nodemon server.js --exec babel-node",
     "babel-build": "babel -d ./build . -s",
-    "serve": "node server.js",
+    "serve": "node ./build/server.js",
     "test": "nyc mocha --require babel-polyfill --require babel-register --exit",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
