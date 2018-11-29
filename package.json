@@ -15,7 +15,7 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build" 
   },
   "repository": {
-    "type": "git",
+    "type": "git", 
     "url": "git+https://github.com/Dsalz/Sans-Stitches.git"
   },
   "author": "Damola Salisu",
