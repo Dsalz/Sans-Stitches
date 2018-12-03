@@ -1,24 +1,20 @@
 
-
-const adminRecordDetails = () => {
+const recordDetails = url => {
     const recordRows = document.getElementsByTagName('tr');
     for(let row of recordRows){
         row.addEventListener('click', ()=>{
             let rowId = row.id;
     
-            window.location = `./admin-record-details.html`
+            window.location = `${url}`
         })
     }
 }
 
+const adminRecordDetails = () => {
+    recordDetails('./admin-record-details.html');
+}
+
 
 const userRecordDetails = () => {
-    const recordRows = document.getElementsByTagName('tr');
-    for(let row of recordRows){
-        row.addEventListener('click', ()=>{
-            let rowId = row.id;
-    
-            window.location = `./record-details.html`
-        })
-    }
+    recordDetails('./record-details.html');
 }
