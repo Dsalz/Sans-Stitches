@@ -4,8 +4,8 @@ A Reporting platform used to curb corruption and point out deficits to the gover
 
 The popular saying "Snitches get stitches" is one which has discouraged reporting of evil deeds and so this platform is named "Sans Stitches" which means "No stitches" because this platform aims to encourage "snitching".
 
-Login Page - http://damola.cf/Sans-Stitches/UI/login.html
+Landing Page - http://damola.cf/Sans-Stitches/UI
 
-Submit form with "admin@yahoo.com" to access admin dashboard
+Submit login form with "admin@yahoo.com" to access admin dashboard
 
 Leave empty or fill anything else to access the user dashboard
