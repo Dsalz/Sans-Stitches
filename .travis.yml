@@ -1,0 +1,20 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+cache:
+  directories:
+    - "node_modules"
+  
+script: 
+  - npm test
+  - npm run coveralls
+
+deploy:
+  provider: heroku
+  api_key: 
+    secure: $HEROKU_API_KEY
+  on: develop
+  app: sans-stitches
+
