@@ -21,11 +21,11 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 
 ## Getting Started
 
-# Online
+### Online
 - Submit login form with "admin@yahoo.com" to access admin dashboard
 - Leave empty or fill anything else to access the user dashboard
 
-# Locally
+### Locally
 - Clone repository to system
 - Run ```npm install``` to install dependencies
 - Run ```npm run build``` to transpile server files into a folder called build
@@ -35,13 +35,13 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 
 ## Specifications
 
-# Record
+### Record
 - comment: String (required)
 - description: String
 - longitude: String
 - latitude: String
 
-# User
+### User
 (Signing Up)
 - name: String (required)
 - email: String (required)
@@ -57,7 +57,7 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 ## Endpoints
 The heroku api endpoints are
 
-# Red Flag
+### Red Flag
 - https://sans-stitches.herokuapp.com/api/v1/red-flags (GET , get all red flag records)
 
 - https://sans-stitches.herokuapp.com/api/v1/red-flags/:id (GET, get a specific red flag record)
@@ -70,7 +70,7 @@ The heroku api endpoints are
 
 - https://sans-stitches.herokuapp.com/api/v1/red-flags/:id (DELETE, delete a red flag record)
 
-# User
+### User
 - https://sans-stitches.herokuapp.com/api/v1/user/signup (POST , sign a user up)
 
 - https://sans-stitches.herokuapp.com/api/v1/user/login (POST , log a user in)
