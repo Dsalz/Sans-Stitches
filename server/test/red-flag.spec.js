@@ -100,7 +100,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Description');
+        expect(res.body.error[0]).to.equal('Invalid Description');
         done();
       });
   });
@@ -120,7 +120,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Comment');
+        expect(res.body.error[0]).to.equal('Invalid Comment');
         done();
       });
   });
@@ -139,7 +139,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0]).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -158,7 +158,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Comment is Required');
+        expect(res.body.error[0]).to.equal('Comment is Required');
         done();
       });
   });
@@ -381,7 +381,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Comment');
+        expect(res.body.error[0]).to.equal('Invalid Comment');
         done();
       });
   });
@@ -397,7 +397,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Comment is Required');
+        expect(res.body.error[0]).to.equal('Comment is Required');
         done();
       });
   });
@@ -506,7 +506,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0]).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -523,7 +523,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0]).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -541,7 +541,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Geolocation Data is Required');
+        expect(res.body.error[0]).to.equal('Geolocation Data is Required');
         done();
       });
   });

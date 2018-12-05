@@ -61,7 +61,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Name');
+        expect(res.body.error[0]).to.equal('Invalid Name');
       });
   });
 
@@ -78,7 +78,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Name is Required');
+        expect(res.body.error[0]).to.equal('Name is Required');
       });
   });
 
@@ -95,7 +95,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0]).to.equal('Invalid Email');
       });
   });
 
@@ -112,7 +112,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password is Required');
+        expect(res.body.error[0]).to.equal('Password is Required');
       });
   });
 
@@ -129,7 +129,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Phone Number');
+        expect(res.body.error[0]).to.equal('Invalid Phone Number');
       });
   });
 
@@ -146,7 +146,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0]).to.equal('Invalid Email');
       });
   });
 
@@ -163,7 +163,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Phone Number');
+        expect(res.body.error[0]).to.equal('Invalid Phone Number');
       });
   });
 
@@ -180,7 +180,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password and Confirm Password do not match');
+        expect(res.body.error[0]).to.equal('Password and Confirm Password do not match');
       });
   });
 
@@ -196,7 +196,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Name is Required');
+        expect(res.body.error[0]).to.equal('Name is Required');
       });
   });
 
@@ -212,7 +212,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Email is Required');
+        expect(res.body.error[0]).to.equal('Email is Required');
       });
   });
 
@@ -228,7 +228,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password is Required');
+        expect(res.body.error[0]).to.equal('Password is Required');
       });
   });
 
@@ -244,7 +244,7 @@ describe('An Attempt to SignUp', () => {
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Phone Number is Required');
+        expect(res.body.error[0]).to.equal('Phone Number is Required');
       });
   });
 
@@ -313,7 +313,7 @@ describe('An Attempt to Login', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0]).to.equal('Invalid Email');
         done();
       });
   });
@@ -329,7 +329,7 @@ describe('An Attempt to Login', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Password');
+        expect(res.body.error[0]).to.equal('Invalid Password');
         done();
       });
   });
