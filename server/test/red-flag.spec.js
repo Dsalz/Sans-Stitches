@@ -85,6 +85,26 @@ describe('Attempt to Create Red Flag Record', () => {
       });
   });
 
+  it('should return an array of error messages if more than one field is invalid', (done) => {
+    const newRecord = {
+      comment: false,
+      latitude: [],
+      description: 4,
+    };
+
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flags`)
+      .set('authorization', ` Bearer ${rightUserToken}`)
+      .send(newRecord)
+      .end((err, resp) => {
+        expect(resp.body.status).to.equal(400);
+        expect(resp.body.error).to.contain('Invalid Comment');
+        expect(resp.body.error).to.contain('Invalid Geolocation Data');
+        expect(resp.body.error).to.contain('Invalid Description');
+        done();
+      });
+  });
+
   it('should not save with invalid description', (done) => {
     const record = {
       comment: 'Sentors Looting',
