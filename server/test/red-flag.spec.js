@@ -85,6 +85,26 @@ describe('Attempt to Create Red Flag Record', () => {
       });
   });
 
+  it('should return an array of error messages if more than one field is invalid', (done) => {
+    const newRecord = {
+      comment: true,
+      latitude: [],
+      description: 4,
+    };
+
+    chai.request(app)
+      .post(`${currApiPrefix}/red-flags`)
+      .set('authorization', ` Bearer ${rightUserToken}`)
+      .send(newRecord)
+      .end((err, resp) => {
+        expect(resp.body.status).to.equal(400);
+        expect(resp.body.error[0].comment).to.equal('Invalid Comment');
+        expect(resp.body.error[1].description).to.equal('Invalid Description');
+        expect(resp.body.error[2].geolocation).to.equal('Invalid Geolocation Data');
+        done();
+      });
+  });
+
   it('should not save with invalid description', (done) => {
     const record = {
       comment: 'Sentors Looting',
@@ -100,7 +120,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Description');
+        expect(res.body.error[0].description).to.equal('Invalid Description');
         done();
       });
   });
@@ -120,7 +140,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Comment');
+        expect(res.body.error[0].comment).to.equal('Invalid Comment');
         done();
       });
   });
@@ -139,7 +159,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0].geolocation).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -158,7 +178,7 @@ describe('Attempt to Create Red Flag Record', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Comment is Required');
+        expect(res.body.error[0].comment).to.equal('Comment is Required');
         done();
       });
   });
@@ -381,7 +401,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Comment');
+        expect(res.body.error[0].comment).to.equal('Invalid Comment');
         done();
       });
   });
@@ -397,7 +417,7 @@ describe('Attempt to update red flag record comment', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Comment is Required');
+        expect(res.body.error[0].comment).to.equal('Comment is Required');
         done();
       });
   });
@@ -506,7 +526,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0].geolocation).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -523,7 +543,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Geolocation Data');
+        expect(res.body.error[0].geolocation).to.equal('Invalid Geolocation Data');
         done();
       });
   });
@@ -541,7 +561,7 @@ describe('Attempt to update red flag record location', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Geolocation Data is Required');
+        expect(res.body.error[0].geolocation).to.equal('Geolocation Data is Required');
         done();
       });
   });
