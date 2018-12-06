@@ -98,18 +98,29 @@
 
                     <div class="dashboard-form-item">
 
-                        <label for="longitude" class="dashboard-form-item-label">Geolocation:</label>
+                        <label for="location" class="dashboard-form-item-label">Location:</label>
+
+                        <div class="dashboard-form-item-whole" id="location-div">
+
+                                <input name="location" id="location" class="bottom-line-input" type="text" />
+
+                                <div class="dashboard-form-item form-extra">
+                                        <div class="dashboard-form-item-split">
+                
+                                            <div class="dashboard-form-item-split-item">
+                                                <label>Latitude: </label><br/>
+                                                <span id="location-latitude"></span>
+                                            </div>
+                
+                                            <div class="dashboard-form-item-split-item">
+                                                <label>Longitude: </label><br/>
+                                                <span id="location-longitude"></span>
+                                            </div>
+                
+                                        </div>
                         
-                        <div class="dashboard-form-item-split">
-
-                            <div class="dashboard-form-item-split-item">
-                                <input name="longitude" id="longitude" class="bottom-line-input" type="text" placeholder="Longitude"/>
-                            </div>
-
-                            <div class="dashboard-form-item-split-item">
-                                <input name="latitude" id="latitude" class="bottom-line-input" type="text" placeholder="Latitude"/>
-                            </div>
-
+                                 </div>
+                            
                         </div>
     
                     </div>
@@ -154,5 +165,7 @@
 
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/receiveMedia.js"></script>
+    <script src="js/geolocationField.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYNOuYMAMc2y3hEld0u2bJT-JfAo40Uj4&libraries=places&callback=enableGooglePlaceApiSearch"></script>
 </body>
 </html>
