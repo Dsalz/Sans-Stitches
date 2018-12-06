@@ -50,10 +50,10 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
-      latitude: '9000N',
-      longitude: '643E',
-      images: ['http://place-hold.it/100', 'http://place-hold.it/100'],
-      videos: ['http://place-hold.it/100'],
+      latitude: '9000',
+      longitude: '643',
+      images: ['http://place-hold.it/100', 'http://place-hold.it/120'],
+      video: 'http://place-hold.it/200',
     };
 
     chai.request(app)
@@ -64,6 +64,12 @@ describe('Attempt to Create Red Flag Record', () => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
         expect(res.body.data[0].message).to.equal('Created red-flag record');
+        expect(res.body.data[0].newRecord.comment).to.equal(record.comment);
+        expect(res.body.data[0].newRecord.description).to.equal(record.description);
+        expect(res.body.data[0].newRecord.location).to.equal(`${record.latitude.trim()} , ${record.longitude.trim()}`);
+        expect(res.body.data[0].newRecord.Images[0]).to.equal(record.images[0]);
+        expect(res.body.data[0].newRecord.Images[1]).to.equal(record.images[1]);
+        expect(res.body.data[0].newRecord.Videos[0]).to.equal(record.videos);
         done();
       });
   });
@@ -81,6 +87,7 @@ describe('Attempt to Create Red Flag Record', () => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
         expect(res.body.data[0].message).to.equal('Created red-flag record');
+        expect(res.body.data[0].newRecord.comment).to.equal(record.comment);
         done();
       });
   });
@@ -243,6 +250,8 @@ describe('Attempt to delete red flag record', () => {
             expect(response.body.status).to.equal(200);
             expect(response.body.data[0].id).to.equal(savedRecordId);
             expect(response.body.data[0].message).to.equal('red-flag record has been deleted');
+            expect(response.body.data[0].deletedRecord.comment).to.equal(newRecord.comment);
+            expect(response.body.data[0].deletedRecord.id).to.equal(savedRecordId);
             done();
           });
       });
@@ -343,18 +352,20 @@ describe('Attempt to update red flag record comment', () => {
   });
 
   it('should succeed if request is made by owner of the record and the new comment is valid', (done) => {
-    const updatedRecord = {
+    const modifiedRecord = {
       comment: 'Bob Dylan is stealing money from the senate',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
-      .send(updatedRecord)
+      .send(modifiedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
         expect(res.body.data[0].id).to.equal(recentlyAddedRecordId);
         expect(res.body.data[0].message).to.equal('Updated red-flag record’s comment');
+        expect(res.body.data[0].updatedRecord.comment).to.equal(modifiedRecord.comment);
+        expect(res.body.data[0].updatedRecord.id).to.equal(recentlyAddedRecordId);
         done();
       });
   });
@@ -460,20 +471,21 @@ describe('Attempt to update red flag record location', () => {
   });
 
   it('should succeed if request is made by owner of the record and the new location is valid', (done) => {
-    const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
-      longitude: '300E',
-      latitude: '420W',
+    const modifiedRecord = {
+      longitude: '300',
+      latitude: '420',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
-      .send(updatedRecord)
+      .send(modifiedRecord)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
         expect(res.body.data[0].id).to.equal(recentlyAddedRecordId);
         expect(res.body.data[0].message).to.equal('Updated red-flag record’s location');
+        expect(res.body.data[0].updatedRecord.location).to.equal(`${modifiedRecord.latitude.trim()} , ${modifiedRecord.longitude.trim()}`);
+        expect(res.body.data[0].updatedRecord.id).to.equal(recentlyAddedRecordId);
         done();
       });
   });

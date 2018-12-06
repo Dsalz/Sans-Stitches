@@ -33,7 +33,7 @@ const controller = {
   },
   createRedFlagRecord: (req, res) => {
     const {
-      latitude, longitude, description, comment, images, videos,
+      latitude, longitude, description, comment, images, video,
     } = req.body;
     const newRecord = {
       id: recordStore.length + 1,
@@ -47,7 +47,7 @@ const controller = {
       status: 'pending review',
       feedback: 'No Feedback',
       Images: images ? [...images] : [],
-      Videos: videos ? [...videos] : [],
+      Videos: video ? [].push(video) : [],
     };
     recordStore.push(newRecord);
     res.json({
@@ -55,6 +55,7 @@ const controller = {
       data: [{
         id: newRecord.id,
         message: 'Created red-flag record',
+        newRecord,
       }],
     });
   },
@@ -71,6 +72,7 @@ const controller = {
         data: [{
           id: redFlagId,
           message: 'red-flag record has been deleted',
+          deletedRecord: specificRecord,
         },
         ],
       });
@@ -92,6 +94,7 @@ const controller = {
       data: [{
         id: specificRecordId,
         message: 'Updated red-flag record’s location',
+        updatedRecord: specificRecord,
       }],
     });
   },
@@ -110,6 +113,7 @@ const controller = {
       data: [{
         id: specificRecordId,
         message: 'Updated red-flag record’s comment',
+        updatedRecord: specificRecord,
       }],
     });
   },
