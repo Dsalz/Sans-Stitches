@@ -18,7 +18,7 @@ before((done) => {
     confirmPassword: '12345',
   };
   chai.request(app)
-    .post(`${currApiPrefix}/user/signup`)
+    .post(`${currApiPrefix}/auth/signup`)
     .send(newUser)
     .end((err, res) => {
       should.not.exist(err);
@@ -37,7 +37,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -57,7 +57,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -74,7 +74,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -91,7 +91,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -108,7 +108,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: ' ',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -125,7 +125,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -142,7 +142,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -159,7 +159,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -176,7 +176,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12346',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -192,7 +192,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -208,7 +208,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -224,7 +224,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -240,7 +240,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
@@ -257,7 +257,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -275,7 +275,7 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -292,7 +292,7 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -308,7 +308,7 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -324,7 +324,7 @@ describe('An Attempt to Login', () => {
       password: true,
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);

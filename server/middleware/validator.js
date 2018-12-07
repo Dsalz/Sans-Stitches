@@ -37,7 +37,7 @@ const validateLatitudeAndLongitude = (latitude, longitude, areRequired) => {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
     } if ((typeof latitude === 'string' && !geolocationRegex.test(latitude)) || (typeof longitude === 'string' && !geolocationRegex.test(longitude))) {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
-    } if (!Number(latitude) || !Number(latitude)) {
+    } if ((typeof latitude === 'string' && !Number(latitude)) || (typeof latitude === 'string' && !Number(latitude))) {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
     }
   }
