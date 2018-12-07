@@ -43,10 +43,10 @@ Signs User Up and returns token which is required for modifying record store
 
 * **URL**
   ##### Online 
-  https://sans-stitches.herokuapp.com/api/v1/user/signup
+  https://sans-stitches.herokuapp.com/api/v1/auth/signup
 
   ##### Locally
-  http://localhost:4000/api/v1/user/signup
+  http://localhost:4000/api/v1/auth/signup
 
 * **Method:**
 
@@ -127,7 +127,7 @@ Signs User Up and returns token which is required for modifying record store
 * **Sample Call:**
   ```javascript
     $.ajax({
-        url: "https://sans-stitches.herokuapp.com/api/v1/user/signup",
+        url: "https://sans-stitches.herokuapp.com/api/v1/auth/signup",
         method: "POST",
         data: {
             name: 'xyz',
@@ -146,10 +146,10 @@ Logs user in and returns token which is required for modifying record store
 
 * **URL**
   ##### Online 
-  https://sans-stitches.herokuapp.com/api/v1/user/login
+  https://sans-stitches.herokuapp.com/api/v1/auth/login
 
   ##### Locally
-  http://localhost:4000/api/v1/user/login
+  http://localhost:4000/api/v1/auth/login
 
 * **Method:**
 
@@ -213,7 +213,7 @@ Logs user in and returns token which is required for modifying record store
 * **Sample Call:**
   ```javascript
     $.ajax({
-        url: "https://sans-stitches.herokuapp.com/api/v1/user/login",
+        url: "https://sans-stitches.herokuapp.com/api/v1/auth/login",
         method: "POST",
         data: {
             email: 'xyz@yahoo.com',
@@ -672,28 +672,509 @@ Updates the location of an existing red flag record
     
     `]`
     
-   OR
+ OR
 
-    * **status:** 403 FORBIDDEN
+  * **status:** 403 FORBIDDEN
 
-    * **error:** 
+  * **error:** 
 
-      (One of)
+    (One of)
 
-      - `"You do not have permissions to delete this record"`
+    - `"You do not have permissions to delete this record"`
 
-      - `"Request has no Token, Please Login or SignUp"`
+    - `"Request has no Token, Please Login or SignUp"`
 
-    OR
+ OR
 
-    * **status:** 404 NOT FOUND
+  * **status:** 404 NOT FOUND
 
-    * **error:** `"Record does not exist"`
+  * **error:** `"Record does not exist"`
 
 * **Sample Call:**
   ```javascript
     $.ajax({
         url: "https://sans-stitches.herokuapp.com/api/v1/red-flags/3/location",
+        method: "PATCH",
+        headers: {
+            "authorization": "Bearer " + token;
+        },
+        data: {
+            latitude: "3.4433",
+            longitude: "14.2",
+        }
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+### Intervention
+
+#### Get all Intervention Records
+Returns all intervention records
+
+* **URL**
+  ##### Online 
+  https://sans-stitches.herokuapp.com/api/v1/interventions
+
+  ##### Locally
+  http://localhost:4000/api/v1/interventions
+
+* **Method:**
+
+  `GET`
+
+* **URL Params**
+
+  None
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **status:** 200 
+  
+  * **data:** `[ <Intervention-record-objects> ]`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions",
+        method: "GET",
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+
+#### Get Specific Intervention Record
+Returns an existing intervention record
+
+* **URL**
+  ##### Online 
+  https://sans-stitches.herokuapp.com/api/v1/interventions/:intervention-id
+
+  ##### Locally
+  http://localhost:4000/api/v1/interventions/:intervention-id
+
+* **Method:**
+
+  `GET`
+
+* **URL Params**
+
+    **Required:**
+    
+    `intervention-id=[integer]`
+
+* **Data Params**
+
+    None
+
+* **Success Response:**
+
+  * **status:** 200
+   
+  * **data:** `[{ <Requested Record>}]`
+
+* **Error Response:**
+
+  * **status:** 404 NOT FOUND
+  
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions/3",
+        method: "GET",
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+#### Create Intervention Record
+Creates a new intervention record
+
+* **URL**
+  ##### Online 
+    https://sans-stitches.herokuapp.com/api/v1/interventions
+
+  ##### Locally
+    http://localhost:4000/api/v1/interventions
+
+* **Method:**
+
+  `POST`
+  
+* **Headers Required**
+
+  `Authorization= "Bearer " + token`
+
+* **URL Params**
+
+  None
+
+* **Data Params**
+
+    **Required:**
+  
+    `comment=[string]`
+
+    **Not Required:**
+    
+    `latitude=[string]`
+    
+    `longitude=[string]`
+    
+    `description=[string]`
+    
+    `images=[string, string]`
+    
+    `video=[string]`
+
+* **Success Response:**
+
+  * **status:** 200
+  
+  * **data:** `[ {`
+  
+  `id: <Id of newly created record>` ,
+  
+  `message : "Created intervention record"` , 
+  
+  `newRecord: {<Newly Created Record>}`
+  
+  `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[` 
+  
+    (One or more of)  
+    
+    - `{ comment: "Comment is Required" } `
+    
+    - `{ comment: "Invalid Comment" }`
+    
+    - `{ geolocation: "Invalid Geolocation Data" }`
+    
+    - `{ description: "Invalid Description" }`
+   
+    `]`
+    
+  OR
+
+  * **status:** 401 UNAUTHORIZED 
+    **error:** 
+  
+    (One of)  
+    
+    - `"Invalid Token, Please Login or SignUp"`
+   
+    - `"Request has no Token, Please Login or SignUp"`
+  
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions",
+        method: "POST",
+        headers: {
+            "authorization": "Bearer " + token;
+        }
+        data: {
+            comment: 'Bad roads in surulere',
+            latitude: '3.444488',
+            longitude: '-30.44',
+            description: "It is causing accidents almost every day",
+            images: ["https://filehostingplatform.com/abcd.jpg", "https://filehostingplatform.com/abcd.jpg"],
+            video: "https://filehostingplatform.com/abcd.jpg",
+        },
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+#### Delete Intervention Record
+
+Deletes an existing intervention record
+
+* **URL**
+
+  ##### Online 
+
+    https://sans-stitches.herokuapp.com/api/v1/interventions/:intervention-id
+
+  ##### Locally
+
+    http://localhost:4000/api/v1/interventions/:intervention-id
+
+* **Method:**
+
+  `DELETE`
+  
+* **Headers Required**
+
+  `Authorization = "Bearer " + token`
+
+* **URL Params**
+
+    **Required:**
+   
+    `intervention-id=[integer]`
+
+* **Data Params**
+
+    None
+
+* **Success Response:**
+
+  * **status:** 200   
+  * **data:** `[ {`
+
+     `id: <Id of deleted record>`, 
+
+     `message : "intervention record has been deleted"`,
+
+     `deletedRecord: {<Deleted Record>}`,
+
+     `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[`
+   
+    (One or more of)  
+    
+    - `{ comment: "Comment is Required" }`
+    
+    - `{ comment: "Invalid Comment" }`
+    
+    - `{ geolocation: "Invalid Geolocation Data" }`
+    
+    - `{ description: "Invalid Description" }`
+    
+    `]`
+    
+   OR
+
+  * **status:** 403 FORBIDDEN 
+  
+  * **error:** 
+  
+    (One of)  
+    
+    - `"You do not have permissions to delete this record"`
+    - `"Request has no Token, Please Login or SignUp"`
+ 
+  OR
+  
+  * **status:** 404 NOT FOUND
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions/3",
+        method: "DELETE",
+        headers: {
+            "authorization": "Bearer " + token;
+        },
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+
+
+#### Update Comment Intervention Record
+Updates the comment of an existing Intervention record
+
+* **URL**
+  ##### Online 
+    https://sans-stitches.herokuapp.com/api/v1/interventions/:intervention-id/comment
+
+  ##### Locally
+    http://localhost:4000/api/v1/interventions/:intervention-id/comment
+
+* **Method:**
+
+  `PATCH`
+  
+* **Headers Required**
+
+  `Authorization= "Bearer " + token`
+
+* **URL Params**
+
+    **Required:**
+   
+    `intervention-id=[integer]`
+
+* **Data Params**
+
+    **Required:**
+    
+    `comment=[string]`
+
+    **Not Required:**
+    
+    None
+
+* **Success Response:**
+
+  * **status:** 200
+  
+  * **data:** `[ {`
+  
+    `id: <Id of updated record>`, 
+    
+    `message : "Updated intervention record’s comment"`,
+    
+    `updatedRecord: {<Udpated Record>}`,
+    
+    `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[` 
+  
+    (One or more of)
+    
+    - `{ comment: "Comment is Required" } `
+    
+    - `{ comment: "Invalid Comment" }`
+    
+    `]`
+    
+  OR
+  
+  * **status:** 403 FORBIDDEN
+  
+  * **error:** 
+  
+    (One of)  
+    
+    - `"You do not have permissions to delete this record"`
+    
+    - `"Request has no Token, Please Login or SignUp"`
+    
+  OR
+  
+  * **status:** 404 NOT FOUND
+  
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions/3/comment",
+        method: "PATCH",
+        headers: {
+            "authorization": "Bearer " + token;
+        },
+        data: {
+            comment: "Senators looting in Gbagada"
+        }
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+#### Update Location of Intervention Record
+Updates the location of an existing Intervention record
+
+* **URL**
+  ##### Online 
+    https://sans-stitches.herokuapp.com/api/v1/interventions/:intervention-id/location
+
+  ##### Locally
+    http://localhost:4000/api/v1/interventions/:intervention-id/location
+
+* **Method:**
+
+  `PATCH`
+  
+* **Headers Required**
+
+  `Authorization= "Bearer " + token`
+
+* **URL Params**
+
+    **Required:**
+    
+    `intervention-id=[integer]`
+
+* **Data Params**
+
+    **Required:**
+    
+    `longitude=[string]`
+    
+    `latitude=[string]`
+
+    **Not Required:**
+    
+    None
+
+* **Success Response:**
+
+  * **status:** 200
+  
+  * **data:** `[ {`
+  
+    `id: <Id of updated record>`, 
+    
+    `message : "Updated intervention record’s location"`, 
+    
+    `updatedRecord: {<Udpated Record>}`
+    
+    `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[`
+  
+    (One of)
+    
+    - `{ geolocation: "Geolocation Data is Required" } `
+    
+    - `{ geolocation: "Invalid Geolocation Data" }`
+    
+    `]`
+    
+   OR
+
+  * **status:** 403 FORBIDDEN
+
+  * **error:** 
+
+    (One of)
+
+    - `"You do not have permissions to delete this record"`
+
+    - `"Request has no Token, Please Login or SignUp"`
+
+ OR
+
+  * **status:** 404 NOT FOUND
+
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions/3/location",
         method: "PATCH",
         headers: {
             "authorization": "Bearer " + token;
