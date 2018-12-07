@@ -47,7 +47,7 @@ const controller = {
       status: 'pending review',
       feedback: 'No Feedback',
       Images: images ? [...images] : [],
-      Videos: video ? [].push(video) : [],
+      Videos: video ? [video] : [],
     };
     recordStore.push(newRecord);
     res.json({

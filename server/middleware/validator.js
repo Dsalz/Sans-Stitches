@@ -5,9 +5,10 @@ const invalidField = validationMessageArr => ({
 
 const validateEmailAndPassword = (email, password) => {
   const validationMessageArr = [];
+  const emailRegex = /\S[@]\S+[.]\S/;
   if (!email) {
     validationMessageArr.push({ email: 'Email is Required' });
-  } if (typeof email !== 'string' || !(/['@']/g.test(email))) {
+  } if (typeof email !== 'string' || !(emailRegex.test(email))) {
     validationMessageArr.push({ email: 'Invalid Email' });
   } if (!password) {
     validationMessageArr.push({ password: 'Password is Required' });
@@ -15,6 +16,30 @@ const validateEmailAndPassword = (email, password) => {
     validationMessageArr.push({ password: 'Invalid Password' });
   } if (typeof password === 'string' && !password.trim()) {
     validationMessageArr.push({ password: 'Password is Required' });
+  }
+  return validationMessageArr;
+};
+
+const validateLatitudeAndLongitude = (latitude, longitude, areRequired) => {
+  const geolocationRegex = /\d[.]\d/;
+  const validationMessageArr = [];
+  if (areRequired) {
+    if (!latitude && !longitude) {
+      validationMessageArr.push({ geolocation: 'Geolocation Data is Required' });
+    }
+    if (!latitude || !longitude) {
+      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
+    } if ((typeof latitude === 'string' && !latitude.trim()) || (typeof longitude === 'string' && !longitude.trim())) {
+      validationMessageArr.push({ geolocation: 'Geolocation Data is Required' });
+    }
+  } if (latitude || longitude) {
+    if (typeof latitude !== 'string' || typeof longitude !== 'string') {
+      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
+    } if ((typeof latitude === 'string' && !geolocationRegex.test(latitude)) || (typeof longitude === 'string' && !geolocationRegex.test(longitude))) {
+      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
+    } if (!Number(latitude) || !Number(latitude)) {
+      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
+    }
   }
   return validationMessageArr;
 };
@@ -36,9 +61,7 @@ const validator = {
       validationMessageArr.push({ comment: 'Comment is Required' });
     } if (description && typeof description !== 'string') {
       validationMessageArr.push({ description: 'Invalid Description' });
-    } if ((latitude || longitude) && (typeof latitude !== 'string' || typeof longitude !== 'string')) {
-      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
-    }
+    } validationMessageArr.push(...validateLatitudeAndLongitude(latitude, longitude, false));
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 
@@ -77,15 +100,7 @@ const validator = {
       latitude,
       longitude,
     } = req.body;
-    const validationMessageArr = [];
-    if (!latitude || !longitude) {
-      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
-    } else if (typeof latitude !== 'string' || typeof longitude !== 'string') {
-      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
-    } else if ((typeof latitude === 'string' && !latitude.trim()) || (typeof longitude === 'string' && !longitude.trim())) {
-      validationMessageArr.push({ geolocation: 'Geolocation Data is Required' });
-    }
-
+    const validationMessageArr = validateLatitudeAndLongitude(latitude, longitude, true);
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 };

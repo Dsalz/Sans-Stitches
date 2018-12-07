@@ -50,8 +50,8 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
-      latitude: '9000',
-      longitude: '643',
+      latitude: '9.074600',
+      longitude: '6.43',
       images: ['http://place-hold.it/100', 'http://place-hold.it/120'],
       video: 'http://place-hold.it/200',
     };
@@ -69,7 +69,7 @@ describe('Attempt to Create Red Flag Record', () => {
         expect(res.body.data[0].newRecord.location).to.equal(`${record.latitude.trim()} , ${record.longitude.trim()}`);
         expect(res.body.data[0].newRecord.Images[0]).to.equal(record.images[0]);
         expect(res.body.data[0].newRecord.Images[1]).to.equal(record.images[1]);
-        expect(res.body.data[0].newRecord.Videos[0]).to.equal(record.videos);
+        expect(res.body.data[0].newRecord.Videos[0]).to.equal(record.video);
         done();
       });
   });
@@ -116,8 +116,8 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: 'Sentors Looting',
       description: 2,
-      latitude: '200W',
-      longitude: '3898E',
+      latitude: '2.00',
+      longitude: '3.898',
     };
 
     chai.request(app)
@@ -136,8 +136,8 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: true,
       description: 'Truly they stole',
-      latitude: '200W',
-      longitude: '3898E',
+      latitude: '2.008',
+      longitude: '3.898',
     };
 
     chai.request(app)
@@ -174,8 +174,8 @@ describe('Attempt to Create Red Flag Record', () => {
   it('should not save without a comment', (done) => {
     const record = {
       description: 'Looted everywhere',
-      latitude: '200W',
-      longitude: '3804E',
+      latitude: '2.00',
+      longitude: '3.804',
     };
 
     chai.request(app)
@@ -194,8 +194,8 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
-      latitude: '9000N',
-      longitude: '643E',
+      latitude: '9.5000',
+      longitude: '-6.43',
     };
 
     chai.request(app)
@@ -214,8 +214,8 @@ describe('Attempt to Create Red Flag Record', () => {
     const record = {
       comment: 'Stolen Bicycle',
       description: 'bicycle was stolen',
-      latitude: '9000N',
-      longitude: '643E',
+      latitude: '9.000',
+      longitude: '6.43',
     };
 
     chai.request(app)
@@ -455,8 +455,8 @@ describe('Attempt to update red flag record location', () => {
   before((done) => {
     const newRecord = {
       comment: 'Bob Dylan is Stealing Money',
-      longitude: '3000E',
-      latitude: '4320W',
+      longitude: '3.000',
+      latitude: '4.320',
     };
     chai.request(app)
       .post(`${currApiPrefix}/red-flags`)
@@ -472,8 +472,8 @@ describe('Attempt to update red flag record location', () => {
 
   it('should succeed if request is made by owner of the record and the new location is valid', (done) => {
     const modifiedRecord = {
-      longitude: '300',
-      latitude: '420',
+      longitude: '3.00',
+      latitude: '4.987720',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
@@ -492,9 +492,8 @@ describe('Attempt to update red flag record location', () => {
 
   it('should fail if request is not made by owner of the record', (done) => {
     const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
-      longitude: '3000E',
-      latitude: '4320W',
+      longitude: '3.000',
+      latitude: '4.320',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
@@ -510,9 +509,8 @@ describe('Attempt to update red flag record location', () => {
 
   it('should fail if user is not logged in', (done) => {
     const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
-      longitude: '000E',
-      latitude: '320W',
+      longitude: '6.3000',
+      latitude: '32.0',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
@@ -527,9 +525,8 @@ describe('Attempt to update red flag record location', () => {
 
   it('should fail if new location is not valid', (done) => {
     const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
-      longitude: 888,
-      latitude: 909,
+      longitude: '888',
+      latitude: '909',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
@@ -543,10 +540,23 @@ describe('Attempt to update red flag record location', () => {
       });
   });
 
+  it('should fail if no location is given', (done) => {
+    const updatedRecord = {};
+    chai.request(app)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.error[0].geolocation).to.equal('Geolocation Data is Required');
+        done();
+      });
+  });
+
   it('should fail if only one geolocation coordinate is provided', (done) => {
     const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
-      longitude: '888E',
+      longitude: '-7.888',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId}/location`)
@@ -562,7 +572,6 @@ describe('Attempt to update red flag record location', () => {
 
   it('should fail if new location is an empty string', (done) => {
     const updatedRecord = {
-      comment: 'Bob Dylan is stealing money from the senate',
       longitude: ' ',
       latitude: ' ',
     };
@@ -580,9 +589,8 @@ describe('Attempt to update red flag record location', () => {
 
   it('should fail if record does not exist', (done) => {
     const updatedRecord = {
-      comment: 'Governor tikimasallah is embezlling funds',
-      longitude: '000E',
-      latitude: '320W',
+      longitude: '4.000',
+      latitude: '3.2007456',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778976456776}/location`)
