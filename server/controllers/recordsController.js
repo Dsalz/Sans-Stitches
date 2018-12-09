@@ -1,6 +1,5 @@
-import store from '../store';
-
-const { recordStore } = store;
+import db from '../store/db';
+import queries from '../store/queries';
 
 const recordDoesNotExist = () => ({
   status: 404,
@@ -13,10 +12,11 @@ const notAuthorized = action => ({
 });
 
 const controller = {
-  getRedFlagRecord: (req, res) => {
+  async getRedFlagRecord(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive || specificRecord.type !== 'red-flag') {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'red-flag') {
       return res.json(recordDoesNotExist());
     }
     return res.json({
@@ -24,32 +24,32 @@ const controller = {
       data: [specificRecord],
     });
   },
-  getAllRedFlagRecords: (req, res) => {
-    const allRecords = recordStore.filter(record => record.type === 'red-flag' && record.isActive);
+  async getAllRedFlagRecords(req, res) {
+    const dbResponse = await db.sendQuery(queries.getAllRecordsByTypeQuery(), ['red-flag']);
+    const allRecords = dbResponse.rows;
     return res.json({
       status: 200,
       data: allRecords,
     });
   },
-  createRedFlagRecord: (req, res) => {
+  async createRedFlagRecord(req, res) {
     const {
       latitude, longitude, description, comment, images, video,
     } = req.body;
-    const newRecord = {
-      id: recordStore.length + 1,
+    const newRecordParams = [
       comment,
       description,
-      createdOn: new Date(),
-      createdBy: req.user.id,
-      type: 'red-flag',
-      location: (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
-      isActive: true,
-      status: 'pending review',
-      feedback: 'No Feedback',
-      Images: images ? [...images] : [],
-      Videos: video ? [video] : [],
-    };
-    recordStore.push(newRecord);
+      new Date(),
+      req.user.id,
+      'red-flag',
+      (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
+      'pending review',
+      'No Feedback',
+      images ? [...images] : [],
+      video ? [video] : [],
+    ];
+    const dbResponse = await db.sendQuery(queries.addRecordQuery(), newRecordParams);
+    const newRecord = dbResponse.rows[0];
     res.json({
       status: 200,
       data: [{
@@ -59,68 +59,85 @@ const controller = {
       }],
     });
   },
-  deleteRedFlagRecord: (req, res) => {
+  async deleteRedFlagRecord(req, res) {
     const redFlagId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === redFlagId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [redFlagId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'red-flag') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id === specificRecord.createdBy && specificRecord.status === 'pending review') {
-      specificRecord.isActive = false;
+    if (req.user.id === specificRecord.created_by && specificRecord.status === 'pending review') {
+      const secondDbResponse = await db.sendQuery(queries.deleteRecordQuery(), [redFlagId]);
+      const deletedRecord = secondDbResponse.rows[0];
       return res.json({
         status: 200,
         data: [{
           id: redFlagId,
           message: 'red-flag record has been deleted',
-          deletedRecord: specificRecord,
+          deletedRecord,
         },
         ],
       });
     }
     return res.json(notAuthorized('delete'));
   },
-  updateRedFlagRecordLocation: (req, res) => {
+  async updateRedFlagRecordLocation(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'red-flag') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
+    if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update the location of'));
     }
-    specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
+    const updatedRecordParams = [
+      specificRecordId, specificRecord.comment, specificRecord.description,
+      `${req.body.latitude} , ${req.body.longitude}`, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
     return res.json({
       status: 200,
       data: [{
         id: specificRecordId,
         message: 'Updated red-flag record’s location',
-        updatedRecord: specificRecord,
+        updatedRecord,
       }],
     });
   },
-  updateRedFlagRecordComment: (req, res) => {
+  async updateRedFlagRecordComment(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'red-flag') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
+    if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update the comment of'));
     }
-    specificRecord.comment = req.body.comment;
+    const updatedRecordParams = [
+      specificRecordId, req.body.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
     return res.json({
       status: 200,
       data: [{
         id: specificRecordId,
         message: 'Updated red-flag record’s comment',
-        updatedRecord: specificRecord,
+        updatedRecord,
       }],
     });
   },
-  getInterventionRecord: (req, res) => {
+  async getInterventionRecord(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive || specificRecord.type !== 'intervention') {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'intervention') {
       return res.json(recordDoesNotExist());
     }
     return res.json({
@@ -128,32 +145,32 @@ const controller = {
       data: [specificRecord],
     });
   },
-  getAllInterventionRecords: (req, res) => {
-    const allRecords = recordStore.filter(record => record.type === 'intervention' && record.isActive);
+  async getAllInterventionRecords(req, res) {
+    const dbResponse = await db.sendQuery(queries.getAllRecordsByTypeQuery(), ['intervention']);
+    const allRecords = dbResponse.rows;
     return res.json({
       status: 200,
       data: allRecords,
     });
   },
-  createInterventionRecord: (req, res) => {
+  async createInterventionRecord(req, res) {
     const {
       latitude, longitude, description, comment, images, video,
     } = req.body;
-    const newRecord = {
-      id: recordStore.length + 1,
+    const newRecordParams = [
       comment,
       description,
-      createdOn: new Date(),
-      createdBy: req.user.id,
-      type: 'intervention',
-      location: (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
-      isActive: true,
-      status: 'pending review',
-      feedback: 'No Feedback',
-      Images: images ? [...images] : [],
-      Videos: video ? [video] : [],
-    };
-    recordStore.push(newRecord);
+      new Date(),
+      req.user.id,
+      'intervention',
+      (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
+      'pending review',
+      'No Feedback',
+      images ? [...images] : [],
+      video ? [video] : [],
+    ];
+    const dbResponse = await db.sendQuery(queries.addRecordQuery(), newRecordParams);
+    const newRecord = dbResponse.rows[0];
     res.json({
       status: 200,
       data: [{
@@ -163,61 +180,79 @@ const controller = {
       }],
     });
   },
-  deleteInterventionRecord: (req, res) => {
+  async deleteInterventionRecord(req, res) {
     const interventionRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === interventionRecordId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [interventionRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'intervention') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id === specificRecord.createdBy && specificRecord.status === 'pending review') {
-      specificRecord.isActive = false;
+    if (req.user.id === specificRecord.created_by && specificRecord.status === 'pending review') {
+      const scndDbResponse = await db.sendQuery(queries.deleteRecordQuery(), [
+        interventionRecordId,
+      ]);
+      const deletedRecord = scndDbResponse.rows[0];
       return res.json({
         status: 200,
         data: [{
           id: interventionRecordId,
           message: 'intervention record has been deleted',
-          deletedRecord: specificRecord,
+          deletedRecord,
         },
         ],
       });
     }
     return res.json(notAuthorized('delete'));
   },
-  updateInterventionRecordLocation: (req, res) => {
+  async updateInterventionRecordLocation(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'intervention') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
+    if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update the location of'));
     }
-    specificRecord.location = `${req.body.latitude} , ${req.body.longitude}`;
+    const updatedRecordParams = [
+      specificRecordId, specificRecord.comment, specificRecord.description,
+      `${req.body.latitude} , ${req.body.longitude}`, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
     return res.json({
       status: 200,
       data: [{
         id: specificRecordId,
         message: 'Updated intervention record’s location',
-        updatedRecord: specificRecord,
+        updatedRecord,
       }],
     });
   },
-  updateInterventionRecordComment: (req, res) => {
+  async updateInterventionRecordComment(req, res) {
     const specificRecordId = Number(req.params.id);
-    const specificRecord = recordStore.find(record => record.id === specificRecordId);
-    if (!specificRecord || !specificRecord.isActive) {
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'intervention') {
       return res.json(recordDoesNotExist());
     }
-    if (req.user.id !== specificRecord.createdBy || specificRecord.status !== 'pending review') {
+    if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
       return res.json(notAuthorized('update the comment of'));
     }
-    specificRecord.comment = req.body.comment;
+    const updatedRecordParams = [
+      specificRecordId, req.body.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
     return res.json({
       status: 200,
       data: [{
         id: specificRecordId,
         message: 'Updated intervention record’s comment',
-        updatedRecord: specificRecord,
+        updatedRecord,
       }],
     });
   },

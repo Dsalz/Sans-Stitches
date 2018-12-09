@@ -10,12 +10,14 @@
     "dev": "nodemon ./server/server.js --exec babel-node",
     "babel-build": "babel -d ./build ./server -s",
     "serve": "node ./build/server.js",
-    "test": "nyc mocha server/test --require babel-polyfill --require babel-register --exit",
+    "test": "npm run dev-tables-init && nyc mocha server/test --require babel-polyfill --require babel-register --exit",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build" 
+    "dev-tables-init": "babel-node ./server/store/initTables --exit",
+    "tables-init": "node ./build/store/initTables",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build && npm tables-init"
   },
   "repository": {
-    "type": "git", 
+    "type": "git",
     "url": "git+https://github.com/Dsalz/Sans-Stitches.git"
   },
   "author": "Damola Salisu",
@@ -31,9 +33,11 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "pg": "^7.7.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

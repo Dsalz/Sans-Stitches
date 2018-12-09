@@ -26,9 +26,6 @@ const validateLatitudeAndLongitude = (latitude, longitude, areRequired) => {
   if (areRequired) {
     if (!latitude && !longitude) {
       validationMessageArr.push({ geolocation: 'Geolocation Data is Required' });
-    }
-    if (!latitude || !longitude) {
-      validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
     } if ((typeof latitude === 'string' && !latitude.trim()) || (typeof longitude === 'string' && !longitude.trim())) {
       validationMessageArr.push({ geolocation: 'Geolocation Data is Required' });
     }
@@ -37,7 +34,7 @@ const validateLatitudeAndLongitude = (latitude, longitude, areRequired) => {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
     } if ((typeof latitude === 'string' && !geolocationRegex.test(latitude)) || (typeof longitude === 'string' && !geolocationRegex.test(longitude))) {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
-    } if ((typeof latitude === 'string' && !Number(latitude)) || (typeof latitude === 'string' && !Number(latitude))) {
+    } if ((typeof latitude === 'string' && !Number(latitude)) || (typeof longitude === 'string' && !Number(longitude))) {
       validationMessageArr.push({ geolocation: 'Invalid Geolocation Data' });
     }
   }

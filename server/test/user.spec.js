@@ -43,7 +43,7 @@ describe('An Attempt to SignUp', () => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
         expect(res.body.data[0].user.email).to.equal(newUser.email);
-        expect(res.body.data[0].user.phoneNumber).to.equal(newUser.phoneNumber);
+        expect(res.body.data[0].user.phone_number).to.equal(newUser.phoneNumber);
         expect(res.body.data[0].message).to.equal('Succesful Sign Up');
       });
   });
