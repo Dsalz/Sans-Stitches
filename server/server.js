@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import express from 'express';
 import redFlagRouter from './routes/red-flag';
 import interventionRouter from './routes/intervention';
