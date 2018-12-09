@@ -68,9 +68,9 @@ describe('Attempt to Create Red Flag Record', () => {
         expect(res.body.data[0].newRecord.type).to.equal('red-flag');
         expect(res.body.data[0].newRecord.description).to.equal(record.description);
         expect(res.body.data[0].newRecord.location).to.equal(`${record.latitude.trim()} , ${record.longitude.trim()}`);
-        expect(res.body.data[0].newRecord.Images[0]).to.equal(record.images[0]);
-        expect(res.body.data[0].newRecord.Images[1]).to.equal(record.images[1]);
-        expect(res.body.data[0].newRecord.Videos[0]).to.equal(record.video);
+        expect(res.body.data[0].newRecord.images[0]).to.equal(record.images[0]);
+        expect(res.body.data[0].newRecord.images[1]).to.equal(record.images[1]);
+        expect(res.body.data[0].newRecord.videos[0]).to.equal(record.video);
         done();
       });
   });
@@ -439,7 +439,7 @@ describe('Attempt to update red flag record comment', () => {
       comment: 'Governor tikimasallah is embezlling funds',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778976456776}/comment`)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778}/comment`)
       .set('authorization', `Bearer ${rightUserToken}`)
       .send(updatedRecord)
       .end((err, res) => {
@@ -594,7 +594,7 @@ describe('Attempt to update red flag record location', () => {
       latitude: '3.2007456',
     };
     chai.request(app)
-      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778976456776}/location`)
+      .patch(`${currApiPrefix}/red-flags/${recentlyAddedRecordId + 778}/location`)
       .set('authorization', `Bearer ${rightUserToken}`)
       .send(updatedRecord)
       .end((err, res) => {
@@ -636,7 +636,7 @@ describe('Attempt to get a specific red flag record', () => {
   });
   it('should fail if the record does not exist', (done) => {
     chai.request(app)
-      .get(`${currApiPrefix}/red-flags/${newRecordId + 980038948858}`)
+      .get(`${currApiPrefix}/red-flags/${newRecordId + 980}`)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
