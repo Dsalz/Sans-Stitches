@@ -136,10 +136,11 @@ const controller = {
     if (!req.user.is_admin) {
       return res.json(notAuthorized('update the status of'));
     }
+    const feedback = (req.body.feedback) ? req.body.feedback : specificRecord.feedback;
     const updatedRecordParams = [
       specificRecordId, specificRecord.comment, specificRecord.description,
       specificRecord.location, req.body.status,
-      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+      feedback, specificRecord.images, specificRecord.videos,
     ];
     const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
     const updatedRecord = scndDbResponse.rows[0];
