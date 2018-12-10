@@ -22,12 +22,11 @@ const controller = {
       names[names.length - 1],
       names.slice(1, names.length - 1).join(' '),
       password,
-      false,
       phoneNumber,
       new Date(),
       email,
     ];
-    const scndDbResponse = await db.sendQuery(queries.addUserQuery(), userParams);
+    const scndDbResponse = await db.sendQuery(queries.addNonAdminQuery(), userParams);
     const user = scndDbResponse.rows[0];
     const token = await tokenizer.createToken(user);
     return res.json({

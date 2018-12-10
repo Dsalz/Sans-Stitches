@@ -100,6 +100,21 @@ const validator = {
     const validationMessageArr = validateLatitudeAndLongitude(latitude, longitude, true);
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
+  validateStatus: (req, res, next) => {
+    const {
+      status,
+      feedback,
+    } = req.body;
+    const validationMessageArr = [];
+    if (!status || (typeof status === 'string' && !status.trim())) {
+      validationMessageArr.push({ status: 'Status is Required' });
+    } if (typeof status !== 'string') {
+      validationMessageArr.push({ status: 'Invalid Status' });
+    } if (feedback && typeof feedback !== 'string') {
+      validationMessageArr.push({ feedback: 'Invalid Feedback' });
+    }
+    return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
+  },
 };
 
 export default validator;

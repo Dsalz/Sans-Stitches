@@ -37,16 +37,9 @@ const controller = {
       latitude, longitude, description, comment, images, video,
     } = req.body;
     const newRecordParams = [
-      comment,
-      description,
-      new Date(),
-      req.user.id,
-      'red-flag',
-      (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
-      'pending review',
-      'No Feedback',
-      images ? [...images] : [],
-      video ? [video] : [],
+      comment, description, new Date(), req.user.id,
+      'red-flag', (latitude && longitude) ? `${latitude.trim()} , ${longitude.trim()}` : '',
+      'pending review', 'No Feedback', images ? [...images] : [], video ? [video] : [],
     ];
     const dbResponse = await db.sendQuery(queries.addRecordQuery(), newRecordParams);
     const newRecord = dbResponse.rows[0];
@@ -129,6 +122,32 @@ const controller = {
       data: [{
         id: specificRecordId,
         message: 'Updated red-flag record’s comment',
+        updatedRecord,
+      }],
+    });
+  },
+  async updateRedFlagRecordStatus(req, res) {
+    const specificRecordId = Number(req.params.id);
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'red-flag') {
+      return res.json(recordDoesNotExist());
+    }
+    if (!req.user.is_admin) {
+      return res.json(notAuthorized('update the status of'));
+    }
+    const updatedRecordParams = [
+      specificRecordId, specificRecord.comment, specificRecord.description,
+      specificRecord.location, req.body.status,
+      specificRecord.feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecordId,
+        message: `Updated red-flag record’s status to ${req.body.status}`,
         updatedRecord,
       }],
     });
@@ -252,6 +271,33 @@ const controller = {
       data: [{
         id: specificRecordId,
         message: 'Updated intervention record’s comment',
+        updatedRecord,
+      }],
+    });
+  },
+  async updateInterventionRecordStatus(req, res) {
+    const specificRecordId = Number(req.params.id);
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== 'intervention') {
+      return res.json(recordDoesNotExist());
+    }
+    if (!req.user.is_admin) {
+      return res.json(notAuthorized('update the status of'));
+    }
+    const feedback = (req.body.feedback) ? req.body.feedback : specificRecord.feedback;
+    const updatedRecordParams = [
+      specificRecordId, specificRecord.comment, specificRecord.description,
+      specificRecord.location, req.body.status,
+      feedback, specificRecord.images, specificRecord.videos,
+    ];
+    const scndDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = scndDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecordId,
+        message: `Updated red-flag record’s status to ${req.body.status}`,
         updatedRecord,
       }],
     });

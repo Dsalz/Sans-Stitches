@@ -11,5 +11,6 @@ redFlagRouter.post('/', tokenizer.verifyToken, validator.validateRecord, records
 redFlagRouter.delete('/:id', tokenizer.verifyToken, recordsController.deleteRedFlagRecord);
 redFlagRouter.patch('/:id/location', tokenizer.verifyToken, validator.validateGeolocation, recordsController.updateRedFlagRecordLocation);
 redFlagRouter.patch('/:id/comment', tokenizer.verifyToken, validator.validateRecord, recordsController.updateRedFlagRecordComment);
+redFlagRouter.patch('/:id/status', tokenizer.verifyToken, validator.validateStatus, recordsController.updateRedFlagRecordStatus);
 
 export default redFlagRouter;
