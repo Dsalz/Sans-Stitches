@@ -8,7 +8,6 @@ cache:
     - "node_modules"
   
 script: 
-  - npm run dev-tables-init
   - npm test
   - npm run coveralls
 
