@@ -27,7 +27,4 @@ const dbTables = {
     'admin@yahoo.com']).then(resp => Promise.resolve(resp)),
 };
 
-dbTables.drop()
-  .then(() => dbTables.create());
-
 export default dbTables;

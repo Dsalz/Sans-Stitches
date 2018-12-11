@@ -14,7 +14,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dev-tables-init": "babel-node ./server/store/initTables --exit",
     "tables-init": "node ./build/store/initTables",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build && npm run tables-init"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build"
   },
   "repository": {
     "type": "git",

@@ -18,7 +18,9 @@ let wrongUserToken = '';
 
 
 before((done) => {
-  dbTables.deleteTestEmails()
+  dbTables.drop()
+    .then(() => dbTables.create())
+    .then(() => dbTables.addAdminUser())
     .then(() => {
       const newUser = {
         name: 'Jack Franklin Bauer',
