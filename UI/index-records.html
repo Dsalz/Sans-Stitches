@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Records | Sans-Stitches</title>
+    <link href="css/main.css" rel="stylesheet"/>
+</head>
+
+<body>
+
+    <nav class="index-navbar">
+
+        <div class="index-navbar-logo">
+            <a href="#" class="index-navbar-logo-link red-cl">
+                Sans-Stitches
+            </a>
+        </div>
+        
+                <div class="index-navbar-links">
+                    <a href="./signup.html" class="red-cl">
+                        Sign Up
+                    </a>
+        
+                    <a href="./login.html" class="red-cl">
+                        Login
+                    </a>
+                </div>
+    </nav>
+
+    <main class="index-main blk-red-gradient">
+
+        <section class="dashboard-card">
+
+            <section class="dashboard-main-records-section">
+
+                <select class="dashboard-select" id="dashboard-table-select">
+                    <option value="All" selected>All</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Under-Investigation">Under Investigation</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Date Reported</th>
+                            <th>Status</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+
+                    <tbody >
+                        <tr class="dashboard-table-row Pending" id="1">
+                            <td> <a>John stole charity money yesterday</a> </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Pending </td>
+                            <td> </td>
+                        </tr>
+                        <tr class="dashboard-table-row Resolved"  data-id="2">
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Resolved </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="dashboard-table-row Under-Investigation" data-id="3">
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Under Investigation </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="dashboard-table-row Rejected" data-id="4">
+                            
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Rejected </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+
+                            </td>
+                            </a>
+                        </tr>
+                        <tr class="dashboard-table-row Pending"  data-id="5">
+                                <td> <a>John stole charity money yesterday</a> </td>
+                                <td> Red flag </td>
+                                <td> 10-Nov-2018 </td>
+                                <td> Pending </td>
+                                <td> </td>
+                        </tr>
+                        <tr class="dashboard-table-row Resolved"  data-id="6">
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Resolved </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="dashboard-table-row Under-Investigation" data-id="7">
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Under Investigation </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="dashboard-table-row Rejected" data-id="8">
+                            
+                            <td> John stole charity money yesterday </td>
+                            <td> Red flag </td>
+                            <td> 10-Nov-2018 </td>
+                            <td> Rejected </td>
+                            <td>
+                                <a class="dashboard-table-link edit-link" href="/">
+                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
+                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
+                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
+                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </a>
+
+                            </td>
+                            </a>
+                        </tr>
+                    </tbody>
+                </table>
+    
+            </section>
+
+        </section>
+    </main>
+
+    <script src="js/dashboardDropdown.js"></script>
+    <script src="js/tableFilter.js"></script>
+    <script src="js/records.js"></script>
+    <script>
+        adminRecordDetails();
+    </script>
+</body>
+</html>

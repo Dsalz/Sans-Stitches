@@ -1,3 +1,30 @@
+import db from '../store/db';
+import queries from '../store/queries';
+
+const invalidParams = () => ({
+  status: 400,
+  error: 'Parameters entered are invalid',
+});
+
+const recordDoesNotExist = () => ({
+  status: 404,
+  error: 'Record does not exist',
+});
+
+const notAuthorized = action => ({
+  status: 403,
+  error: `You do not have permissions to ${action} this record`,
+});
+
+const trimValues = (body) => {
+  const bodyKeys = Object.keys(body);
+  const trimmedBody = {};
+  for (let i = 0; i < bodyKeys.length; i += 1) {
+    trimmedBody[bodyKeys[i]] = body[bodyKeys[i]].trim();
+  }
+  return trimmedBody;
+};
+
 const invalidField = validationMessageArr => ({
   status: 400,
   error: validationMessageArr,
@@ -42,6 +69,71 @@ const validateLatitudeAndLongitude = (latitude, longitude, areRequired) => {
 };
 
 const validator = {
+  async validateDbUpdateParams(req, res, next) {
+    if (/\D/g.test(req.params.id)) {
+      return res.json(invalidParams());
+    }
+    const specificRecordId = Number(req.params.id);
+    const urlContents = req.originalUrl.split('/');
+    const type = urlContents.indexOf('red-flags') > -1 ? 'red-flag' : 'intervention';
+    let action;
+    if (urlContents.indexOf('location') > -1) {
+      action = 'location';
+    } else if (urlContents.indexOf('comment') > -1) {
+      action = 'comment';
+    } else if (urlContents.indexOf('status') > -1) {
+      action = 'status';
+    }
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== type) {
+      return res.json(recordDoesNotExist());
+    }
+    if (action !== 'status') {
+      if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
+        return res.json(notAuthorized(`update the ${action} of`));
+      }
+    } else if (action === 'status') {
+      if (!req.user.is_admin) {
+        return res.json(notAuthorized('update the status of'));
+      }
+    }
+    req.specificRecord = specificRecord;
+    return next();
+  },
+  async validateDbGetParams(req, res, next) {
+    if (/\D/g.test(req.params.id)) {
+      return res.json(invalidParams());
+    }
+    const specificRecordId = Number(req.params.id);
+    const urlContents = req.originalUrl.split('/');
+    const type = urlContents.indexOf('red-flags') > -1 ? 'red-flag' : 'intervention';
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== type) {
+      return res.json(recordDoesNotExist());
+    }
+    req.specificRecord = specificRecord;
+    return next();
+  },
+  async validateDbDeleteParams(req, res, next) {
+    if (/\D/g.test(req.params.id)) {
+      return res.json(invalidParams());
+    }
+    const specificRecordId = Number(req.params.id);
+    const urlContents = req.originalUrl.split('/');
+    const type = urlContents.indexOf('red-flags') > -1 ? 'red-flag' : 'intervention';
+    const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
+    const specificRecord = dbResponse.rows[0];
+    if (!specificRecord || !specificRecord.is_active || specificRecord.type !== type) {
+      return res.json(recordDoesNotExist());
+    }
+    if (req.user.id !== specificRecord.created_by || specificRecord.status !== 'pending review') {
+      return res.json(notAuthorized('delete'));
+    }
+    req.specificRecord = specificRecord;
+    return next();
+  },
   validateRecord: (req, res, next) => {
     const {
       comment,
@@ -80,6 +172,7 @@ const validator = {
     } if (typeof phoneNumber !== 'string' || phoneNumber.length < 10) {
       validationMessageArr.push({ phoneNumber: 'Invalid Phone Number' });
     }
+    req.body = (validationMessageArr.length) ? req.body : trimValues(req.body);
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 

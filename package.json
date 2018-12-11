@@ -10,11 +10,11 @@
     "dev": "nodemon ./server/server.js --exec babel-node",
     "babel-build": "babel -d ./build ./server -s",
     "serve": "node ./build/server.js",
-    "test": "npm run dev-tables-init && nyc mocha server/test --require babel-polyfill --require babel-register --exit",
+    "test": "nyc mocha server/test --require babel-polyfill --require babel-register --exit",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dev-tables-init": "babel-node ./server/store/initTables --exit",
     "tables-init": "node ./build/store/initTables",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build && npm run tables-init"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build"
   },
   "repository": {
     "type": "git",

@@ -16,14 +16,16 @@ const tokenizer = {
   }),
   verifyToken: (req, res, next) => {
     const { authorization } = req.headers;
-    if (!authorization) {
+    const xAccessToken = req.headers['x-access-token'];
+    if (!authorization && !xAccessToken) {
       return res.json({
         status: 401,
         error: 'Request has no Token, Please Login or SignUp',
       });
     }
 
-    return jwt.verify(authorization.split(' ')[1], majorKey, (err, data) => {
+    const token = authorization ? authorization.split(' ')[1] : xAccessToken.split(' ')[1];
+    return jwt.verify(token, majorKey, (err, data) => {
       if (err) {
         return res.json({
           status: 401,

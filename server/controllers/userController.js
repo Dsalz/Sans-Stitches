@@ -29,6 +29,7 @@ const controller = {
     const scndDbResponse = await db.sendQuery(queries.addNonAdminQuery(), userParams);
     const user = scndDbResponse.rows[0];
     const token = await tokenizer.createToken(user);
+    delete user.password;
     return res.json({
       status: 200,
       data: [{
@@ -52,7 +53,7 @@ const controller = {
         error: 'User Not Found',
       });
     }
-
+    delete user.password;
     const token = await tokenizer.createToken(user);
 
     return res.json({
