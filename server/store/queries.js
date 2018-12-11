@@ -1,4 +1,38 @@
 export default {
+  createUsersTableQuery: () => `CREATE TABLE IF NOT EXISTS
+  users(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(128) NOT NULL,
+    firstname VARCHAR(128) NOT NULL,
+    lastname VARCHAR(128),
+    othername VARCHAR(128),
+    password VARCHAR(128) NOT NULL,
+    is_admin BOOL,
+    phone_number VARCHAR(128),
+    registered TIMESTAMP,
+    username VARCHAR(128)
+    )`,
+
+  dropUsersTableQuery: () => 'DROP TABLE IF EXISTS users',
+
+  createRecordsTableQuery: () => `CREATE TABLE IF NOT EXISTS
+  records(
+    id SERIAL PRIMARY KEY,
+    comment VARCHAR(128) NOT NULL,
+    description VARCHAR(128),
+    type VARCHAR(128),
+    created_on TIMESTAMP,
+    created_by INT NOT NULL,
+    location VARCHAR(128),
+    is_active BOOL,
+    status VARCHAR(128),
+    feedback VARCHAR(128),
+    Images VARCHAR(128)[],
+    Videos VARCHAR(128)[]
+    )`,
+
+  dropRecordsTableQuery: () => 'DROP TABLE IF EXISTS records',
+
   getUserByEmailAndPasswordQuery: () => `SELECT * from users 
   WHERE email=$1 and password=$2`,
 

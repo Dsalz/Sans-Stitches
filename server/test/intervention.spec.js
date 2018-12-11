@@ -2,6 +2,7 @@ import { describe, it, before } from 'mocha';
 import chai, { expect } from 'chai';
 import chaihttp from 'chai-http';
 import app from '../server';
+import dbTables from '../store/initTables';
 
 chai.use(chaihttp);
 
@@ -15,32 +16,36 @@ const fakeToken = 'stewwwwweverywhere';
 
 let wrongUserToken = '';
 
+
 before((done) => {
-  const newUser = {
-    name: 'Jack Franklin Bauer',
-    email: 'jackieboy@yahoo.com',
-    phoneNumber: '08123456700',
-    password: 'xxxxxxx',
-    confirmPassword: 'xxxxxxx',
-  };
-  chai.request(app)
-    .post(`${currApiPrefix}/auth/signup`)
-    .send(newUser)
-    .end((err, res) => {
-      rightUserToken = res.body.data[0].token;
-      const anotherNewUser = {
-        name: 'Jackie Chan',
-        email: 'jackiechanizzle@yahoo.com',
-        phoneNumber: '08198700001',
+  dbTables.deleteTestEmails()
+    .then(() => {
+      const newUser = {
+        name: 'Jack Franklin Bauer',
+        email: 'jackieboy@yahoo.com',
+        phoneNumber: '08123456700',
         password: 'xxxxxxx',
         confirmPassword: 'xxxxxxx',
       };
       chai.request(app)
         .post(`${currApiPrefix}/auth/signup`)
-        .send(anotherNewUser)
-        .end((error, response) => {
-          wrongUserToken = response.body.data[0].token;
-          done();
+        .send(newUser)
+        .end((err, res) => {
+          rightUserToken = res.body.data[0].token;
+          const anotherNewUser = {
+            name: 'Jackie Chan',
+            email: 'jackiechanizzle@yahoo.com',
+            phoneNumber: '08198700001',
+            password: 'xxxxxxx',
+            confirmPassword: 'xxxxxxx',
+          };
+          chai.request(app)
+            .post(`${currApiPrefix}/auth/signup`)
+            .send(anotherNewUser)
+            .end((error, response) => {
+              wrongUserToken = response.body.data[0].token;
+              done();
+            });
         });
     });
 });

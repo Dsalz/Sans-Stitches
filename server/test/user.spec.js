@@ -1,7 +1,10 @@
-import { describe, it, before } from 'mocha';
+import {
+  describe, it, before, after,
+} from 'mocha';
 import chai, { expect } from 'chai';
 import chaihttp from 'chai-http';
 import app from '../server';
+import dbTables from '../store/initTables';
 
 chai.use(chaihttp);
 
@@ -30,7 +33,7 @@ before((done) => {
 describe('An Attempt to SignUp', () => {
   it('should succeed if fields are valid', () => {
     const newUser = {
-      name: 'Damola Makinaki',
+      name: ' Damola Makinaki ',
       email: 'mainaki@yahoo.com',
       phoneNumber: '08123456789',
       password: '12345',
@@ -42,6 +45,7 @@ describe('An Attempt to SignUp', () => {
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
+        should.not.exist(res.body.data[0].user.password);
         expect(res.body.data[0].user.email).to.equal(newUser.email);
         expect(res.body.data[0].user.phone_number).to.equal(newUser.phoneNumber);
         expect(res.body.data[0].message).to.equal('Succesful Sign Up');
@@ -333,4 +337,9 @@ describe('An Attempt to Login', () => {
         done();
       });
   });
+});
+
+after((done) => {
+  dbTables.deleteTestEmails()
+    .then(() => done());
 });

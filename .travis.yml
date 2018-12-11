@@ -8,6 +8,7 @@ cache:
     - "node_modules"
   
 script: 
+  - npm run dev-tables-init
   - npm test
   - npm run coveralls
 
@@ -18,3 +19,8 @@ deploy:
   on: develop
   app: sans-stitches
 
+services:
+- postgresql
+
+before_script:
+  - psql -c 'create database sans-stitches;' -U postgres
