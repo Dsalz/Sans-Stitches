@@ -760,7 +760,7 @@ describe('Attempt to update intervention record status', () => {
 
   it('should fail if new status is not valid', (done) => {
     const updatedRecord = {
-      status: 3334,
+      status: 'in limbo',
     };
     chai.request(app)
       .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
