@@ -676,3 +676,150 @@ describe('Attempt to get all intervention records', () => {
       });
   });
 });
+
+describe('Attempt to update intervention record status', () => {
+  let recentlyAddedRecordId;
+  let adminToken;
+  before((done) => {
+    const newRecord = {
+      comment: 'Bob Dylan is Stealing Money',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/interventions`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(newRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        recentlyAddedRecordId = res.body.data[0].id;
+        const AdminUser = {
+          email: 'admin@yahoo.com',
+          password: 'baddestadmineverliveth',
+        };
+        chai.request(app)
+          .post(`${currApiPrefix}/auth/login`)
+          .send(AdminUser)
+          .end((error, response) => {
+            should.not.exist(error);
+            adminToken = response.body.data[0].token;
+            done();
+          });
+      });
+  });
+
+  it('should succeed if request is made by admin', (done) => {
+    const modifiedRecord = {
+      status: 'under investigation',
+      feedback: 'Investigation will begin on monday morning',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send(modifiedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data[0].message).to.equal('Updated red-flag record’s status to under investigation');
+        expect(res.body.data[0].updatedRecord.status).to.equal(modifiedRecord.status);
+        expect(res.body.data[0].updatedRecord.feedback).to.equal(modifiedRecord.feedback);
+        done();
+      });
+  });
+
+  it('should fail if request is made by owner of the record', (done) => {
+    const modifiedRecord = {
+      status: 'resolved',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(modifiedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(403);
+        expect(res.body.error).to.equal('You do not have permissions to update the status of this record');
+        done();
+      });
+  });
+
+  it('should fail if request is made by any other non admin', (done) => {
+    const updatedRecord = {
+      status: 'rejected',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(403);
+        expect(res.body.error).to.equal('You do not have permissions to update the status of this record');
+        done();
+      });
+  });
+
+  it('should fail if new status is not valid', (done) => {
+    const updatedRecord = {
+      status: 'in limbo',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.error[0].status).to.equal('Invalid Status');
+        done();
+      });
+  });
+
+  it('should fail if new status is empty', (done) => {
+    const updatedRecord = {
+      status: ' ',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.error[0].status).to.equal('Status is Required');
+        done();
+      });
+  });
+
+  it('should fail if feedback is invalid', (done) => {
+    const updatedRecord = {
+      status: 'resolved',
+      feedback: 6,
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(400);
+        expect(res.body.error[0].feedback).to.equal('Invalid Feedback');
+        done();
+      });
+  });
+
+  it('should fail if record does not exist', (done) => {
+    const updatedRecord = {
+      status: 'resolved',
+    };
+    chai.request(app)
+      .patch(`${currApiPrefix}/interventions/${recentlyAddedRecordId + 778}/status`)
+      .set('authorization', `Bearer ${rightUserToken}`)
+      .send(updatedRecord)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(404);
+        expect(res.body.error).to.equal('Record does not exist');
+        done();
+      });
+  });
+});

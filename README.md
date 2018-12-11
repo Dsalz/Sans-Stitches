@@ -512,7 +512,7 @@ Deletes an existing red flag record
 
 
 
-#### Update Comment Red Flag Record
+#### Update Comment of Red Flag Record
 Updates the comment of an existing red flag record
 
 * **URL**
@@ -582,7 +582,7 @@ Updates the comment of an existing red flag record
   
     (One of)  
     
-    - `"You do not have permissions to delete this record"`
+    - `"You do not have permissions to update the comment of this record"`
     
     - `"Request has no Token, Please Login or SignUp"`
     
@@ -680,7 +680,7 @@ Updates the location of an existing red flag record
 
     (One of)
 
-    - `"You do not have permissions to delete this record"`
+    - `"You do not have permissions to update the location of this record"`
 
     - `"Request has no Token, Please Login or SignUp"`
 
@@ -701,6 +701,107 @@ Updates the location of an existing red flag record
         data: {
             latitude: "3.4433",
             longitude: "14.2",
+        }
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+
+
+#### Update Status of Red Flag Record
+Updates the status of an existing Red Flag record
+
+* **URL**
+  ##### Online 
+    https://sans-stitches.herokuapp.com/api/v1/red-flags/:red-flag-id/status
+
+  ##### Locally
+    http://localhost:4000/api/v1/red-flags/:red-flag-id/status
+
+* **Method:**
+
+  `PATCH`
+  
+* **Headers Required**
+
+  `Authorization= "Bearer " + token`
+
+* **URL Params**
+
+    **Required:**
+    
+    `red-flag-id=[integer]`
+
+* **Data Params**
+
+    **Required:**
+    
+    `status=[string]`
+    
+    **Not Required:**
+    
+    `feedback=[string]`    
+
+* **Success Response:**
+
+  * **status:** 200
+  
+  * **data:** `[ {`
+  
+    `id: <Id of updated record>`, 
+    
+    `message : "Updated intervention record’s status to " + <status-passed>`, 
+    
+    `updatedRecord: {<Udpated Record>}`
+    
+    `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[`
+  
+    (One of)
+    
+    - `{ status: "Status is Required" } `
+    
+    - `{ status: "Invalid Status" }`
+
+    - `{ feedback: "Invalid Feedback" }`
+    
+    `]`
+    
+   OR
+
+  * **status:** 403 FORBIDDEN
+
+  * **error:** 
+
+    (One of)
+
+    - `"You do not have permissions to update the status of this record"`
+
+    - `"Request has no Token, Please Login or SignUp"`
+
+ OR
+
+  * **status:** 404 NOT FOUND
+
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/red-flags/3/status",
+        method: "PATCH",
+        headers: {
+            "authorization": "Bearer " + token;
+        },
+        data: {
+            status: "resolved",
+            feedback: "Thanks to you the senator will not be embezzling public funds anymore",
         }
     }).done(() => {
         //Do something with data
@@ -993,7 +1094,7 @@ Deletes an existing intervention record
 
 
 
-#### Update Comment Intervention Record
+#### Update Comment of Intervention Record
 Updates the comment of an existing Intervention record
 
 * **URL**
@@ -1063,7 +1164,7 @@ Updates the comment of an existing Intervention record
   
     (One of)  
     
-    - `"You do not have permissions to delete this record"`
+    - `"You do not have permissions to update the comment of this record"`
     
     - `"Request has no Token, Please Login or SignUp"`
     
@@ -1161,7 +1262,7 @@ Updates the location of an existing Intervention record
 
     (One of)
 
-    - `"You do not have permissions to delete this record"`
+    - `"You do not have permissions to update the location of this record"`
 
     - `"Request has no Token, Please Login or SignUp"`
 
@@ -1182,6 +1283,107 @@ Updates the location of an existing Intervention record
         data: {
             latitude: "3.4433",
             longitude: "14.2",
+        }
+    }).done(() => {
+        //Do something with data
+       });
+  ```
+
+
+
+#### Update Status of Intervention Record
+Updates the status of an existing Intervention record
+
+* **URL**
+  ##### Online 
+    https://sans-stitches.herokuapp.com/api/v1/interventions/:intervention-id/status
+
+  ##### Locally
+    http://localhost:4000/api/v1/interventions/:intervention-id/status
+
+* **Method:**
+
+  `PATCH`
+  
+* **Headers Required**
+
+  `Authorization= "Bearer " + token`
+
+* **URL Params**
+
+    **Required:**
+    
+    `intervention-id=[integer]`
+
+* **Data Params**
+
+    **Required:**
+    
+    `status=[string]`
+    
+    **Not Required:**
+    
+    `feedback=[string]`    
+
+* **Success Response:**
+
+  * **status:** 200
+  
+  * **data:** `[ {`
+  
+    `id: <Id of updated record>`, 
+    
+    `message : "Updated intervention record’s status to " + <status-passed>`, 
+    
+    `updatedRecord: {<Udpated Record>}`
+    
+    `} ]`
+
+* **Error Responses:**
+
+  * **status:** 400 BAD REQUEST
+  
+  * **error:** `[`
+  
+    (One of)
+    
+    - `{ status: "Status is Required" } `
+    
+    - `{ status: "Invalid Status" }`
+
+    - `{ feedback: "Invalid Feedback" }`
+    
+    `]`
+    
+   OR
+
+  * **status:** 403 FORBIDDEN
+
+  * **error:** 
+
+    (One of)
+
+    - `"You do not have permissions to update the status of this record"`
+
+    - `"Request has no Token, Please Login or SignUp"`
+
+ OR
+
+  * **status:** 404 NOT FOUND
+
+  * **error:** `"Record does not exist"`
+
+* **Sample Call:**
+  ```javascript
+    $.ajax({
+        url: "https://sans-stitches.herokuapp.com/api/v1/interventions/3/status",
+        method: "PATCH",
+        headers: {
+            "authorization": "Bearer " + token;
+        },
+        data: {
+            status: "rejected",
+            feedback: "Weak supporting evidence",
         }
     }).done(() => {
         //Do something with data
