@@ -8,28 +8,44 @@
     <link href="css/main.css" rel="stylesheet"/>
 </head>
 
-<body class="blk-rd-gradient">
+<body class="blue-bg dashboard-body">
+    <nav class="dashboard-nav">
 
-    <nav class="index-navbar">
+        <a class="dashboard-nav-logo" href="#" >
+            Sans-Stitches
+        </a>
 
-        <div class="index-navbar-logo">
-            <a href="#" class="index-navbar-logo-link red-cl">
-                Sans-Stitches
-            </a>
-        </div>
-        
-                <div class="index-navbar-links">
-                    <a href="./signup.html" class="red-cl">
-                        Sign Up
+        <div class="dashboard-nav-dropdown">
+                <p class="dashboard-nav-dropdown-user triangle-down" id="user">USER</p>
+                <div class="dashboard-nav-dropdown-options" id="dropdown-menu">
+                    <a class="dashboard-nav-dropdown-options-item" href="#">
+                        Settings
                     </a>
-        
-                    <a href="./login.html" class="red-cl">
-                        Login
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
+                        Logout
                     </a>
                 </div>
+            </div>
     </nav>
 
-    <main class="dashboard-main index-details">
+    <aside class="dashboard-sidebar" id="sidebar">
+            <div class="dashboard-sidebar-toggle" id="toggle-sidebar">
+                    <hr />
+                    <hr />
+                    <hr />
+            </div>
+        <a class="dashboard-sidebar-item " href="./profile.html">
+            Profile
+        </a>
+        <a class="dashboard-sidebar-item active" href="./myrecords.html">
+            My Records
+        </a>
+        <a class="dashboard-sidebar-item" href="./new-record.html">
+            Create New Record
+        </a>
+    </aside>
+
+    <main class="dashboard-main">
 
         <section class="dashboard-card">
 
@@ -39,7 +55,7 @@
                     <h2 class="record-details-section-header" id="comment"></h2><span class="record-details-section-type" id="type"></span> <br />
                 </div>
                 <div>
-                    <span class="record-details-section-status-label">Status</span><span class="record-details-section-status" id="status">    </span>
+                    <span class="record-details-section-status-label">Status</span><span class="record-details-section-status" id="status"> </span>
                 </div>
 
                 <div class = "record-details-section-item">
@@ -84,6 +100,17 @@
     
                 </div>
 
+                <div class = "record-details-section-item">
+                    
+                        <h3 class = "record-details-section-item-header">Feedback</h3>
+                        <hr class = "record-details-section-line"/>
+                        <div class="record-details-section-item-data">
+                            <p id="feedback">
+                            </p>
+                        </div>
+    
+                </div>
+
 
             </section>
 
@@ -91,8 +118,9 @@
     </main>
 
     <script src='js/modal.js'></script>
+    <script src="js/dashboardDropdown.js"></script>
     <script src="js/geolocationMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYNOuYMAMc2y3hEld0u2bJT-JfAo40Uj4&libraries=places&callback=addMapToScreen"></script>
-    <script src="js/recordDetails.js"></script>
+    <script src="js/myRecordDetails.js"></script>
 </body>
 </html>

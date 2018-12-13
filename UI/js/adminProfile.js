@@ -13,9 +13,9 @@ const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
 const setUpHeader = () => ({ 'Authorization': `Bearer ${sansStitchesUserToken}` });
 
 const user = JSON.parse(sansStitchesUser);
-// if (!user.is_admin) {
-//   invalidToken();
-// }
+if (!user.is_admin) {
+  invalidToken();
+}
 
 const dashboardUserName = document.getElementById('user');
 dashboardUserName.textContent = user.firstname;
@@ -44,16 +44,16 @@ let myInterventionRecords;
 fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
-    const { status, error, data } = resp;
+    const { error, data } = resp;
     if (error) {
-      return status === 401 ? invalidToken() : alert(error);
+      return showModal('Error', error);
     }
     myRedFlagRecords = data;
     fetch(`${currApiEndpoint}/interventions`, getMyRecordsConfig)
       .then(resp => resp.json())
       .then((resp) => {
         if (resp.error) {
-          return resp.status === 401 ? invalidToken() : alert(error);
+          return showModal('Error', resp.error);
         }
         myInterventionRecords = resp.data;
 

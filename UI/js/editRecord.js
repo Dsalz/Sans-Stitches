@@ -28,8 +28,9 @@ const clearFormErrors = () => {
 };
 
 const nextStep = () => {
-  window.location = './myrecords.html';
+  window.location = `./my-record-details.html#${window.location.href.split('#')[1]}`;
 };
+
 
 const trackChanges = () => {
   const allInputFields = document.getElementsByTagName('input');
@@ -43,10 +44,18 @@ const trackChanges = () => {
 const showImages = (imagesArr) => {
   imagesArr.forEach((image) => {
     const img = document.createElement('img');
-    img.src = `/${image}`;
+    img.src = `${currApiEndpoint}/uploads/${image}`;
     document.getElementById('image-preview-div').insertAdjacentElement('beforeend', img);
   });
 };
+
+const showAddress = (lat, lng) => {
+  let position = {lat, lng};
+  let geocoder = new google.maps.Geocoder;
+  geocoder.geocode({location: position}, function(results, status){
+    document.getElementById('location').value = results[0].formatted_address;
+  });
+}
 
 const editRecordForm = document.getElementById('edit-record-form');
 const editRecordFormComment = document.getElementById('comment');
@@ -84,11 +93,16 @@ const getRecordInfo = () => {
       const {
         comment, description, location, images, videos,
       } = data[0];
+      const latitude = location.split(' , ')[0];
+      const longitude = location.split(' , ')[1];
       editRecordFormComment.value = comment;
       editRecordFormDescription.value = description;
-      editRecordFormLatitude.textContent = location.split(' , ')[0];
-      editRecordFormLongitude.textContent = location.split(' , ')[1];
+      editRecordFormLatitude.textContent = latitude;
+      editRecordFormLongitude.textContent = longitude;
       editRecordFormVideo.value = videos.length ? videos[0] : '';
+      if (latitude && longitude) {
+        showAddress(Number(latitude), Number(longitude));
+      }
       showImages(images);
       trackChanges();
     });
@@ -168,7 +182,7 @@ editRecordForm.addEventListener('submit', (e) => {
         .then(updateChangedFields());
     } else if (changedFields.indexOf('location') > -1) {
       changedFields = changedFields.filter(field => field !== 'location');
-      patchRecord('location', { latitude: formData.Latitude, longitude: formData.longitude })
+      patchRecord('location', { latitude: formData.latitude, longitude: formData.longitude })
         .then(updateChangedFields());
     } else if (changedFields.indexOf('add-image-input') > -1) {
       changedFields = changedFields.filter(field => field !== 'add-image-input');
@@ -179,7 +193,7 @@ editRecordForm.addEventListener('submit', (e) => {
       patchRecord('addVideo', { video: formData.video })
         .then(updateChangedFields());
     } else{
-      showModal('Success', 'Record updated!');
+      showModal('Success', 'Record updated!', nextStep);
     }
   };
   updateChangedFields();
@@ -198,6 +212,9 @@ deleteBtn.addEventListener('click', () => {
       if (error) {
         return showModal('Error', error);
       }
-      showModal('Success', data[0].message, nextStep);
+      const nextDeleteStep = () => {
+        window.location = './myrecords.html';
+      };
+      showModal('Success', data[0].message, nextDeleteStep);
     });
 });

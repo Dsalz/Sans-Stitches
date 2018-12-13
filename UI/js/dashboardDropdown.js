@@ -18,5 +18,4 @@ sidebarToggle.addEventListener('click' , () => {
 logoutBtn.addEventListener('click', () => {
   delete localStorage.sansStitchesUserToken;
   delete localStorage.sansStitchesUser;
-  console.log('loggedout');
 });

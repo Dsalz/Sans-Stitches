@@ -46,7 +46,7 @@ const getClass = (status) => {
   return rowClass;
 };
 
-const capitalize = string => console.log(string) || string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+const capitalize = string => string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 
 const formatDate = (dateTime) => {
   const date = new Date(dateTime);
@@ -58,20 +58,19 @@ fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
     if (resp.error) {
-      return resp.status === 401 ? invalidToken() : alert(resp.error);
+      return resp.status === 401 ? invalidToken() : showModal('Error', resp.error);
     }
     myRedFlagRecords = resp.data;
     fetch(`${currApiEndpoint}/interventions/mine`, getMyRecordsConfig)
       .then(response => response.json())
       .then((response) => {
         if (response.error) {
-          return response.status === 401 ? invalidToken() : alert(error);
+          return response.status === 401 ? invalidToken() : showModal('Error', error);
         }
         myInterventionRecords = response.data;
         allRecords = [...myRedFlagRecords, ...myInterventionRecords];
         let tableData = '';
         allRecords.forEach((record) => {
-          console.log(record);
           const {
             id, status, type, comment, created_on,
           } = record;

@@ -20,5 +20,9 @@ const adminRecordDetailsInit = (all = false) => {
 
 
 const userRecordDetailsInit = () => {
+    recordDetails('./my-record-details.html');
+}
+
+const generalRecordDetailsInit = () => {
     recordDetails('./record-details.html');
 }

@@ -102,6 +102,7 @@ input:focus, textarea:focus{
 
 .blk-rd-gradient{
     background: linear-gradient(135deg, #484349 , #D81E5B);
+    min-height: 100vh;
 }
 
 .rect-red-button{
@@ -237,7 +238,7 @@ input:focus, textarea:focus{
     display: inline-block;
 }
 
-.index-landing-login, .index-landing-signup{
+.index-landing-login, .index-landing-signup, .index-landing-resolved-reports{
     padding: 20px;
     font-size: 20px;
     border-radius: 5px;
@@ -246,8 +247,24 @@ input:focus, textarea:focus{
     box-shadow: 1px 2px 5px -5px rgba(0, 0, 0, .1);
 }
 
-.index-landing-login:hover, .index-landing-signup:hover{
+
+.index-landing-resolved-reports{
+    margin-right: 10px;
+    border: none;
+    background: #F4FAFF;
+    color: #D81E5B;
+    width: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+}
+
+.index-landing-login:hover, .index-landing-signup:hover, .index-landing-resolved-reports:hover{
     box-shadow: 0 0.625rem 2.5rem 0 rgba(198,203,222,.45);;
+}
+
+.index-affirmation{
+    text-align: center;
 }
 
 .index-landing-img-div{
@@ -282,6 +299,15 @@ input:focus, textarea:focus{
     justify-content: center;
     padding: 100px 0;
     margin-top: 50px;
+}
+
+.index-all-resolved{
+    padding: 0;
+}
+
+.index-details{
+    margin: auto !important;
+    margin-top: 120px !important;
 }
 
 .index-form-section{

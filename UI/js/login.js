@@ -57,5 +57,5 @@ loginForm.addEventListener('submit', (e) => {
       localStorage.sansStitchesUserToken = token;
       window.location = (user.is_admin) ? './admin-overview.html' : './profile.html';
     })
-    .catch(err => console.log(err));
+    .catch(err => showModal('Error', err));
 });
