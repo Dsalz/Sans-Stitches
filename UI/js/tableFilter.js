@@ -1,4 +1,5 @@
-const selectField = document.getElementById('dashboard-table-select');
+const tableFilterInit = () => {
+  const selectField = document.getElementById('dashboard-table-select');
 
 selectField.addEventListener('change', () => {
     let optionSelected = selectField.options[selectField.selectedIndex].value;
@@ -22,3 +23,4 @@ selectField.addEventListener('change', () => {
     }
 
 })
+}

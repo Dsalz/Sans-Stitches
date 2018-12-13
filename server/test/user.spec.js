@@ -306,6 +306,22 @@ describe('An Attempt to Login', () => {
       });
   });
 
+  it('should fail if password is wrong', (done) => {
+    const returningUser = {
+      email: 'duplicationtestemail@yahoo.com',
+      password: '123456789',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/auth/login`)
+      .send(returningUser)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(401);
+        expect(res.body.error).to.equal('Invalid Credentials');
+        done();
+      });
+  });
+
   it('should fail if email field is invalid', (done) => {
     const returningUser = {
       email: 'duplicationtestemailyahoo.com',

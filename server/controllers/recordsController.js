@@ -17,6 +17,14 @@ const controller = {
       data: allRecords,
     });
   },
+  async getMyRedFlagRecords(req, res) {
+    const dbResponse = await db.sendQuery(queries.getAllRecordsByCreatorQuery(), ['red-flag', req.user.id]);
+    const allRecords = dbResponse.rows;
+    return res.json({
+      status: 200,
+      data: allRecords,
+    });
+  },
   async createRedFlagRecord(req, res) {
     const {
       latitude, longitude, description, comment, images, video,
@@ -106,6 +114,44 @@ const controller = {
       }],
     });
   },
+  async updateRedFlagRecordImages(req, res) {
+    const { specificRecord, files } = req;
+    const imagePaths = files.reduce((p, c) => p.concat(c.filename), []);
+    const images = [...specificRecord.images, ...imagePaths];
+    const updatedRecordParams = [
+      specificRecord.id, specificRecord.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, images, specificRecord.videos,
+    ];
+    const secondDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = secondDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecord.id,
+        message: 'Updated red-flag record’s images',
+        updatedRecord,
+      }],
+    });
+  },
+  async updateRedFlagRecordVideo(req, res) {
+    const { specificRecord } = req;
+    const updatedRecordParams = [
+      specificRecord.id, specificRecord.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, [req.body.video],
+    ];
+    const secondDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = secondDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecord.id,
+        message: 'Updated red-flag record’s video',
+        updatedRecord,
+      }],
+    });
+  },
   async getInterventionRecord(req, res) {
     const { specificRecord } = req;
     return res.json({
@@ -115,6 +161,14 @@ const controller = {
   },
   async getAllInterventionRecords(req, res) {
     const dbResponse = await db.sendQuery(queries.getAllRecordsByTypeQuery(), ['intervention']);
+    const allRecords = dbResponse.rows;
+    return res.json({
+      status: 200,
+      data: allRecords,
+    });
+  },
+  async getMyInterventionRecords(req, res) {
+    const dbResponse = await db.sendQuery(queries.getAllRecordsByCreatorQuery(), ['intervention', req.user.id]);
     const allRecords = dbResponse.rows;
     return res.json({
       status: 200,
@@ -215,6 +269,44 @@ const controller = {
       data: [{
         id: specificRecord.id,
         message: `Updated red-flag record’s status to ${req.body.status}`,
+        updatedRecord,
+      }],
+    });
+  },
+  async updateInterventionRecordImages(req, res) {
+    const { specificRecord, files } = req;
+    const imagePaths = files.reduce((p, c) => p.concat(c.filename), []);
+    const images = [...specificRecord.images, ...imagePaths];
+    const updatedRecordParams = [
+      specificRecord.id, specificRecord.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, images, specificRecord.videos,
+    ];
+    const secondDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = secondDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecord.id,
+        message: 'Updated intervention record’s images',
+        updatedRecord,
+      }],
+    });
+  },
+  async updateInterventionRecordVideo(req, res) {
+    const { specificRecord } = req;
+    const updatedRecordParams = [
+      specificRecord.id, specificRecord.comment, specificRecord.description,
+      specificRecord.location, specificRecord.status,
+      specificRecord.feedback, specificRecord.images, [req.body.video],
+    ];
+    const secondDbResponse = await db.sendQuery(queries.updateRecordQuery(), updatedRecordParams);
+    const updatedRecord = secondDbResponse.rows[0];
+    return res.json({
+      status: 200,
+      data: [{
+        id: specificRecord.id,
+        message: 'Updated red-flag record’s video',
         updatedRecord,
       }],
     });

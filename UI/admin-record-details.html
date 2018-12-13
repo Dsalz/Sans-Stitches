@@ -21,7 +21,7 @@
                     <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
                         Logout
                     </a>
                 </div>
@@ -37,10 +37,10 @@
         <a class="dashboard-sidebar-item" href="./admin-overview.html">
             Overview
         </a>
-        <a class="dashboard-sidebar-item active" href="./pending-records.html">
+        <a class="dashboard-sidebar-item active" href="./pending-records.html" id="pending-link">
             Pending Records
         </a>
-        <a class="dashboard-sidebar-item" href="./all-records.html">
+        <a class="dashboard-sidebar-item" href="./all-records.html" id="all-link">
             All Records
         </a>
     </aside>
@@ -52,7 +52,7 @@
                 <section class="record-details-section">
 
                         <div>
-                            <h2 class="record-details-section-header">John stole charity money yesterday</h2><span class="record-details-section-type" id="type">Red Flag</span> <br />
+                            <h2 class="record-details-section-header" id="comment"></h2><span class="record-details-section-type" id="type"></span> <br />
                         </div>
         
                         <div>
@@ -64,8 +64,7 @@
                             <h3 class = "record-details-section-item-header">Description</h3>
                             <hr class = "record-details-section-line"/>
                             <div class="record-details-section-item-data">
-                                <p>
-                                    John Stole Money meant for the lomein charity Yesterday and i witnessed it. Please investigate the matter
+                                <p id="description">
                                 </p>
                             </div>
         
@@ -75,10 +74,7 @@
                             
                                 <h3 class = "record-details-section-item-header">Images</h3>
                                 <hr class = "record-details-section-line"/>
-                                <div class="record-details-section-item-data">
-                                    <img src="http://place-hold.it/100" alt="record image" />
-                                    <img src="http://place-hold.it/100" alt="record image" />
-                                    <img src="http://place-hold.it/100" alt="record image" />
+                                <div class="record-details-section-item-data" id="image-preview-div">
                                 </div>
             
                         </div>
@@ -88,7 +84,7 @@
                                 <h3 class = "record-details-section-item-header">Video Url</h3>
                                 <hr class = "record-details-section-line"/>
                                 <div class="record-details-section-item-data">
-                                    <a href="https://youtube.com/Johnstealingmoney">https://youtube.com/Johnstealingmoney</a>
+                                    <a id="video"></a>
                                 </div>
             
                         </div>
@@ -104,48 +100,50 @@
             
                         </div>
 
-                        <div class="dashboard-form-item">
+                        <form id="edit-status-form">
+                            <div class="dashboard-form-item">
 
-                                <label class="dashboard-form-item-label">Status:</label>
-        
-                                <div class="dashboard-form-item-whole sev-rows">
-
-                                    <div class="one-row">
-                                    <input name="status" id="pending" type="radio" class="form-radio-btn" value = "Pending Review" checked/>
-                                    <label for="pending">Pending Review</label>
-                                    </div>
-
-                                    <div class="one-row">
-                                    <input name="status" id="under-investigation" type="radio" class="form-radio-btn" value = "Under Investigation"/>
-                                    <label for="under-investigation">Under Investigation</label>
-                                    </div>
-
-                                    <div class="one-row">
-                                    <input name="status" id="resolved" type="radio" class="form-radio-btn" value = "Resolved"/>
-                                    <label for="resolved">Resolved</label>
-                                    </div>
-
-                                    <div class="one-row">
-                                    <input name="status" id="rejected" type="radio" class="form-radio-btn" value = "Rejected"/>
-                                    <label for="rejected">Rejected</label>
-                                    </div>
-                                </div>
+                                    <label class="dashboard-form-item-label">Status:</label>
             
-                        </div>
+                                    <div class="dashboard-form-item-whole sev-rows">
 
-                        <div class="dashboard-form-item">
+                                        <div class="one-row">
+                                        <input name="status" id="pending" type="radio" class="form-radio-btn" value = "pending review" checked/>
+                                        <label for="pending">Pending Review</label>
+                                        </div>
 
-                                <label for="feedback" class="dashboard-form-item-label">Feedback:</label>
-                            
-                                <div class="dashboard-form-item-whole">
-                                    <textarea id="feedback" class="form-text-area"></textarea>
-                                </div>
-            
-                        </div>
+                                        <div class="one-row">
+                                        <input name="status" id="under-investigation" type="radio" class="form-radio-btn" value = "under investigation"/>
+                                        <label for="under-investigation">Under Investigation</label>
+                                        </div>
 
-                    <button class="rect-red-button">Update</button>
-        
-        
+                                        <div class="one-row">
+                                        <input name="status" id="resolved" type="radio" class="form-radio-btn" value = "resolved"/>
+                                        <label for="resolved">Resolved</label>
+                                        </div>
+
+                                        <div class="one-row">
+                                        <input name="status" id="rejected" type="radio" class="form-radio-btn" value = "rejected"/>
+                                        <label for="rejected">Rejected</label>
+                                        </div>
+                                    </div>
+                
+                            </div>
+                        
+
+                            <div class="dashboard-form-item">
+
+                                    <label for="feedback" class="dashboard-form-item-label">Feedback:</label>
+                                
+                                    <div class="dashboard-form-item-whole">
+                                        <textarea id="feedback" class="form-text-area"></textarea>
+                                    </div>
+                
+                            </div>
+
+                            <button class="rect-red-button" type="submit">Update</button>
+                        </form>
+                        
                 </section>
         </section>
     </main>
@@ -153,5 +151,7 @@
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/geolocationMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYNOuYMAMc2y3hEld0u2bJT-JfAo40Uj4&libraries=places&callback=addMapToScreen"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/adminRecordDetails.js"></script>
 </body>
 </html>

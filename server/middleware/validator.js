@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import db from '../store/db';
 import queries from '../store/queries';
 
@@ -83,6 +84,10 @@ const validator = {
       action = 'comment';
     } else if (urlContents.indexOf('status') > -1) {
       action = 'status';
+    } else if (urlContents.indexOf('addImages') > -1) {
+      action = 'images';
+    } else if (urlContents.indexOf('addVideo') > -1) {
+      action = 'video';
     }
     const dbResponse = await db.sendQuery(queries.getRecordByIdQuery(), [specificRecordId]);
     const specificRecord = dbResponse.rows[0];
@@ -154,7 +159,7 @@ const validator = {
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 
-  validateUserSignUp: (req, res, next) => {
+  async validateUserSignUp(req, res, next) {
     const {
       name, email, phoneNumber, password, confirmPassword,
     } = req.body;
@@ -172,16 +177,47 @@ const validator = {
     } if (typeof phoneNumber !== 'string' || phoneNumber.length < 10) {
       validationMessageArr.push({ phoneNumber: 'Invalid Phone Number' });
     }
-    req.body = (validationMessageArr.length) ? req.body : trimValues(req.body);
+    if (!validationMessageArr.length) {
+      const dbResponse = await db.sendQuery(queries.getUserByEmailQuery(), [email]);
+      const emailExists = dbResponse.rows.length > 0;
+      if (emailExists) {
+        return res.json({
+          status: 409,
+          error: 'Email already Exists',
+        });
+      }
+      req.body = trimValues(req.body);
+    }
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 
-  validateUserLogin: (req, res, next) => {
+  async validateUserLogin(req, res, next) {
     const {
       email,
       password,
     } = req.body;
     const validationMessageArr = validateEmailAndPassword(email, password);
+    if (!validationMessageArr.length) {
+      const dbResponse = await db.sendQuery(queries.getUserByEmailQuery(), [
+        email,
+      ]);
+      const user = dbResponse.rows[0];
+      if (!user) {
+        return res.json({
+          status: 404,
+          error: 'User Not Found',
+        });
+      }
+      const validPassword = await bcrypt.compare(password.trim(), user.password);
+      if (!validPassword) {
+        return res.json({
+          status: 401,
+          error: 'Invalid Credentials',
+        });
+      }
+      req.user = user;
+      req.body = trimValues(req.body);
+    }
     return (validationMessageArr.length) ? res.json(invalidField(validationMessageArr)) : next();
   },
 

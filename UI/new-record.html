@@ -21,7 +21,7 @@
                     <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
                         Logout
                     </a>
                 </div>
@@ -53,14 +53,14 @@
 
                 <h2 class="dashboard-main-header red-cl">New Record</h2>
 
-                <form>
+                <form id="new-record-form">
                     <div class="dashboard-form-item">
 
-                        <label for="title" class="dashboard-form-item-label">Title:</label>
+                        <label for="comment" class="dashboard-form-item-label">Title:</label>
 
                         <div class="dashboard-form-item-whole">
 
-                            <input name="title" id="title" class="bottom-line-input" type="text" />
+                            <input name="comment" id="comment" class="bottom-line-input" type="text" />
                         
                         </div>
 
@@ -139,7 +139,7 @@
                                     &plus;
                                 </button>
 
-                                <input type="file" class="form-file-input" id="add-image-input"/>
+                                <input type="file" class="form-file-input" id="add-image-input" multiple="multiple" />
                             </div>
                     </div>
 
@@ -166,6 +166,8 @@
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/receiveMedia.js"></script>
     <script src="js/geolocationField.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/newRecord.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYNOuYMAMc2y3hEld0u2bJT-JfAo40Uj4&libraries=places&callback=enableGooglePlaceApiSearch"></script>
 </body>
 </html>
