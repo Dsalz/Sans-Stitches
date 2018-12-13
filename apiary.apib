@@ -1,0 +1,519 @@
+FORMAT: 1A
+HOST: https://sans-stitches.herokuapp.com/api/v1
+
+# Sans-Stitches
+
+This is an api for a platform for reporting wrong doings or inadequaces.
+
+## User Sign Up [/auth/signup]
+
+### Sign Up User [POST]
+Signs User Up and returns token which is required for modifying record store
+
++ Request (application/json)
+
+        {
+            "name": "george",
+            "email": "georgie@gmail.com",
+            "phoneNumber": "0812345678",
+            "password": "123456",
+            "confirmPassword": "123456"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "user": { 
+                            "name": "george",
+                            "email": "georgie@gmail.com",
+                            "phoneNumber": "0812345678",
+                            "is_admin": false
+                            },
+                    
+                    "token" : "< Token assigned to user >",
+                    
+                    "message": "Succesful Sign Up",
+                    
+                    } ]
+        }
+        
+## User Login [/auth/login]
+
+### Log In User [POST]
+Logs user in and returns token which is required for modifying record store
++ Request (application/json)
+
+        {
+            "email": "georgie@gmail.com",
+            "password": "123456"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "user" : {
+                            "email": "georgie@gmail.com",
+                            <Rest of User record corresponding to credentials provided>
+                            },
+                    
+                    "token" : "<Token assigned to user>",
+                    
+                    "message": "Succesful Login",
+                    
+                    } ]
+        }
+        
+        
+## Red Flag Records [/red-flags]
+
+### Get all red flag records [GET]
+Returns all red flag records
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ <Red-flag-record-objects> ]
+        }
+
+### Get specific red flag record [POST /red-flags/:red-flag-id]
+Returns an existing red flag record
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [{ <Requested Record>}]
+        }
+
+### Get user's red flag records [GET /red-flags/mine]
+Returns all existing red flag records belonging to the user
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [{ <Requested Records>}]
+        }
+
+
+### Add new red flag record [POST]
+Creates a new red flag record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "comment": "Gbadamosi is stealing again",
+            "latitude": "3.444488",
+            "longitude": "-30.44",
+            "description": "It happenen in my front and i've attached images and a video link as evidence",
+            "images": ["https://filehostingplatform.com/abcd.jpg", "https://filehostingplatform.com/abcd.jpg"],
+            "video": "https://filehostingplatform.com/abcd.jpg"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "id": <Id of newly created record> ,
+                    
+                    "message" : "Created red-flag record" ,
+                    
+                    "newRecord": {
+                               "comment": "Gbadamosi is stealing again",
+                               "location": "3.444488 , -30.44",
+                               "description": "It happenen in my front and i've attached images and a video link as evidence",
+                               "type" : "red flag",
+                               "status": "pending review",
+                               "feedback": "No Feedback",
+                               "is_active": true,
+                               "images": ["https://filehostingplatform.com/abcd.jpg", "https://filehostingplatform.com/abcd.jpg"],
+                               "video": "https://filehostingplatform.com/abcd.jpg",
+                               }
+                    
+                    } ]
+        }
+
+### Delete red flag record [DELETE /red-flags/:red-flag-id]
+Deletes an existing red flag record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "id": <Id of deleted record>,
+                    
+                    "message" : "red-flag record has been deleted",
+                    
+                    "deletedRecord": {
+                                    "is_active": false,
+                                    "type": "red flag",
+                                    <Deleted Record>},
+                    
+                    } ]
+        }
+
+### Update comment of red flag record [PATCH /red-flags/:red-flag-id/comment]
+Updates the comment of an existing red flag record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "comment": "Badamosi is stealing again"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated red-flag record’s comment",
+                    
+                    updatedRecord: {
+                        "comment": "Badamosi is stealing again"
+                        "type": "red flag",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }
+
+### Update location of red flag record [PATCH /red-flags/:red-flag-id/location]
+Updates the location of an existing red flag record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "latitude": "3.7522",
+            "longitude": "-30.93256"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated red-flag record’s location",
+                    
+                    updatedRecord: {
+                        "location": "3.7522 , -30.93256",
+                        "type": "red flag",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }
+        
+### Update status of red flag record [PATCH /red-flags/:red-flag-id/status]
+Updates the status of an existing Red Flag record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "status": "rejected",
+            "feedback": "Not enough proof to back up your claims"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated red-flag record’s comment",
+                    
+                    updatedRecord: {
+                        "status": "rejected",
+                        "feedback": "Not enough proof to back up your claims",
+                        "type": "red flag",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }
+        
+
+       
+## Intervention Records [/interventions]
+
+### Get all intervention records [GET]
+Returns all intervention records
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ <Intervention-record-objects> ]
+        }
+
+### Get specific intervention record [GET /interventions/:intervention-id]
+Returns an existing intervention record
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [{ <Requested Record>}]
+        }
+
+### Get user's intervention records [GET /interventions/mine]
+Returns all existing intervention records belonging to the user
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [{ <Requested Records>}]
+        }
+
+
+### Add new intervention record [POST]
+Creates a new intervention record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "comment": "Potholes at new garage",
+            "latitude": "3.444488",
+            "longitude": "-30.44",
+            "description": "It caused an accident in my front and i've attached images and a video link as evidence",
+            "images": ["https://filehostingplatform.com/abcd.jpg", "https://filehostingplatform.com/abcd.jpg"],
+            "video": "https://filehostingplatform.com/abcd.jpg"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "id": <Id of newly created record> ,
+                    
+                    "message" : "Created intervention record" ,
+                    
+                    "newRecord": {
+                               "comment": "Potholes at new garage",
+                               "location": "3.444488 , -30.44",
+                               "description": "It caused an accident in my front and i've attached images and a video link as evidence",
+                               "type" : "intervention",
+                               "status": "pending review",
+                               "feedback": "No Feedback",
+                               "is_active": true,
+                               "images": ["https://filehostingplatform.com/abcd.jpg", "https://filehostingplatform.com/abcd.jpg"],
+                               "video": "https://filehostingplatform.com/abcd.jpg",
+                               }
+                    
+                    } ]
+        }
+
+### Delete intervention record [DELETE /interventions/:intervention-id]
+Deletes an existing intervention record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    "id": <Id of deleted record>,
+                    
+                    "message" : "intervention record has been deleted",
+                    
+                    "deletedRecord": {
+                                    "is_active": false
+                                    "type" : "intervention",
+                                    <Rest of Deleted Record>},
+                    
+                    } ]
+        }
+
+### Update comment of Intervention record [PATCH /interventions/:intervention-id/comment]
+Updates the comment of an existing intervention record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "comment": "Badamosi is stealing again"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated intervention record’s comment",
+                    
+                    updatedRecord: {
+                        "comment": "Badamosi is stealing again"
+                        "type" : "intervention",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }
+
+### Update location of Intervention record [PATCH /interventions/:intervention-id/location]
+Updates the location of an existing intervention record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "latitude": "3.7522",
+            "longitude": "-30.93256"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated intervention record’s location",
+                    
+                    updatedRecord: {
+                        "location": "3.7522 , -30.93256",
+                        "type" : "intervention",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }
+        
+### Update status of Intervention record [PATCH /interventions/:intervention-id/status]
+Updates the status of an existing intervention record
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: "Bearer <user-token>"
+
+    + Body
+
+        {
+            "status": "rejected",
+            "feedback": "Not enough proof to back up your claims"
+        }
+
+
++ Response 200 (application/json)
+
+        {
+            "status" : 200,
+            "data" : [ {
+
+                    id: <Id of updated record>,
+                    
+                    message : "Updated intervention record’s status",
+                    
+                    updatedRecord: {
+                        "status": "rejected",
+                        "feedback": "Not enough proof to back up your claims"
+                        "type" : "intervention",
+                        <Rest of Record>
+                    },
+                    
+                    } ]
+        }

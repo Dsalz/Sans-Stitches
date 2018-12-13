@@ -21,7 +21,7 @@
                     <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
                         Logout
                     </a>
                 </div>
@@ -64,7 +64,7 @@
                         </tr>
                     </thead>
 
-                    <tbody >
+                    <tbody id='table-body' >
                         <tr class="dashboard-table-row Pending" id="1">
                             <td> <a>John stole charity money yesterday</a> </td>
                             <td> Red flag </td>
@@ -187,8 +187,6 @@
 
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/records.js"></script>
-    <script>
-        adminRecordDetails();
-    </script>
+    <script src="js/adminPendingRecords.js"></script>
 </body>
 </html>

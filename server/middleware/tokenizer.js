@@ -1,36 +1,31 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const majorKey = process.env.SECRET_KEY || 'peterpiperpickedapeckofpickledpepper';
+dotenv.config();
+
+const majorKey = process.env.SECRET_KEY;
 
 const tokenizer = {
-  createToken: (user, res, successMessage) => {
+  createToken: user => new Promise((resolve, reject) => {
     jwt.sign({ user }, majorKey, (err, token) => {
       if (err) {
-        return res.json({
-          status: 500,
-          error: 'Error Creating Token',
-        });
+        reject(err);
       }
-      return res.json({
-        status: 200,
-        data: [{
-          user,
-          token,
-          message: successMessage,
-        }],
-      });
+      resolve(token);
     });
-  },
+  }),
   verifyToken: (req, res, next) => {
     const { authorization } = req.headers;
-    if (!authorization) {
+    const xAccessToken = req.headers['x-access-token'];
+    if (!authorization && !xAccessToken) {
       return res.json({
         status: 401,
         error: 'Request has no Token, Please Login or SignUp',
       });
     }
 
-    return jwt.verify(authorization.split(' ')[1], majorKey, (err, data) => {
+    const token = authorization ? authorization.split(' ')[1] : xAccessToken.split(' ')[1];
+    return jwt.verify(token, majorKey, (err, data) => {
       if (err) {
         return res.json({
           status: 401,

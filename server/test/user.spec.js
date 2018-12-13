@@ -1,7 +1,10 @@
-import { describe, it, before } from 'mocha';
+import {
+  describe, it, before, after,
+} from 'mocha';
 import chai, { expect } from 'chai';
 import chaihttp from 'chai-http';
 import app from '../server';
+import dbTables from '../store/initTables';
 
 chai.use(chaihttp);
 
@@ -18,7 +21,7 @@ before((done) => {
     confirmPassword: '12345',
   };
   chai.request(app)
-    .post(`${currApiPrefix}/user/signup`)
+    .post(`${currApiPrefix}/auth/signup`)
     .send(newUser)
     .end((err, res) => {
       should.not.exist(err);
@@ -30,20 +33,21 @@ before((done) => {
 describe('An Attempt to SignUp', () => {
   it('should succeed if fields are valid', () => {
     const newUser = {
-      name: 'Damola Makinaki',
+      name: ' Damola Makinaki ',
       email: 'mainaki@yahoo.com',
       phoneNumber: '08123456789',
       password: '12345',
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(200);
+        should.not.exist(res.body.data[0].user.password);
         expect(res.body.data[0].user.email).to.equal(newUser.email);
-        expect(res.body.data[0].user.phoneNumber).to.equal(newUser.phoneNumber);
+        expect(res.body.data[0].user.phone_number).to.equal(newUser.phoneNumber);
         expect(res.body.data[0].message).to.equal('Succesful Sign Up');
       });
   });
@@ -57,11 +61,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Name');
+        expect(res.body.error[0].name).to.equal('Invalid Name');
       });
   });
 
@@ -74,11 +78,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Name is Required');
+        expect(res.body.error[0].name).to.equal('Name is Required');
       });
   });
 
@@ -91,11 +95,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0].email).to.equal('Invalid Email');
       });
   });
 
@@ -108,11 +112,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: ' ',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password is Required');
+        expect(res.body.error[0].password).to.equal('Password is Required');
       });
   });
 
@@ -125,11 +129,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Phone Number');
+        expect(res.body.error[0].phoneNumber).to.equal('Invalid Phone Number');
       });
   });
 
@@ -142,11 +146,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0].email).to.equal('Invalid Email');
       });
   });
 
@@ -159,11 +163,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Phone Number');
+        expect(res.body.error[0].phoneNumber).to.equal('Invalid Phone Number');
       });
   });
 
@@ -176,11 +180,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12346',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password and Confirm Password do not match');
+        expect(res.body.error[0].password).to.equal('Password and Confirm Password do not match');
       });
   });
 
@@ -192,11 +196,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Name is Required');
+        expect(res.body.error[0].name).to.equal('Name is Required');
       });
   });
 
@@ -208,11 +212,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Email is Required');
+        expect(res.body.error[0].email).to.equal('Email is Required');
       });
   });
 
@@ -224,11 +228,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Password is Required');
+        expect(res.body.error[0].password).to.equal('Password is Required');
       });
   });
 
@@ -240,11 +244,11 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Phone Number is Required');
+        expect(res.body.error[0].phoneNumber).to.equal('Phone Number is Required');
       });
   });
 
@@ -257,7 +261,7 @@ describe('An Attempt to SignUp', () => {
       confirmPassword: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/signup`)
+      .post(`${currApiPrefix}/auth/signup`)
       .send(newUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -275,7 +279,7 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
@@ -292,12 +296,28 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(404);
         expect(res.body.error).to.equal('User Not Found');
+        done();
+      });
+  });
+
+  it('should fail if password is wrong', (done) => {
+    const returningUser = {
+      email: 'duplicationtestemail@yahoo.com',
+      password: '123456789',
+    };
+    chai.request(app)
+      .post(`${currApiPrefix}/auth/login`)
+      .send(returningUser)
+      .end((err, res) => {
+        should.not.exist(err);
+        expect(res.body.status).to.equal(401);
+        expect(res.body.error).to.equal('Invalid Credentials');
         done();
       });
   });
@@ -308,12 +328,12 @@ describe('An Attempt to Login', () => {
       password: '12345',
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Email');
+        expect(res.body.error[0].email).to.equal('Invalid Email');
         done();
       });
   });
@@ -324,13 +344,18 @@ describe('An Attempt to Login', () => {
       password: true,
     };
     chai.request(app)
-      .post(`${currApiPrefix}/user/login`)
+      .post(`${currApiPrefix}/auth/login`)
       .send(returningUser)
       .end((err, res) => {
         should.not.exist(err);
         expect(res.body.status).to.equal(400);
-        expect(res.body.error).to.equal('Invalid Password');
+        expect(res.body.error[0].password).to.equal('Invalid Password');
         done();
       });
   });
+});
+
+after((done) => {
+  dbTables.deleteTestEmails()
+    .then(() => done());
 });

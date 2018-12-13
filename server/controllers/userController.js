@@ -1,51 +1,51 @@
-import store from '../store';
+import bcrypt from 'bcrypt';
+import db from '../store/db';
+import queries from '../store/queries';
 import tokenizer from '../middleware/tokenizer';
 
-const { userStore } = store;
-
 const controller = {
-  signUpUser: (req, res) => {
+  async signUpUser(req, res) {
     const {
       name, email, phoneNumber, password,
     } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const names = name.split(' ');
-    if (userStore.find(user => user.email === email)) {
-      return res.json({
-        status: 409,
-        error: 'Email already Exists',
-      });
-    }
-    const user = {
-      id: Math.ceil(Math.random() * 1000000),
-      firstname: names[0],
-      lastname: names[names.length - 1],
-      othernames: names.slice(1, names.length - 1).join(' '),
+    const userParams = [
       email,
+      names[0],
+      names[names.length - 1],
+      names.slice(1, names.length - 1).join(' '),
+      hashedPassword,
       phoneNumber,
-      password,
-      username: email,
-      registered: new Date(),
-      isAdmin: false,
-    };
-    userStore.push(user);
-    return tokenizer.createToken(user, res, 'Succesful Sign Up');
+      new Date(),
+      email,
+    ];
+    const dbResponse = await db.sendQuery(queries.addNonAdminQuery(), userParams);
+    const user = dbResponse.rows[0];
+    const token = await tokenizer.createToken(user);
+    delete user.password;
+    return res.json({
+      status: 200,
+      data: [{
+        user,
+        token,
+        message: 'Succesful Sign Up',
+      }],
+    });
   },
 
-  loginUser: (req, res) => {
-    const { email, password } = req.body;
-
-    const userLoggingIn = userStore.find(user => (
-      user.email === email && user.password === password
-    ));
-
-    if (!userLoggingIn) {
-      return res.json({
-        status: 404,
-        error: 'User Not Found',
-      });
-    }
-
-    return tokenizer.createToken(userLoggingIn, res, 'Succesful Login');
+  async loginUser(req, res) {
+    const { user } = req;
+    delete user.password;
+    const token = await tokenizer.createToken(user);
+    return res.json({
+      status: 200,
+      data: [{
+        user,
+        token,
+        message: 'Succesful Login',
+      }],
+    });
   },
 };
 
