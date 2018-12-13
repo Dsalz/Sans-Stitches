@@ -18,8 +18,8 @@ deploy:
   on: develop
   app: sans-stitches
 
-# services:
-# - postgresql
+services:
+- postgresql
 
-# before_script:
-#   - psql -c 'create database sans_stitches;' -U postgres
+before_script:
+  - psql -c 'create database sans_stitches;' -U postgres
