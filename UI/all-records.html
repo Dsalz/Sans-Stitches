@@ -22,7 +22,7 @@
                     <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
                         Logout
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                         </tr>
                     </thead>
 
-                    <tbody >
+                    <tbody id="table-body" >
                         <tr class="dashboard-table-row Pending" id="1">
                             <td> <a>John stole charity money yesterday</a> </td>
                             <td> Red flag </td>
@@ -87,19 +87,6 @@
                             <td> 10-Nov-2018 </td>
                             <td> Resolved </td>
                             <td>
-                                <a class="dashboard-table-link edit-link" href="/">
-                                    <svg id="edit-svg" width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g id="My-Records-Page" transform="translate(-910.000000, -267.000000)">
-                                                <g id="Group-2" transform="translate(910.000000, 268.000000)">
-                                                    <path d="M10.5,5.5 L4.5,13.5" id="Line-3" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
-                                                    <path d="M13.5,1.5 L13.38,1.66" id="Line-3-Copy" stroke="#D81E5B" stroke-width="3" stroke-linecap="square"></path>
-                                                    <polygon id="Path-2" fill="#D81E5B" transform="translate(2.093396, 16.576831) rotate(-3.000000) translate(-2.093396, -16.576831) " points="1.4658568 15.1987855 3.47406171 16.8554235 0.71272957 17.9548763"></polygon>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </a>
                             </td>
                         </tr>
                         <tr class="dashboard-table-row Under-Investigation" data-id="3">
@@ -231,8 +218,7 @@
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/tableFilter.js"></script>
     <script src="js/records.js"></script>
-    <script>
-        adminRecordDetails();
-    </script>
+    <script src="js/adminAllRecords.js"></script>
+    
 </body>
 </html>

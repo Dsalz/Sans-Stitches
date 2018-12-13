@@ -33,9 +33,6 @@ export default {
 
   dropRecordsTableQuery: () => 'DROP TABLE IF EXISTS records',
 
-  getUserByEmailAndPasswordQuery: () => `SELECT * from users 
-  WHERE email=$1 and password=$2`,
-
   getUserByEmailQuery: () => `SELECT * from users 
   WHERE email=$1`,
 
@@ -53,6 +50,9 @@ export default {
 
   getAllRecordsByTypeQuery: () => `SELECT * from records 
   WHERE is_active=true and type=$1`,
+
+  getAllRecordsByCreatorQuery: () => `SELECT * from records 
+  WHERE is_active=true and type=$1 and created_by=$2`,
 
   getRecordByIdQuery: () => `SELECT * from records 
   WHERE id=$1`,

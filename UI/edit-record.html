@@ -21,7 +21,7 @@
                     <a class="dashboard-nav-dropdown-options-item" href="#">
                         Settings
                     </a>
-                    <a class="dashboard-nav-dropdown-options-item" href="./login.html">
+                    <a class="dashboard-nav-dropdown-options-item" href="./login.html" id='logout'>
                         Logout
                     </a>
                 </div>
@@ -53,14 +53,14 @@
 
                 <h2 class="dashboard-main-header red-cl">Edit Record</h2>
 
-                <form>
+                <form id='edit-record-form'>
                     <div class="dashboard-form-item">
 
-                        <label for="title" class="dashboard-form-item-label">Title:</label>
+                        <label for="comment" class="dashboard-form-item-label">Title:</label>
 
                         <div class="dashboard-form-item-whole">
 
-                            <input name="title" id="title" class="bottom-line-input" type="text" value="John Stole Money Yesterday"/>
+                            <input name="comment" id="comment" class="bottom-line-input" type="text"/>
                         
                         </div>
 
@@ -73,12 +73,12 @@
                         <div class="dashboard-form-item-split">
 
                             <div class="dashboard-form-item-split-item">
-                                <input name="type" id="red-flag" type="radio" class="form-radio-btn" value = "Red Flag" checked/>
+                                <input name="type" id="red-flag" type="radio" class="form-radio-btn" value = "Red Flag" checked disabled/>
                                 <label for="red-flag">Red Flag</label>
                             </div>
 
                             <div class="dashboard-form-item-split-item">
-                                <input name="type" id="intervention" type="radio" class="form-radio-btn" value = "Intervention"/>
+                                <input name="type" id="intervention" type="radio" class="form-radio-btn" value = "Intervention" disabled/>
                                 <label for="intervention">Intervention</label>
                             </div>
 
@@ -91,7 +91,7 @@
                             <label for="description" class="dashboard-form-item-label">Description:</label>
                         
                             <div class="dashboard-form-item-whole">
-                                <textarea placeholder="Enter extra information here" id="description" class="form-text-area"></textarea>
+                                <textarea placeholder="Enter extra information here" id="description" class="form-text-area" disabled></textarea>
                             </div>
         
                     </div>
@@ -102,19 +102,19 @@
     
                             <div class="dashboard-form-item-whole" id="location-div">
     
-                                    <input name="location" id="location" class="bottom-line-input" type="text" value="Mushin, Lagos, Nigeria"/>
+                                    <input name="location" id="location" class="bottom-line-input" type="text"/>
     
                                     <div class="dashboard-form-item form-extra">
                                             <div class="dashboard-form-item-split">
                     
                                                 <div class="dashboard-form-item-split-item">
                                                     <label>Latitude: </label><br/>
-                                                    <span id="location-latitude">6.5352330000000001</span>
+                                                    <span id="location-latitude"></span>
                                                 </div>
                     
                                                 <div class="dashboard-form-item-split-item">
                                                     <label>Longitude: </label><br/>
-                                                    <span id="location-longitude">3.3489670999999817</span>
+                                                    <span id="location-longitude"></span>
                                                 </div>
                     
                                             </div>
@@ -132,9 +132,6 @@
                             <div class="dashboard-form-item-whole">
 
                                 <div class="dashboard-form-item-preview" id="image-preview-div">
-                                        <img src="http://place-hold.it/100" alt="record image" />
-                                        <img src="http://place-hold.it/100" alt="record image" />
-                                        <img src="http://place-hold.it/100" alt="record image" />
                                 </div>
 
                                 <button class="circle-red-button" id="add-image-btn">
@@ -151,15 +148,15 @@
     
                             <div class="dashboard-form-item-whole">
     
-                                <input name="video" id="video" class="bottom-line-input" type="text" value="https://youtube.com/Johnstealingmoney" />
+                                <input name="video" id="video" class="bottom-line-input" type="text" disabled/>
                             
                             </div>
     
                     </div>
 
                     <div class="edit-record-button-div">
-                        <button class="rect-red-button edit-record-update-button">Update</button>
-                        <button class="rect-red-button edit-record-delete-button">Delete</button>
+                        <button class="rect-red-button edit-record-update-button" type="submit">Update</button>
+                        <button class="rect-red-button edit-record-delete-button" type="button" id="delete-btn">Delete</button>
                      </div>
                 </form>
 
@@ -171,6 +168,8 @@
     <script src="js/dashboardDropdown.js"></script>
     <script src="js/receiveMedia.js"></script>
     <script src="js/geolocationField.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/editRecord.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYNOuYMAMc2y3hEld0u2bJT-JfAo40Uj4&libraries=places&callback=enableGooglePlaceApiSearch"></script>
 </body>
 </html>

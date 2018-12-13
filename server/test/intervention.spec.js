@@ -701,7 +701,7 @@ describe('Attempt to update intervention record status', () => {
         recentlyAddedRecordId = res.body.data[0].id;
         const AdminUser = {
           email: 'admin@yahoo.com',
-          password: 'baddestadmineverliveth',
+          password: 'goldilocks',
         };
         chai.request(app)
           .post(`${currApiPrefix}/auth/login`)
