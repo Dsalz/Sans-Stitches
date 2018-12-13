@@ -36,6 +36,8 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 
 ## Endpoints
 
+[Click here for the Apiary documentation](sansstitches.docs.apiary.io)
+
 ### User
 
 #### Sign Up 
