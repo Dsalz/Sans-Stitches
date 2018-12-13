@@ -78,5 +78,5 @@ signUpForm.addEventListener('submit', (e) => {
       localStorage.sansStitchesUserToken = token;
       window.location = './profile.html';
     })
-    .catch(err => console.log(err));
+    .catch(err => showModal('Error', err));
 });

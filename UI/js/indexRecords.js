@@ -1,28 +1,4 @@
-const invalidToken = () => {
-  window.location = './login.html';
-};
-
-const { sansStitchesUser, sansStitchesUserToken } = localStorage;
-if (!sansStitchesUserToken) {
-  invalidToken();
-}
-
 const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
-// const currApiEndpoint = 'http://localhost:4000/api/v1';
-
-const setUpHeader = () => ({ 'Authorization': `Bearer ${sansStitchesUserToken}` });
-
-const user = JSON.parse(sansStitchesUser);
-if (!user.is_admin) {
-  invalidToken();
-}
-
-const dashboardUserName = document.getElementById('user');
-dashboardUserName.textContent = user.firstname;
-
-const getMyRecordsConfig = {
-  headers: setUpHeader(),
-};
 
 let allRecords;
 let myRedFlagRecords;
@@ -57,20 +33,20 @@ const formatDate = (dateTime) => {
   return `${date.getDate()}-${months[date.getMonth()]}-${date.getYear() + 1900}`;
 };
 
-fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
+fetch(`${currApiEndpoint}/red-flags`)
   .then(resp => resp.json())
   .then((resp) => {
     if (resp.error) {
       return showModal('Error', resp.error);
     }
-    myRedFlagRecords = resp.data.filter(record => record.status === 'pending review');
-    fetch(`${currApiEndpoint}/interventions`, getMyRecordsConfig)
+    myRedFlagRecords = resp.data.filter(record => record.status === 'resolved');
+    fetch(`${currApiEndpoint}/interventions`)
       .then(response => response.json())
       .then((response) => {
         if (response.error) {
           return showModal('Error', response.error);
         }
-        myInterventionRecords = response.data.filter(record => record.status === 'pending review');
+        myInterventionRecords = response.data.filter(record => record.status === 'resolved');
 
         allRecords = [...myRedFlagRecords, ...myInterventionRecords];
         let tableData = '';
@@ -83,13 +59,9 @@ fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
                           <td> ${comment} </td>
                           <td> ${capitalize(type)} </td>
                           <td> ${formatDate(created_on)} </td>
-                          <td> ${capitalize(status)} </td>
-                          <td>
-                          </td>
-                          </a>
                       </tr>`;
         });
         tableBody.innerHTML = tableData;
-        adminRecordDetailsInit();
+        generalRecordDetailsInit();
       });
   });

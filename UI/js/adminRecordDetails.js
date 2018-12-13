@@ -16,9 +16,9 @@ const setUpHeader = () => ({
 });
 
 const user = JSON.parse(sansStitchesUser);
-// if (!user.is_admin) {
-//   invalidToken();
-// }
+if (!user.is_admin) {
+  invalidToken();
+}
 
 const dashboardUserName = document.getElementById('user');
 dashboardUserName.textContent = user.firstname;
@@ -40,7 +40,7 @@ const showImages = (imagesArr) => {
   if (imagesArr.length) {
     imagesArr.forEach((image) => {
       const img = document.createElement('img');
-      img.src = `/${image}`;
+      img.src = `${currApiEndpoint}/uploads/${image}`;
       imgPrevDiv.insertAdjacentElement('beforeend', img);
     });
   } else {
@@ -57,7 +57,7 @@ const getRecordInfo = () => {
   } else if (identifier.split('-')[0] === 'i') {
     typeEndpoint = 'interventions';
   } else {
-    return alert('Record does not exist');
+    return showModal('Error', 'Record does not exist');
   }
   if (identifier.split('-')[2] === 'all') {
     const pendingRecordsLink = document.getElementById('pending-link');
@@ -73,9 +73,8 @@ const getRecordInfo = () => {
     .then((res) => {
       const { error, data } = res;
       if (error) {
-        return alert(error);
+        return showModal('Error', error);
       }
-      console.log(res);
       const {
         comment, description, location, images, videos, status, feedback,
       } = data[0];
@@ -121,11 +120,9 @@ editStatusForm.addEventListener('submit', (e) => {
     headers: setUpHeader(),
     body: JSON.stringify(formData),
   };
-  console.log(fetchConfig.body);
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}/status`, fetchConfig)
     .then(resp => resp.json())
     .then((response) => {
-      console.log(response);
       const { error, data } = response;
       if (error) {
         const errorMessage = error || error[0].status || error[0].feedback;

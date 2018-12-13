@@ -1,5 +1,25 @@
+const invalidToken = () => {
+  window.location = './login.html';
+};
+
+const { sansStitchesUser, sansStitchesUserToken } = localStorage;
+if (!sansStitchesUserToken) {
+  invalidToken();
+}
+
 const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
 // const currApiEndpoint = 'http://localhost:4000/api/v1';
+
+const setUpHeader = () => ({
+  'Authorization': `Bearer ${sansStitchesUserToken}`,
+  'Content-Type': 'application/json',
+});
+
+const user = JSON.parse(sansStitchesUser);
+
+const dashboardUserName = document.getElementById('user');
+dashboardUserName.textContent = user.firstname;
+
 
 const commentDisplay = document.getElementById('comment');
 const descriptionDisplay = document.getElementById('description');

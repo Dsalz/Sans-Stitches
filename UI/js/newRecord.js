@@ -117,5 +117,5 @@ newRecordForm.addEventListener('submit', (e) => {
       }
 
     })
-    .catch(err => console.log(err));
+    .catch(err => showModal('Error', err));
 })

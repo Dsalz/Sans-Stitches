@@ -44,7 +44,6 @@ const totalPendingInterventionRecordsNo = document.getElementById('intervention-
 const totalUIInterventionRecordsNo = document.getElementById('intervention-under-investigation-no');
 const totalResolvedInterventionRecordsNo = document.getElementById('intervention-resolved-no');
 const totalRejectedInterventionRecordsNo = document.getElementById('intervention-rejected-no');
-console.log('hfgfhfdj');
 
 let myRedFlagRecords;
 let myInterventionRecords;
@@ -52,7 +51,6 @@ let myInterventionRecords;
 fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
-    console.log(resp);
     const { status, error, data } = resp;
     if (error) {
       return status === 401 ? invalidToken() : showModal('Error', error);
