@@ -179,20 +179,40 @@ editRecordForm.addEventListener('submit', (e) => {
     if (changedFields.indexOf('comment') > -1) {
       changedFields = changedFields.filter(field => field !== 'comment');
       patchRecord('comment', { comment: formData.comment })
-        .then(updateChangedFields());
+        .then((resp) => {
+          if(resp.error){
+            return showModal('Error', error);
+          }
+          updateChangedFields()
+        });
     } else if (changedFields.indexOf('location') > -1) {
       changedFields = changedFields.filter(field => field !== 'location');
       patchRecord('location', { latitude: formData.latitude, longitude: formData.longitude })
-        .then(updateChangedFields());
+        .then((resp) => {
+          if(resp.error){
+            return showModal('Error', error);
+          }
+          updateChangedFields()
+        });
     } else if (changedFields.indexOf('add-image-input') > -1) {
       changedFields = changedFields.filter(field => field !== 'add-image-input');
       patchRecord('addImages', { images: editRecordFormImages })
-        .then(updateChangedFields());
+        .then((resp) => {
+          if(resp.error){
+            return showModal('Error', error);
+          }
+          updateChangedFields()
+        });
     } else if (changedFields.indexOf('video') > -1) {
       changedFields = changedFields.filter(field => field !== 'video');
       patchRecord('addVideo', { video: formData.video })
-        .then(updateChangedFields());
-    } else{
+        .then((resp) => {
+          if(resp.error){
+            return showModal('Error', error);
+          }
+          updateChangedFields()
+        });
+    } else {
       showModal('Success', 'Record updated!', nextStep);
     }
   };
