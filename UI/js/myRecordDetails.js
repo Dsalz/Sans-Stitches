@@ -7,8 +7,8 @@ if (!sansStitchesUserToken) {
   invalidToken();
 }
 
-const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
-// const currApiEndpoint = 'http://localhost:4000/api/v1';
+// const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
+const currApiEndpoint = 'http://localhost:4000/api/v1';
 
 const user = JSON.parse(sansStitchesUser);
 
