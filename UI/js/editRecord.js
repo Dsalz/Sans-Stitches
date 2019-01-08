@@ -44,7 +44,7 @@ const trackChanges = () => {
 const showImages = (imagesArr) => {
   imagesArr.forEach((image) => {
     const img = document.createElement('img');
-    img.src = `${currApiEndpoint}/uploads/${image}`;
+    img.src = `${currApiEndpoint}/img/${image}`;
     document.getElementById('image-preview-div').insertAdjacentElement('beforeend', img);
   });
 };

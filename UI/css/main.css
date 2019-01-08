@@ -958,14 +958,15 @@ input:focus, textarea:focus{
 }
 
 .record-details-section-item-data img{
-    width: 120px;
-    height: 100px;
+    width: 250px;
+    height: 200px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .record-details-section-item-data-map{
-    width: 80%;
-    height: 200px;;
+    width: 90%;
+    height: 250px;;
 }
 
 .record-details-section-item-data-map canvas {
@@ -989,10 +990,6 @@ input:focus, textarea:focus{
 
     .record-details-section-item-data img{
         margin: 10px;
-    }
-
-    .record-details-section-item-data-map{
-        width: 90%;
     }
 
     .record-details-section-header{
