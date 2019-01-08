@@ -17,7 +17,7 @@ const showImages = (imagesArr) => {
   if (imagesArr.length) {
     imagesArr.forEach((image) => {
       const img = document.createElement('img');
-      img.src = `${currApiEndpoint}/uploads/${image}`;
+      img.src = `${currApiEndpoint}/img/${image}`;
       imgPrevDiv.insertAdjacentElement('beforeend', img);
     });
   } else {

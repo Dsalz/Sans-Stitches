@@ -18,7 +18,7 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 
 [Here](https://www.pivotaltracker.com/n/projects/2226638) is the link to the platform's pivotal tracker board.
 
-[Here](http://damola.cf/Sans-Stitches/UI) is where the user interface is hosted
+[Here](https://damola.cf/Sans-Stitches/UI) is where the user interface is hosted
 
 
 ## Getting Started
@@ -36,7 +36,7 @@ The popular saying "Snitches get stitches" is one which has discouraged reportin
 
 ## Endpoints
 
-[Click here for the Apiary documentation](https:\\www.sansstitches.docs.apiary.io)
+[Click here for the Apiary documentation](https://sansstitches.docs.apiary.io)
 
 ### User
 

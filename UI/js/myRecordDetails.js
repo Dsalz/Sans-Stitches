@@ -10,11 +10,6 @@ if (!sansStitchesUserToken) {
 const currApiEndpoint = 'https://sans-stitches.herokuapp.com/api/v1';
 // const currApiEndpoint = 'http://localhost:4000/api/v1';
 
-const setUpHeader = () => ({
-  'Authorization': `Bearer ${sansStitchesUserToken}`,
-  'Content-Type': 'application/json',
-});
-
 const user = JSON.parse(sansStitchesUser);
 
 const dashboardUserName = document.getElementById('user');
@@ -37,7 +32,7 @@ const showImages = (imagesArr) => {
   if (imagesArr.length) {
     imagesArr.forEach((image) => {
       const img = document.createElement('img');
-      img.src = `${currApiEndpoint}/uploads/${image}`;
+      img.src = `${currApiEndpoint}/img/${image}`;
       imgPrevDiv.insertAdjacentElement('beforeend', img);
     });
   } else {

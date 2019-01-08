@@ -15,6 +15,7 @@ const currApiPrefix = '/api/v1';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(`${currApiPrefix}/img`, express.static(path.resolve(__dirname, 'uploads', 'img')));
 
 app.use(`${currApiPrefix}/auth`, authRouter);
 app.use(`${currApiPrefix}/red-flags`, redFlagRouter);
