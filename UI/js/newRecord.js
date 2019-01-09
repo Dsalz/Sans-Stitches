@@ -65,6 +65,7 @@ newRecordForm.addEventListener('submit', (e) => {
   const newRecordFormType = document.querySelector('input[name="type"]:checked');
   e.preventDefault();
   clearFormErrors();
+  showLoadingSvg();
   const newRecordFormImages = getImages();
   const formData = {};
   if (newRecordFormComment.value) {
@@ -94,10 +95,12 @@ newRecordForm.addEventListener('submit', (e) => {
     .then((response) => {
       const { error, data } = response;
       if (error) {
+        hideLoadingSvg();
         return typeof error === 'string' ? showModal('Error', error) : handleFormErrors(error);
       }
       const { message, id } = data[0];
       if (!newRecordFormImages.length) {
+        hideLoadingSvg();
         showModal('Success', message);
       } else {
         const imgFormData = new FormData();
@@ -112,6 +115,7 @@ newRecordForm.addEventListener('submit', (e) => {
         };
         fetch(`${currApiEndpoint}/${typeEndpoint}/${id}/addImages`, fetchConfigImg)
           .then(() => {
+            hideLoadingSvg();
             showModal('Success', message, nextStep);
           });
       }

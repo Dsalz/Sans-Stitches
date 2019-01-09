@@ -48,17 +48,21 @@ const totalRejectedInterventionRecordsNo = document.getElementById('intervention
 let myRedFlagRecords;
 let myInterventionRecords;
 
+showLoadingSvg();
+
 fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
     const { status, error, data } = resp;
     if (error) {
+      hideLoadingSvg();
       return status === 401 ? invalidToken() : showModal('Error', error);
     }
     myRedFlagRecords = data;
     fetch(`${currApiEndpoint}/interventions/mine`, getMyRecordsConfig)
       .then(resp => resp.json())
       .then((resp) => {
+        hideLoadingSvg();
         if (resp.error) {
           return resp.status === 401 ? invalidToken() : showModal('Error', error);
         }

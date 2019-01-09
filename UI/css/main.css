@@ -76,6 +76,20 @@ input:focus, textarea:focus{
     justify-content: center;
 }
 
+.loading-svg-div{
+    position: fixed;
+    top: 100px;
+    right: 10px;
+    z-index: 350;
+    height: 50px;
+    width: 50px;
+}
+
+.loading-svg-div svg{
+    width: 100%;
+    height: 100%;
+}
+
 .red-cl{
     color: #D81E5B !important;
 }
@@ -744,11 +758,15 @@ input:focus, textarea:focus{
 
 .dashboard-table > tbody tr td svg {
     transform: scale(1.5);
-    display: none;
+    display: inline-block;
 }
 
-.dashboard-table > tbody tr.Pending td svg{
-    display: inline-block;
+.dashboard-table > tbody tr td a {
+    display: none
+}
+
+.dashboard-table > tbody tr.Pending td a{
+    display: inline;
 }
 
 .dashboard-table-link{

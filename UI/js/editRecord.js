@@ -67,6 +67,7 @@ const editRecordFormVideo = document.getElementById('video');
 let typeEndpoint;
 let recordId;
 let changedFields = [];
+showLoadingSvg();
 const getRecordInfo = () => {
   const identifier = window.location.href.split('#')[1];
   if (identifier.split('-')[0] === 'r') {
@@ -74,6 +75,7 @@ const getRecordInfo = () => {
   } else if (identifier.split('-')[0] === 'i') {
     typeEndpoint = 'interventions';
   } else{
+    hideLoadingSvg();
     return showModal('Error', 'Record does not exist');
   }
 
@@ -86,6 +88,7 @@ const getRecordInfo = () => {
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}`)
     .then(res => res.json())
     .then((res) => {
+      hideLoadingSvg();
       const { error, data, status } = res;
       if (error) {
         return showModal('Error', error);
@@ -158,6 +161,7 @@ const patchRecord = (fieldUpdated, data) => {
 editRecordForm.addEventListener('submit', (e) => {
   e.preventDefault();
   clearFormErrors();
+  showLoadingSvg();
   const editRecordFormImages = getImages();
   const formData = {};
   if (editRecordFormComment.value.trim()) {
@@ -176,6 +180,7 @@ editRecordForm.addEventListener('submit', (e) => {
     formData.video = editRecordFormVideo.value;
   }
   const updateChangedFields = () => {
+    showLoadingSvg();
     if (changedFields.indexOf('comment') > -1) {
       changedFields = changedFields.filter(field => field !== 'comment');
       patchRecord('comment', { comment: formData.comment })
@@ -213,6 +218,7 @@ editRecordForm.addEventListener('submit', (e) => {
           updateChangedFields()
         });
     } else {
+      hideLoadingSvg();
       showModal('Success', 'Record updated!', nextStep);
     }
   };
@@ -221,6 +227,7 @@ editRecordForm.addEventListener('submit', (e) => {
 
 const deleteBtn = document.getElementById('delete-btn');
 deleteBtn.addEventListener('click', () => {
+  showLoadingSvg();
   const fetchConfig = {
     method: 'DELETE',
     headers: setUpHeader(),
@@ -228,6 +235,7 @@ deleteBtn.addEventListener('click', () => {
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}`, fetchConfig)
     .then(resp => resp.json())
     .then((resp) => {
+      hideLoadingSvg();
       const { error, data} = resp;
       if (error) {
         return showModal('Error', error);
