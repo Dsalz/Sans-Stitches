@@ -32,6 +32,7 @@ const handleFormErrors = (errors) => {
 loginForm.addEventListener('submit', (e) => {
   clearFormErrors();
   e.preventDefault();
+  showLoadingSvg();
   const data = {};
   if (loginFormEmail.value) {
     data.email = loginFormEmail.value;
@@ -48,6 +49,7 @@ loginForm.addEventListener('submit', (e) => {
   };
   fetch(`${currApiEndpoint}/auth/login`, fetchConfig).then(resp => resp.json())
     .then((resp) => {
+      hideLoadingSvg();
       const { error, data } = resp;
       if (error) {
         return typeof error === 'string' ? showModal('Error', error) : handleFormErrors(error);
@@ -57,5 +59,5 @@ loginForm.addEventListener('submit', (e) => {
       localStorage.sansStitchesUserToken = token;
       window.location = (user.is_admin) ? './admin-overview.html' : './profile.html';
     })
-    .catch(err => showModal('Error', err));
+    .catch(err => hideLoadingSvg()|| showModal('Error', err));
 });

@@ -54,10 +54,13 @@ const formatDate = (dateTime) => {
   return `${date.getDate()}-${months[date.getMonth()]}-${date.getYear() + 1900}`;
 };
 
+showLoadingSvg();
+
 fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
     if (resp.error) {
+      hideLoadingSvg();
       return resp.status === 401 ? invalidToken() : showModal('Error', resp.error);
     }
     myRedFlagRecords = resp.data;
@@ -65,11 +68,13 @@ fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
       .then(response => response.json())
       .then((response) => {
         if (response.error) {
+          hideLoadingSvg();
           return response.status === 401 ? invalidToken() : showModal('Error', error);
         }
         myInterventionRecords = response.data;
         allRecords = [...myRedFlagRecords, ...myInterventionRecords];
         let tableData = '';
+        allRecords = allRecords.sort((a,b) => b.id - a.id);
         allRecords.forEach((record) => {
           const {
             id, status, type, comment, created_on,
@@ -99,6 +104,7 @@ fetch(`${currApiEndpoint}/red-flags/mine`, getMyRecordsConfig)
                           </a>
                       </tr>`;
         });
+        hideLoadingSvg();
         tableBody.innerHTML = tableData;
         tableFilterInit();
         userRecordDetailsInit();

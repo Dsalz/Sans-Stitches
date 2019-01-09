@@ -40,18 +40,20 @@ const totalRejectedInterventionRecordsNo = document.getElementById('intervention
 
 let myRedFlagRecords;
 let myInterventionRecords;
-
+showLoadingSvg();
 fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
     const { error, data } = resp;
     if (error) {
+      hideLoadingSvg();
       return showModal('Error', error);
     }
     myRedFlagRecords = data;
     fetch(`${currApiEndpoint}/interventions`, getMyRecordsConfig)
       .then(resp => resp.json())
       .then((resp) => {
+        hideLoadingSvg();
         if (resp.error) {
           return showModal('Error', resp.error);
         }

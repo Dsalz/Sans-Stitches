@@ -43,6 +43,7 @@ const showImages = (imagesArr) => {
 const capitalize = string => string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 
 const getRecordInfo = () => {
+  showLoadingSvg();
   const identifier = window.location.href.split('#')[1];
   if (identifier.split('-')[0] === 'r') {
     typeEndpoint = 'red-flags';
@@ -57,6 +58,7 @@ const getRecordInfo = () => {
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}`)
     .then(res => res.json())
     .then((res) => {
+      hideLoadingSvg();
       const { error, data } = res;
       if (error) {
         return showModal('Error', error);

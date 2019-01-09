@@ -43,6 +43,7 @@ const handleFormErrors = (errors) => {
 signUpForm.addEventListener('submit', (e) => {
   e.preventDefault();
   clearFormErrors();
+  showLoadingSvg();
   const formData = {};
   if (signUpFormName.value) {
     formData.name = signUpFormName.value;
@@ -71,6 +72,7 @@ signUpForm.addEventListener('submit', (e) => {
     .then((resp) => {
       const { error, data } = resp;
       if (error) {
+        hideLoadingSvg();
         return typeof error === 'string' ? showModal('Error', error) : handleFormErrors(error);
       }
       const { user, token } = data[0];
@@ -78,5 +80,5 @@ signUpForm.addEventListener('submit', (e) => {
       localStorage.sansStitchesUserToken = token;
       window.location = './profile.html';
     })
-    .catch(err => showModal('Error', err));
+    .catch(err => hideLoadingSvg() || showModal('Error', err));
 });

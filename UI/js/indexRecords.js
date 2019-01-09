@@ -33,10 +33,13 @@ const formatDate = (dateTime) => {
   return `${date.getDate()}-${months[date.getMonth()]}-${date.getYear() + 1900}`;
 };
 
+showLoadingSvg();
+
 fetch(`${currApiEndpoint}/red-flags`)
   .then(resp => resp.json())
   .then((resp) => {
     if (resp.error) {
+      hideLoadingSvg();
       return showModal('Error', resp.error);
     }
     myRedFlagRecords = resp.data.filter(record => record.status === 'resolved');
@@ -50,6 +53,7 @@ fetch(`${currApiEndpoint}/red-flags`)
 
         allRecords = [...myRedFlagRecords, ...myInterventionRecords];
         let tableData = '';
+        allRecords = allRecords.sort((a,b) => b.id - a.id);
         allRecords.forEach((record) => {
           const {
             id, status, type, comment, created_on,
@@ -61,6 +65,7 @@ fetch(`${currApiEndpoint}/red-flags`)
                           <td> ${formatDate(created_on)} </td>
                       </tr>`;
         });
+        hideLoadingSvg();
         tableBody.innerHTML = tableData;
         generalRecordDetailsInit();
       });

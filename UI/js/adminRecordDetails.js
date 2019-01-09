@@ -50,6 +50,7 @@ const showImages = (imagesArr) => {
 
 const capitalize = string => string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 
+showLoadingSvg();
 const getRecordInfo = () => {
   const identifier = window.location.href.split('#')[1];
   if (identifier.split('-')[0] === 'r') {
@@ -57,6 +58,7 @@ const getRecordInfo = () => {
   } else if (identifier.split('-')[0] === 'i') {
     typeEndpoint = 'interventions';
   } else {
+    hideLoadingSvg();
     return showModal('Error', 'Record does not exist');
   }
   if (identifier.split('-')[2] === 'all') {
@@ -71,6 +73,7 @@ const getRecordInfo = () => {
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}`)
     .then(res => res.json())
     .then((res) => {
+      hideLoadingSvg();
       const { error, data } = res;
       if (error) {
         return showModal('Error', error);
@@ -109,6 +112,7 @@ const editStatusFormFeedback = document.getElementById('feedback');
 
 editStatusForm.addEventListener('submit', (e) => {
   e.preventDefault();
+  showLoadingSvg();
   const formData = {};
   const editStatusFormStatus = document.querySelector('input[name="status"]:checked');
   formData.status = editStatusFormStatus.value;
@@ -123,6 +127,7 @@ editStatusForm.addEventListener('submit', (e) => {
   fetch(`${currApiEndpoint}/${typeEndpoint}/${recordId}/status`, fetchConfig)
     .then(resp => resp.json())
     .then((response) => {
+      hideLoadingSvg();
       const { error, data } = response;
       if (error) {
         const errorMessage = error || error[0].status || error[0].feedback;

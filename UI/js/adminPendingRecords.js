@@ -57,10 +57,13 @@ const formatDate = (dateTime) => {
   return `${date.getDate()}-${months[date.getMonth()]}-${date.getYear() + 1900}`;
 };
 
+showLoadingSvg();
+
 fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
   .then(resp => resp.json())
   .then((resp) => {
     if (resp.error) {
+      hideLoadingSvg();
       return showModal('Error', resp.error);
     }
     myRedFlagRecords = resp.data.filter(record => record.status === 'pending review');
@@ -68,12 +71,14 @@ fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
       .then(response => response.json())
       .then((response) => {
         if (response.error) {
+          hideLoadingSvg();
           return showModal('Error', response.error);
         }
         myInterventionRecords = response.data.filter(record => record.status === 'pending review');
 
         allRecords = [...myRedFlagRecords, ...myInterventionRecords];
         let tableData = '';
+        allRecords = allRecords.sort((a,b) => b.id - a.id);
         allRecords.forEach((record) => {
           const {
             id, status, type, comment, created_on,
@@ -89,6 +94,7 @@ fetch(`${currApiEndpoint}/red-flags`, getMyRecordsConfig)
                           </a>
                       </tr>`;
         });
+        hideLoadingSvg();
         tableBody.innerHTML = tableData;
         adminRecordDetailsInit();
       });
